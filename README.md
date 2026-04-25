@@ -26,14 +26,8 @@ The dataset in `data/raw/car_data.json` and `data/Prepared/car_data.json` curren
 | `owners_count` | number of previous owners | ordinal category stored as string | `1`, `2`, `3`, `4+` | owners | missing values are present; `4+` is grouped rather than exact |
 | `additional_options` | extra features/options listed in the ad | comma-separated text list | examples include `Customs Cleared`, `Electrical Window Lifters`, parking sensors, etc. | - | multi-valued field; multilingual, sparse, and suitable for splitting into tags |
 
-Suggested validation rules:
-
-- `url` should be non-null and preferably unique at the posting level.
-- `posting_date` should be converted to a standard date format before analysis.
-- `price`, `year`, `mileage`, and `engine_volume` should be cast to numeric after cleaning.
-- `sale_type` and `additional_options` should be treated as multi-value text fields, not simple single-label categories.
-
 ### Data quality audit (what is wrong, with examples + counts)
+
 ### Missing-value strategy and imputation plan (not just “fill stuff”)
 ### Cleaning rules and validation checks (prove you fixed issues)
 ### EDA: required charts + written interpretations
