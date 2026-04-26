@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /notebooks/**)",
+      "Bash(python3 -c ' *)",
+      "Read(//Users/javohireshonov/Desktop/Study/Projects/**)"
+    ]
+  }
+}
