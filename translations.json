@@ -1,0 +1,107 @@
+{
+    "body_type": {
+        "Кабриолет": "Convertible",
+        "Пикап": "Pickup",
+        "Купе": "Coupe", 
+        "Универсал": "Station Wagon",
+        "Хэтчбек": "Hatchback",
+        "Минивэн": "Minivan",
+        "Внедорожник": "SUV",
+        "Седан": "Sedan",
+        "Другой": "Other"
+    },
+    "sale_type": {
+        "Простая продажа": "Simple Sale",
+        "Кредит": "Credit",
+        "Лизинг": "Leasing",
+        "Рассрочка": "Installment",
+        "Trade-in": "Trade-in",
+        "Аренда": "Rent",
+        "Возможен обмен": "Exchange"
+    },
+    "currency": {
+        "сум": "Soum",
+        "у.е.": "Dollar"
+    },
+    "transmission": {
+        "Механическая": "Manual",
+        "Автоматическая": "Automatic",
+        "Другая": "Other"
+    },
+    "fuel_type": {
+        "Бензин": "Gasoline",
+        "Дизель": "Diesel",
+        "Гибрид": "Hybrid",
+        "Газ/Бензин": "Gasoline/Gas",
+        "Электро": "Electric",
+        "Другой": "Other"
+    },
+    "color": {
+        "Белый": "White",
+        "Черный": "Black",
+        "Синий": "Blue",
+        "Серый": "Gray",
+        "Серебристый": "Silver",
+        "Красный": "Red",
+        "Зеленый": "Green",
+        "Апельсин": "Orange",
+        "Асфальт": "Asphalt",
+        "Бежевый": "Beige",
+        "Бирюзовый": "Turquoise",
+        "Бронзовый": "Bronze",
+        "Вишнёвый": "Violet",
+        "Голубой": "Blue",
+        "Желтый": "Yellow",
+        "Золотой": "Gold",
+        "Коричневый": "Brown",
+        "Магнолии": "Magnolia",
+        "Матовый": "Matte",
+        "Оливковый": "Olive",
+        "Розовый": "Pink",
+        "Сафари": "Safari",
+        "Фиолетовый": "Purple",
+        "Хамелеон": "Chameleon"
+    },
+    "condition": {
+        "Отличное": "Excellent",
+        "Хорошее": "Good",
+        "Среднее": "Average",
+        "Требует ремонта": "Needs Repair"
+    },
+    "additional_options": {
+        "Растаможена": "Customs Cleared",
+        "Электрозеркала": "Electrical Mirrors",
+        "Эл. стеклоподъемники": "Electrical Window Lifters",
+        "Кондиционер": "Air Conditioner",
+        "Охранная система": "Security System",
+        "Другое": "Other"
+    },
+    "regions": {
+        "Ташкентская область": "Tashkent",
+        "Андижанская область": "Andijan", 
+        "Бухарская область": "Bukhara",
+        "Джизакская область": "Jizzakh",
+        "Кашкадарьинская область": "Kashkadarya",
+        "Навоийская область": "Navoi",
+        "Наманганская область": "Namangan",
+        "Самаркандская область": "Samarkand",
+        "Сурхандарьинская область": "Surkhandarya",
+        "Сырдарьинская область": "Syrdarya",
+        "город Ташкент": "Tashkent City",
+        "Ферганская область": "Fergana",
+        "Хорезмская область": "Khorezm",
+        "Каракалпакстан": "Karakalpakstan"
+    },
+    "districts": {
+        "Чиланзарский район": "Chilanzar",
+        "Сергелийский район": "Sergeli",
+        "Яшнабадский район": "Yashnobod",
+        "Мирабадский район": "Mirabad",
+        "Шайхантаурский район": "Shaykhontohur",
+        "Учтепинский район": "Uchtepa",
+        "Бектемирский район": "Bektemir",
+        "Алмазарский район": "Almazar",
+        "Яккасарайский район": "Yakkasaray",
+        "Сабир-Рахимовский район": "Sobir Rahimov"
+    }
+}
