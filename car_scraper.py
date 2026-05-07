@@ -1,804 +1,712 @@
 """
-Car Scraper Module
+Car Scraper Module — OLX.uz
 
-This module scrapes detailed car information from OLX.uz car advertisement pages.
-It uses Selenium WebDriver to handle JavaScript-rendered content and extracts
-comprehensive car data including:
-
-- Basic Information: URL, posting date, price, currency, description, image URL
-- Location: Region and district
-- Car Details: Model, body type, year, mileage, transmission, color, engine volume,
-  fuel type, condition, number of owners, additional options
-- Seller Information: Seller type (private/dealer)
-
-The scraper includes robust error handling with retry logic, timeout management,
-and automatic browser session recovery. It processes car links from a JSON file
-and saves scraped data incrementally to prevent data loss.
-
-Features:
-- Automatic retry on failures with configurable max retries
-- Timeout detection and browser session recovery
-- Translation support for Russian/Uzbek text to English
-- Deleted ad detection and tracking
-- Incremental saving to prevent data loss
-- Graceful shutdown handling with cleanup
+PRIMARY strategy  : parse the __NEXT_DATA__ JSON that Next.js embeds in every
+                    page.  This is far more stable than CSS class names, which
+                    OLX rotates on every deploy.
+FALLBACK strategy : data-testid / data-cy attributes (also stable).
 
 Usage:
-    python car_scraper.py
-
-The script expects 'car_links.json' in the same directory and outputs
-to 'car_data.json' by default.
+    python car_scraper.py                  # full run (all links)
+    python car_scraper.py --test 5         # scrape only 5 cars — quick check
+    python car_scraper.py --test 10 --output test_output.json
 """
 
-import requests
-from bs4 import BeautifulSoup
+import argparse
+import atexit
 import json
-import time
-from typing import List, Dict
 import logging
 import os
-from requests.exceptions import RequestException, HTTPError
-import random
-from datetime import datetime
-import re
-from dateutil import parser
-import locale
-import lxml
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, WebDriverException
-import subprocess
-import tempfile
 import platform
+import random
+import re
 import signal
-import atexit
-# Set shorter timeouts for requests
-import urllib3
-urllib3.util.timeout.Timeout.DEFAULT_TIMEOUT = 20.0  # Reduce default timeout to 20 seconds
+import subprocess
+import time
+from datetime import datetime
+from typing import Dict, List, Optional
 
-# Suppress TensorFlow logging
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-# Set up logging with more detailed format
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
+    format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s",
 )
 logger = logging.getLogger(__name__)
 
-# Global variable for the driver
+# ---------------------------------------------------------------------------
+# Global driver handle
+# ---------------------------------------------------------------------------
 driver = None
 
-def signal_handler(signum, frame):
-    """Handle interrupt signals"""
-    logger.info("Received interrupt signal. Cleaning up...")
-    cleanup()
-    exit(0)
 
+# ---------------------------------------------------------------------------
+# Signal / cleanup
+# ---------------------------------------------------------------------------
 def cleanup():
-    """Clean up resources"""
     global driver
     if driver:
-        logger.info("Closing Chrome driver...")
+        logger.info("Closing Chrome driver…")
         try:
             driver.quit()
             driver = None
         except Exception as e:
             logger.error(f"Error closing driver: {e}")
-            # Try to forcefully kill any remaining Chrome processes if on Linux/Mac
             if platform.system() != "Windows":
-                try:
-                    subprocess.run(["pkill", "-f", "chrome"], check=False)
-                except Exception as err:
-                    logger.error(f"Failed to kill Chrome processes: {err}")
-        logger.info("Chrome driver closed successfully")
+                subprocess.run(["pkill", "-f", "chrome"], check=False)
 
-# Register signal handlers
+
+def signal_handler(signum, frame):
+    logger.info("Interrupt received. Cleaning up…")
+    cleanup()
+    exit(0)
+
+
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 atexit.register(cleanup)
 
-# Cyrillic to Latin mapping
-CYRILLIC_TO_LATIN = {
-    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
-    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
-    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-    'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch',
-    'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
-    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo',
-    'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
-    'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
-    'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch',
-    'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
-}
 
-def convert_to_latin(text: str) -> str:
-    """
-    Convert Cyrillic text to Latin
-    """
-    if not text:
-        return None
-    return ''.join(CYRILLIC_TO_LATIN.get(c, c) for c in text)
-
+# ---------------------------------------------------------------------------
+# Translations
+# ---------------------------------------------------------------------------
 def load_translations() -> Dict:
-    """
-    Load translations from JSON file
-    """
     try:
-        with open('translations.json', 'r', encoding='utf-8') as f:
+        path = os.path.join(os.path.dirname(__file__), "translations.json")
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
-        logger.error(f"Error loading translations: {str(e)}")
+        logger.error(f"Error loading translations: {e}")
         return {}
 
-def translate_value(value: str, translations: Dict, category: str) -> str:
-    """
-    Translate a value using the translations dictionary
-    """
-    if not value or not translations or category not in translations:
+
+TRANSLATIONS = load_translations()
+
+
+def translate(value: str, category: str) -> str:
+    if not value or category not in TRANSLATIONS:
         return value
-    
-    # For additional options, split by comma and translate each option
-    if category == 'additional_options' and value:
-        options = [opt.strip() for opt in value.split(',')]
-        translated_options = []
-        for opt in options:
-            if opt in translations[category]:
-                translated_options.append(translations[category][opt])
-            else:
-                translated_options.append(opt)
-        return ', '.join(translated_options)
-    
-    # For other categories, direct translation
-    return translations[category].get(value, value)
+    if category == "additional_options":
+        parts = [opt.strip() for opt in value.split(",")]
+        return ", ".join(TRANSLATIONS[category].get(p, p) for p in parts)
+    return TRANSLATIONS[category].get(value, value)
 
-def extract_numeric_value(text: str) -> str:
-    """
-    Extract numeric value from text
-    """
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+CYRILLIC_TO_LATIN = {
+    "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "yo",
+    "ж": "zh", "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m",
+    "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+    "ф": "f", "х": "h", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "sch",
+    "ъ": "", "ы": "y", "ь": "", "э": "e", "ю": "yu", "я": "ya",
+}
+CYRILLIC_TO_LATIN.update({k.upper(): v.capitalize() for k, v in CYRILLIC_TO_LATIN.items()})
+
+
+def to_latin(text: str) -> Optional[str]:
     if not text:
         return None
-    # Remove all non-digit characters except decimal point
-    numeric = re.sub(r'[^\d.]', '', text)
-    return numeric if numeric else None
+    return "".join(CYRILLIC_TO_LATIN.get(c, c) for c in text)
 
-def extract_currency(text: str) -> str:
-    """
-    Extract currency from price text
-    """
+
+def extract_numeric(text: str) -> Optional[str]:
     if not text:
         return None
-    # Look for common currency symbols
-    if '$' in text:
-        return 'USD'
-    elif '€' in text:
-        return 'EUR'
-    elif '₽' in text:
-        return 'RUB'
-    elif 'сум' in text.lower():
-        return 'UZS'
+    n = re.sub(r"[^\d.]", "", text)
+    return n if n else None
+
+
+def extract_currency(text: str) -> Optional[str]:
+    if not text:
+        return None
+    if "$" in text:
+        return "USD"
+    if "€" in text:
+        return "EUR"
+    if "₽" in text:
+        return "RUB"
+    if "сум" in text.lower() or "uzs" in text.lower():
+        return "UZS"
+    if "у.е." in text.lower():
+        return "USD"
     return None
 
-def format_date(date_str: str) -> str:
-    """
-    Convert date string to DD.MM.YYYY format using dateutil parser
-    """
-    try:
-        # Remove the 'г.' suffix if present
-        date_str = date_str.replace(' г.', '')
-        
-        # Map of Russian month names to numbers
-        month_map = {
-            'января': '01', 'февраля': '02', 'марта': '03',
-            'апреля': '04', 'мая': '05', 'июня': '06',
-            'июля': '07', 'августа': '08', 'сентября': '09',
-            'октября': '10', 'ноября': '11', 'декабря': '12'
-        }
-        
-        # Extract day, month, and year
-        parts = date_str.split()
-        if len(parts) == 3:
-            day = parts[0]
-            month = month_map.get(parts[1].lower(), '01')  # Default to January if month not found
-            year = parts[2]
-            
-            # Create date string in YYYY-MM-DD format
-            date_str = f"{year}-{month}-{day}"
-            
-            # Parse and format
-            date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-            return date_obj.strftime("%d.%m.%Y")
-        else:
-            raise ValueError(f"Unexpected date format: {date_str}")
-            
-    except Exception as e:
-        logger.error(f"Error formatting date {date_str}: {str(e)}")
-        return date_str
 
-def clean_location_text(text: str) -> str:
-    """
-    Remove commas and periods from location text
-    """
+MONTH_MAP = {
+    "января": "01", "февраля": "02", "марта": "03", "апреля": "04",
+    "мая": "05", "июня": "06", "июля": "07", "августа": "08",
+    "сентября": "09", "октября": "10", "ноября": "11", "декабря": "12",
+}
+
+
+def format_date(text: str) -> Optional[str]:
+    try:
+        text = text.replace(" г.", "").strip()
+        parts = text.split()
+        if len(parts) == 3:
+            day, month_ru, year = parts
+            month = MONTH_MAP.get(month_ru.lower(), "01")
+            return f"{int(day):02d}.{month}.{year}"
+    except Exception:
+        pass
+    return text
+
+
+def clean_location(text: str) -> Optional[str]:
     if not text:
         return None
-    return text.replace(',', '').replace('.', '').strip()
+    return text.replace(",", "").replace(".", "").strip()
+
 
 def save_deleted_ad(url: str):
-    """
-    Save a deleted ad URL to a file
-    """
+    path = os.path.join(os.path.dirname(__file__), "deleted_ads.json")
     try:
-        # Create the file if it doesn't exist
-        if not os.path.exists('deleted_ads.json'):
-            with open('deleted_ads.json', 'w', encoding='utf-8') as f:
-                json.dump({'deleted_ads': []}, f, ensure_ascii=False, indent=2)
-        
-        # Load existing deleted ads
-        with open('deleted_ads.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        # Add the new URL if it's not already in the list
-        if url not in data['deleted_ads']:
-            data['deleted_ads'].append(url)
-            
-            # Save back to file
-            with open('deleted_ads.json', 'w', encoding='utf-8') as f:
+        data = {"deleted_ads": []}
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        if url not in data["deleted_ads"]:
+            data["deleted_ads"].append(url)
+            with open(path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
-            
-            logger.info(f"Saved deleted ad URL: {url}")
     except Exception as e:
-        logger.error(f"Error saving deleted ad URL {url}: {str(e)}")
+        logger.error(f"Error saving deleted ad: {e}")
 
-def get_random_user_agent():
-    """
-    Return a random user agent from a predefined list
-    """
-    user_agents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1'
-    ]
-    return random.choice(user_agents)
 
-def initialize_driver():
-    """Initialize Chrome driver with appropriate settings for the current platform"""
-    global driver
-    
-    # First, make sure any existing driver is properly closed
-    cleanup()
-    
-    chrome_options = Options()
-    
-    # Platform specific settings
-    system = platform.system()
-    if system == "Darwin":  # macOS
-        # For MacOS, don't use headless mode and enable visible browser
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--window-size=1920,1080')
-    else:  # Linux/Windows
-        chrome_options.add_argument('--headless=new')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--window-size=1920,1080')
-    
-    # SSL and security options
-    chrome_options.add_argument('--ignore-certificate-errors')
-    chrome_options.add_argument('--ignore-ssl-errors')
-    chrome_options.add_argument('--allow-insecure-localhost')
-    chrome_options.add_argument('--disable-web-security')
-    chrome_options.add_argument('--reduce-security-for-testing')
-    chrome_options.add_argument('--allow-running-insecure-content')
-    
-    # Performance and stability options
-    chrome_options.add_argument('--disable-extensions')
-    chrome_options.add_argument('--enable-unsafe-swiftshader')
-    chrome_options.add_argument('--disable-application-cache')
-    chrome_options.add_argument('--disable-infobars')
-    chrome_options.add_argument('--js-flags=--max_old_space_size=512')
-    
-    # Set a standard user agent
-    standard_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    chrome_options.add_argument(f'--user-agent={standard_user_agent}')
-    
-    # Additional preferences
-    prefs = {
-        'profile.default_content_setting_values.notifications': 2,
-        'disk-cache-size': 52428800,  # 50MB cache
-        'profile.default_content_settings.popups': 0,
-        'profile.managed_default_content_settings.images': 1,  # Enable images
-        'profile.default_content_setting_values.cookies': 1,  # Enable cookies
-        'profile.default_content_setting_values.javascript': 1,  # Enable JavaScript
-        'profile.default_content_setting_values.plugins': 1,  # Enable plugins
-        'profile.default_content_setting_values.media_stream': 1,  # Enable media
-        'profile.default_content_setting_values.geolocation': 1,  # Enable geolocation
-        'profile.default_content_setting_values.auto_select_certificate': 1,  # Enable auto-select certificate
-        'profile.default_content_setting_values.mixed_script': 1,  # Enable mixed script
-        'profile.default_content_setting_values.media_stream_mic': 1,  # Enable microphone
-        'profile.default_content_setting_values.media_stream_camera': 1,  # Enable camera
-        'profile.default_content_setting_values.protocol_handlers': 1,  # Enable protocol handlers
-        'profile.default_content_setting_values.midi_sysex': 1,  # Enable MIDI
-        'profile.default_content_setting_values.push_messaging': 1,  # Enable push messaging
-        'profile.default_content_setting_values.ssl_cert_decisions': 1,  # Enable SSL cert decisions
-        'profile.default_content_setting_values.metro_switch_to_desktop': 1,  # Enable metro switch
-        'profile.default_content_setting_values.protected_media_identifier': 1,  # Enable protected media
-        'profile.default_content_setting_values.site_engagement': 1,  # Enable site engagement
-        'profile.default_content_setting_values.durable_storage': 1,  # Enable durable storage
-    }
-    chrome_options.add_experimental_option('prefs', prefs)
-    
-    # Set up retry mechanism for driver initialization
-    max_retries = 3
-    retry_count = 0
-    
-    while retry_count < max_retries:
+# ---------------------------------------------------------------------------
+# __NEXT_DATA__ parser  ← THE REAL FIX
+# ---------------------------------------------------------------------------
+# OLX.uz is a Next.js app. Every page embeds a <script id="__NEXT_DATA__">
+# block containing the full structured listing data as JSON.
+# Parsing this is immune to CSS class renames.
+
+# Maps OLX param keys → our field names
+_PARAM_KEY_MAP = {
+    # car characteristics
+    "model":           "model",
+    "car_model":       "model",
+    "enginesize":      "engine_volume",
+    "engine_size":     "engine_volume",
+    "petrol":          "fuel_type",
+    "fuel_type":       "fuel_type",
+    "transmission":    "transmission",
+    "gearbox":         "transmission",
+    "color":           "color",
+    "body_type":       "body_type",
+    "car_type":        "body_type",
+    "mileage":         "mileage",
+    "milage":          "mileage",
+    "year":            "year",
+    "manufacture_year":"year",
+    "condition":       "condition",
+    "car_condition":   "condition",
+    "number_of_owners": "owners_count",
+    "owners":          "owners_count",
+    "sale_type":       "sale_type",
+    "offer_type":      "sale_type",
+    # seller
+    "advertiser_type": "seller_type",
+    "user_type":       "seller_type",
+}
+
+# Maps raw label values → our translation categories
+_LABEL_CATEGORY = {
+    "body_type":    "body_type",
+    "fuel_type":    "fuel_type",
+    "transmission": "transmission",
+    "color":        "color",
+    "condition":    "condition",
+    "sale_type":    "sale_type",
+    "seller_type":  "seller_type",
+}
+
+_SELLER_MAP = {
+    "private":   "private",
+    "business":  "business",
+    "частное лицо": "private",
+    "бизнес":    "business",
+}
+
+
+def _parse_next_data(data: dict) -> dict:
+    """Extract car fields from OLX __NEXT_DATA__ JSON."""
+    result = {}
+    try:
+        ad = data["props"]["pageProps"]["ad"]
+    except (KeyError, TypeError):
+        return result
+
+    # --- price ---
+    price_block = ad.get("price") or {}
+    raw_price = price_block.get("value")
+    result["price"]    = extract_numeric(str(raw_price)) if raw_price else None
+    result["currency"] = price_block.get("currency") or None
+
+    # --- description ---
+    desc = (ad.get("description") or "").strip()
+    result["description"] = desc[:2000] if desc else None
+
+    # --- params list ---
+    for param in ad.get("params") or []:
+        key   = (param.get("key") or "").lower()
+        field = _PARAM_KEY_MAP.get(key)
+        if not field:
+            continue
+        value_obj = param.get("value") or {}
+        label = (value_obj.get("label") or "").strip()
+        if not label:
+            label = str(value_obj.get("key") or "").strip()
+        if not label:
+            continue
+        cat = _LABEL_CATEGORY.get(field)
+        result[field] = translate(label, cat) if cat else label
+
+    # --- seller type from ad.advertiser (alternative location) ---
+    if "seller_type" not in result:
+        adv = ad.get("advertiser") or {}
+        adv_type = (adv.get("accountType") or adv.get("account_type") or "").lower()
+        if adv_type:
+            result["seller_type"] = _SELLER_MAP.get(adv_type, adv_type)
+
+    # --- location ---
+    loc = ad.get("location") or {}
+    region_raw   = (loc.get("region")   or {}).get("name") or ""
+    district_raw = (loc.get("district") or {}).get("name") or \
+                   (loc.get("city")     or {}).get("name") or ""
+    result["region"]   = translate(region_raw.strip(),   "regions")   if region_raw   else None
+    result["district"] = translate(district_raw.strip(), "districts") if district_raw else None
+
+    # --- posting date ---
+    date_raw = ad.get("createdTime") or ad.get("lastRefreshTime") or ""
+    if date_raw:
         try:
-            driver = webdriver.Chrome(options=chrome_options)
-            
-            # Set shorter timeouts
-            driver.set_page_load_timeout(20)  # Reduced from 30 to 20 seconds
-            driver.set_script_timeout(20)     # Reduced from 30 to 20 seconds
-            
-            # Test the connection
-            try:
-                driver.get("https://www.google.com")
-                logger.info("Chrome driver initialized successfully")
-                return driver
-            except Exception as e:
-                logger.error(f"Connection test failed: {str(e)}")
-                raise
-            
-        except Exception as e:
-            retry_count += 1
-            logger.error(f"Failed to initialize Chrome driver (attempt {retry_count}/{max_retries}): {e}")
-            if retry_count >= max_retries:
-                logger.error("Max retries reached for driver initialization")
-                raise
-            time.sleep(5)  # Wait before retry
+            dt = datetime.fromisoformat(date_raw.replace("Z", "+00:00"))
+            result["posting_date"] = dt.strftime("%d.%m.%Y")
+        except Exception:
+            result["posting_date"] = date_raw[:10]
 
-def get_car_info(url: str, driver: webdriver.Chrome, max_retries: int = 3) -> Dict:
-    """
-    Scrape car information from a single URL with retry logic.
-    """
-    retry_count = 0
-    translations = load_translations()
-    
-    while retry_count <= max_retries:
-        try:
-            # Load page with Selenium
-            logger.info(f"Loading page with Selenium: {url}")
-            
-            # Try to load the page with error handling
-            try:
-                # Clear cookies and cache before each attempt
-                driver.delete_all_cookies()
-                driver.execute_script("window.localStorage.clear();")
-                driver.execute_script("window.sessionStorage.clear();")
-                
-                # Set a shorter page load timeout
-                driver.set_page_load_timeout(25)  # Reduced from 60 to 25 seconds
-                
-                # Load the page
-                driver.get(url)
-                
-                # Wait for the page to be minimally interactive
-                wait = WebDriverWait(driver, 10)  # Reduced from 20 to 10 seconds
-                wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-                
-            except TimeoutException as e:
-                logger.error(f"Timeout loading page: {str(e)}")
-                retry_count += 1
-                if retry_count <= max_retries:
-                    logger.warning(f"Retrying due to timeout... (Attempt {retry_count}/{max_retries})")
-                    time.sleep(3)  # Reduced from 5 to 3 seconds wait before retry
-                    continue
-                else:
-                    return None
-                    
-            except Exception as e:
-                logger.error(f"Error loading page: {str(e)}")
-                retry_count += 1
-                if retry_count <= max_retries:
-                    logger.warning(f"Retrying due to page load error... (Attempt {retry_count}/{max_retries})")
-                    time.sleep(3)  # Reduced from 5 to 3 seconds wait before retry
-                    continue
-                else:
-                    return None
-            
-            # Quick check for page validity
-            try:
-                # Check if we have an error page or deleted ad
-                error_indicators = ["страница не найдена", "объявление не найдено", "404", "deleted", "removed"]
-                page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
-                
-                if any(indicator in page_text for indicator in error_indicators):
-                    logger.warning(f"Page appears to be an error page or deleted ad: {url}")
-                    save_deleted_ad(url)
-                    return None
-                
-                # Try to find key elements
-                try:
-                    wait = WebDriverWait(driver, 4)  # Reduced from 10 to 8 seconds
-                    element = wait.until(
-                        EC.presence_of_element_located((
-                            By.CSS_SELECTOR, '[data-testid="ad-parameters-container"], [data-testid="map-aside-section"], h3.css-fqcbii'
-                        ))
-                    )
-                    logger.info("Page content loaded successfully")
-                except TimeoutException:
-                    logger.warning("Specific elements not found after 8s, proceeding with parsing")
-                
-            except Exception as e:
-                logger.error(f"Error checking page validity: {str(e)}")
-                retry_count += 1
-                if retry_count <= max_retries:
-                    continue
-                else:
-                    return None
-            
-            # Get the page source after confirming content is loaded
-            try:
-                page_source = driver.page_source
-            except Exception as e:
-                logger.error(f"Error getting page source: {str(e)}")
-                retry_count += 1
-                if retry_count <= max_retries:
-                    continue
-                else:
-                    return None
-                
-            soup = BeautifulSoup(page_source, 'lxml')
-            
-            # Parse the data
-            params_container = soup.find('div', {'data-testid': 'ad-parameters-container'})
-            if not params_container:
-                logger.warning(f"Could not find parameters container for {url}")
-                # Check if this might be a deleted ad or different page format
-                title_element = soup.find(['h1', 'h2', 'h3'], class_=lambda c: c and ('title' in c.lower() or 'heading' in c.lower()))
-                if title_element and any(term in title_element.get_text().lower() for term in ["удалено", "не найдено", "removed", "deleted"]):
-                    logger.info(f"Ad appears to be deleted: {url}")
-                    save_deleted_ad(url)
-                return None
-            
-            # Get location information
-            region = None
-            district = None
-            
-            location_container = soup.find('div', {'data-testid': 'map-aside-section'})
-            if location_container:
-                inner_container = location_container.find('div', class_='css-1q7h1ph')
-                if inner_container:
-                    location_texts = inner_container.find_all('p')
-                    
-                    if len(location_texts) > 1:
-                        for text_element in location_texts:
-                            text = text_element.get_text(strip=True)
-                            
-                            if text == "Местоположение":
-                                continue
-                                
-                            cleaned_text = clean_location_text(text)
-                            if cleaned_text:
-                                if not district:
-                                    district = cleaned_text
-                                    translated_district = translate_value(district, translations, 'districts')
-                                    if translated_district == district:
-                                        district = convert_to_latin(district)
-                                    else:
-                                        district = translated_district
-                                elif not region:
-                                    region = cleaned_text
-                                    region = translate_value(region, translations, 'regions')
-            
-            # Get price
-            price_element = soup.find('h3', class_='css-fqcbii')
-            price_text = price_element.get_text(strip=True) if price_element else None
-            price = extract_numeric_value(price_text) if price_text else None
-            currency = extract_currency(price_text) if price_text else None
-            
-            # Get description
-            description_element = soup.find('div', class_='css-19duwlz')
-            description = description_element.get_text() if description_element else None
-            
-            # Get main image URL
-            image_element = soup.find('img', {'data-testid': 'swiper-image'})
-            image_url = image_element.get('src') if image_element else None
-            
-            # Get posting date
-            posting_date_element = soup.find('span', {'data-testid': 'ad-posted-at'})
-            posting_date = None
-            if posting_date_element:
-                date_text = posting_date_element.get_text(strip=True)
-                # Convert date text to standard format
-                posting_date = format_date(date_text)
-                logger.info(f"Found posting date: {posting_date}")
-            
-            # Initialize car info dictionary
-            car_info = {
-                'url': url,
-                'posting_date': posting_date,
-                'region': region,
-                'district': district,
-                'price': price,
-                'currency': currency,
-                'description': description,
-                'image_url': image_url,
-                'seller_type': None,
-                'model': None,
-                'body_type': None,
-                'sale_type': None,
-                'year': None,
-                'mileage': None,
-                'transmission': None,
-                'color': None,
-                'engine_volume': None,
-                'fuel_type': None,
-                'condition': None,
-                'owners_count': None,
-                'additional_options': None
-            }
-            
-            # Extract all parameters
-            for p in params_container.find_all('p', class_='css-1los5bp'):
-                text = p.get_text(strip=True)
-                
-                if 'Частное лицо' in text:
-                    car_info['seller_type'] = 'private'
-                elif 'Модель' in text:
-                    car_info['model'] = text.replace('Модель', '').strip()
-                elif 'Тип кузова' in text:
-                    value = text.replace('Тип кузова:', '').strip()
-                    car_info['body_type'] = translate_value(value, translations, 'body_type')
-                elif 'Условия продажи' in text:
-                    value = text.replace('Условия продажи:', '').strip()
-                    car_info['sale_type'] = translate_value(value, translations, 'sale_type')
-                elif 'Год выпуска' in text:
-                    car_info['year'] = text.replace('Год выпуска:', '').strip()
-                elif 'Пробег' in text:
-                    value = text.replace('Пробег:', '').strip()
-                    car_info['mileage'] = extract_numeric_value(value)
-                elif 'Коробка передач' in text:
-                    value = text.replace('Коробка передач:', '').strip()
-                    car_info['transmission'] = translate_value(value, translations, 'transmission')
-                elif 'Цвет' in text:
-                    value = text.replace('Цвет:', '').strip()
-                    car_info['color'] = translate_value(value, translations, 'color')
-                elif 'Объем двигателя' in text:
-                    value = text.replace('Объем двигателя:', '').strip()
-                    car_info['engine_volume'] = extract_numeric_value(value)
-                elif 'Вид топлива' in text:
-                    value = text.replace('Вид топлива:', '').strip()
-                    car_info['fuel_type'] = translate_value(value, translations, 'fuel_type')
-                elif 'Состояние машины' in text:
-                    value = text.replace('Состояние машины:', '').strip()
-                    car_info['condition'] = translate_value(value, translations, 'condition')
-                elif 'Количество хозяев' in text:
-                    car_info['owners_count'] = text.replace('Количество хозяев:', '').strip()
-                elif 'Доп. опции' in text:
-                    value = text.replace('Доп. опции:', '').strip()
-                    car_info['additional_options'] = translate_value(value, translations, 'additional_options')
-            
-            return car_info
-            
-        except TimeoutException as e:
-            retry_count += 1
-            if retry_count <= max_retries:
-                logger.warning(f"Timeout error on {url}: {str(e)}")
-                logger.warning(f"Retrying... (Attempt {retry_count}/{max_retries})")
-                try:
-                    driver.refresh()
-                except:
-                    pass
-                continue
-            else:
-                logger.warning(f"Timeout persists after {max_retries} retry, skipping URL: {url}")
-                return None
-                
-        except WebDriverException as e:
-            # Check for critical driver errors
-            if "no such window" in str(e).lower() or "invalid session id" in str(e).lower():
-                logger.warning(f"Browser window closed or invalid session. Reinitializing Chrome driver...")
-                try:
-                    driver.quit()
-                except:
-                    pass
-                driver = initialize_driver()
-                retry_count += 1
-                if retry_count <= max_retries:
-                    continue
-                else:
-                    logger.warning(f"Driver issues persist after {max_retries} retry, skipping URL: {url}")
-                    return None
-            
-            # Other WebDriver errors
-            retry_count += 1
-            if retry_count <= max_retries:
-                logger.warning(f"WebDriver error on {url}: {str(e)}")
-                logger.warning(f"Retrying... (Attempt {retry_count}/{max_retries})")
-                continue
-            else:
-                logger.warning(f"WebDriver error persists after {max_retries} retry, skipping URL: {url}")
-                return None
-                
-        except Exception as e:
-            logger.error(f"Unexpected error processing {url}: {str(e)}")
-            retry_count += 1
-            if retry_count <= max_retries:
-                logger.warning(f"Retrying... (Attempt {retry_count}/{max_retries})")
-                continue
-            else:
-                logger.warning(f"Error persists after {max_retries} retry, skipping URL: {url}")
-                return None
-    
-    logger.error(f"Failed to process {url} after {max_retries} attempts")
+    # --- image ---
+    photos = ad.get("photos") or []
+    if photos:
+        result["image_url"] = (photos[0].get("link") or "").replace("{width}", "800").replace("{height}", "600")
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# HTML fallback parsers  (used when __NEXT_DATA__ is missing/incomplete)
+# ---------------------------------------------------------------------------
+
+def _fallback_price(soup: BeautifulSoup) -> tuple:
+    """Try data-testid first, then any element containing a price pattern."""
+    # data-testid="ad-price-container" is stable
+    el = soup.find(attrs={"data-testid": "ad-price-container"})
+    if not el:
+        el = soup.find(attrs={"data-cy": "ad-price"})
+    if el:
+        text = el.get_text(strip=True)
+        return extract_numeric(text), extract_currency(text)
+
+    # Generic: find a short element that looks like a price
+    pattern = re.compile(r"[\d\s,.]{4,}.*(?:USD|\$|сум|у\.е\.)", re.IGNORECASE)
+    for tag in soup.find_all(["h3", "strong", "span", "div"]):
+        text = tag.get_text(strip=True)
+        if pattern.search(text) and len(text) < 50:
+            return extract_numeric(text), extract_currency(text)
+    return None, None
+
+
+def _fallback_description(soup: BeautifulSoup) -> Optional[str]:
+    for attr, val in [("data-cy", "ad_description"), ("data-testid", "ad-description")]:
+        el = soup.find(attrs={attr: val})
+        if el:
+            t = el.get_text(separator=" ", strip=True)
+            if len(t) > 20:
+                return t[:2000]
+    for el in soup.find_all(["div", "section"]):
+        cls = " ".join(el.get("class", []))
+        if "description" in cls.lower():
+            t = el.get_text(separator=" ", strip=True)
+            if len(t) > 20:
+                return t[:2000]
     return None
 
-def load_car_links(json_file: str) -> List[str]:
-    """
-    Load car links from a JSON file
-    """
-    try:
-        with open(json_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            if isinstance(data, dict) and 'links' in data:
-                return data['links']
-            elif isinstance(data, list):
-                return data
-            else:
-                logger.error(f"Unexpected JSON structure in {json_file}")
-                return []
-    except Exception as e:
-        logger.error(f"Error loading car links from {json_file}: {str(e)}")
-        return []
 
-def load_existing_data(output_file: str) -> List[Dict]:
-    """
-    Load existing car data from the output file
-    """
-    if os.path.exists(output_file):
+def _fallback_location(soup: BeautifulSoup) -> tuple:
+    region, district = None, None
+    el = soup.find(attrs={"data-testid": "map-aside-section"})
+    if el:
+        texts = [p.get_text(strip=True) for p in el.find_all("p") if p.get_text(strip=True) != "Местоположение"]
+        if len(texts) >= 2:
+            district = clean_location(texts[0])
+            region   = translate(clean_location(texts[1]), "regions")
+        elif len(texts) == 1:
+            region = translate(clean_location(texts[0]), "regions")
+    return region, district
+
+
+def _fallback_posting_date(soup: BeautifulSoup) -> Optional[str]:
+    el = soup.find(attrs={"data-testid": "ad-posted-at"})
+    if el:
+        return format_date(el.get_text(strip=True))
+    return None
+
+
+def _fallback_params(soup: BeautifulSoup) -> dict:
+    """Parse the ad-parameters-container using stable data-testid."""
+    result = {}
+    container = soup.find(attrs={"data-testid": "ad-parameters-container"})
+    if not container:
+        return result
+
+    # OLX renders params as <li> or <p> items with label:value text
+    for el in container.find_all(["p", "li", "span"]):
+        text = el.get_text(separator=":", strip=True)
+        if ":" not in text:
+            continue
+        label_raw, _, value_raw = text.partition(":")
+        label = label_raw.strip()
+        value = value_raw.strip()
+        if not value:
+            continue
+
+        low = label.lower()
+        if "модел" in low:
+            result["model"] = value
+        elif "тип кузова" in low:
+            result["body_type"] = translate(value, "body_type")
+        elif "год выпуска" in low or "год" in low:
+            result["year"] = value
+        elif "пробег" in low:
+            result["mileage"] = extract_numeric(value)
+        elif "коробка" in low:
+            result["transmission"] = translate(value, "transmission")
+        elif "цвет" in low:
+            result["color"] = translate(value, "color")
+        elif "объем двигателя" in low or "двигател" in low:
+            result["engine_volume"] = extract_numeric(value)
+        elif "вид топлива" in low or "топлив" in low:
+            result["fuel_type"] = translate(value, "fuel_type")
+        elif "состояние" in low:
+            result["condition"] = translate(value, "condition")
+        elif "хозяев" in low or "владелец" in low:
+            result["owners_count"] = value
+        elif "условия продажи" in low:
+            result["sale_type"] = translate(value, "sale_type")
+        elif "доп" in low and "опци" in low:
+            result["additional_options"] = translate(value, "additional_options")
+        elif "частное лицо" in low or "бизнес" in low:
+            result["seller_type"] = "private" if "частное" in low else "business"
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Chrome driver
+# ---------------------------------------------------------------------------
+def initialize_driver() -> webdriver.Chrome:
+    global driver
+    cleanup()
+
+    opts = Options()
+    if platform.system() != "Darwin":
+        opts.add_argument("--headless=new")
+    for arg in [
+        "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage",
+        "--window-size=1920,1080", "--disable-extensions",
+        "--ignore-certificate-errors",
+    ]:
+        opts.add_argument(arg)
+
+    ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    opts.add_argument(f"--user-agent={ua}")
+
+    for attempt in range(1, 4):
         try:
-            with open(output_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            driver = webdriver.Chrome(options=opts)
+            driver.set_page_load_timeout(25)
+            driver.set_script_timeout(25)
+            driver.get("https://www.google.com")
+            logger.info("Chrome driver ready")
+            return driver
         except Exception as e:
-            logger.error(f"Error loading existing data from {output_file}: {str(e)}")
+            logger.error(f"Driver init attempt {attempt}/3: {e}")
+            if attempt == 3:
+                raise
+            time.sleep(5)
+
+
+# ---------------------------------------------------------------------------
+# Core scrape function
+# ---------------------------------------------------------------------------
+def get_car_info(url: str, drv: webdriver.Chrome, max_retries: int = 3) -> Optional[Dict]:
+    for attempt in range(1, max_retries + 2):
+        try:
+            drv.delete_all_cookies()
+            drv.execute_script("window.localStorage.clear(); window.sessionStorage.clear();")
+            drv.get(url)
+            WebDriverWait(drv, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        except TimeoutException:
+            logger.warning(f"Timeout loading {url} (attempt {attempt})")
+            if attempt > max_retries:
+                return None
+            time.sleep(3)
+            continue
+        except WebDriverException as e:
+            err = str(e).lower()
+            if "no such window" in err or "invalid session" in err:
+                logger.warning("Session lost — reinitialising driver")
+                drv = initialize_driver()
+            if attempt > max_retries:
+                return None
+            time.sleep(3)
+            continue
+
+        try:
+            soup = BeautifulSoup(drv.page_source, "lxml")
+        except Exception:
+            soup = BeautifulSoup(drv.page_source, "html.parser")
+
+
+        # --- deleted / 404 check ---
+        body_text = soup.get_text().lower()
+        if any(kw in body_text for kw in ["страница не найдена", "объявление не найдено", "удалено"]):
+            logger.warning(f"Deleted/missing ad: {url}")
+            save_deleted_ad(url)
+            return None
+
+        # ----------------------------------------------------------------
+        # STEP 1: parse __NEXT_DATA__ JSON  ← primary, most reliable
+        # ----------------------------------------------------------------
+        car = {}
+        next_script = soup.find("script", id="__NEXT_DATA__")
+        if next_script:
+            try:
+                ndata = json.loads(next_script.string or "")
+                car = _parse_next_data(ndata)
+                logger.info(f"  __NEXT_DATA__ parsed — fields found: {[k for k,v in car.items() if v]}")
+            except (json.JSONDecodeError, AttributeError) as e:
+                logger.warning(f"  __NEXT_DATA__ parse error: {e}")
+        else:
+            logger.warning("  __NEXT_DATA__ script NOT found — using HTML fallbacks only")
+
+        # ----------------------------------------------------------------
+        # STEP 2: fill any gaps with HTML fallbacks
+        # ----------------------------------------------------------------
+        if not car.get("price"):
+            p, c = _fallback_price(soup)
+            car["price"], car["currency"] = p, c
+
+        if not car.get("description"):
+            car["description"] = _fallback_description(soup)
+
+        if not car.get("region"):
+            r, d = _fallback_location(soup)
+            car.setdefault("region", r)
+            car.setdefault("district", d)
+
+        if not car.get("posting_date"):
+            car["posting_date"] = _fallback_posting_date(soup)
+
+        # Fill remaining car-specific fields from HTML params
+        html_params = _fallback_params(soup)
+        for field, val in html_params.items():
+            if not car.get(field):
+                car[field] = val
+
+        # ----------------------------------------------------------------
+        # Build final record with all expected columns
+        # ----------------------------------------------------------------
+        record = {
+            "url":               url,
+            "posting_date":      car.get("posting_date"),
+            "region":            car.get("region"),
+            "district":          car.get("district"),
+            "price":             car.get("price"),
+            "currency":          car.get("currency"),
+            "description":       car.get("description"),
+            "image_url":         car.get("image_url"),
+            "seller_type":       car.get("seller_type"),
+            "model":             car.get("model"),
+            "body_type":         car.get("body_type"),
+            "sale_type":         car.get("sale_type"),
+            "year":              car.get("year"),
+            "mileage":           car.get("mileage"),
+            "transmission":      car.get("transmission"),
+            "color":             car.get("color"),
+            "engine_volume":     car.get("engine_volume"),
+            "fuel_type":         car.get("fuel_type"),
+            "condition":         car.get("condition"),
+            "owners_count":      car.get("owners_count"),
+            "additional_options":car.get("additional_options"),
+        }
+
+        filled = sum(1 for v in record.values() if v is not None)
+        logger.info(f"  → {filled}/{len(record)} fields filled for {url.split('/')[-1]}")
+        return record
+
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Bulk processing
+# ---------------------------------------------------------------------------
+def load_car_links(json_file: str) -> List[str]:
+    try:
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and "links" in data:
+            return data["links"]
+        if isinstance(data, list):
+            return data
+    except Exception as e:
+        logger.error(f"Error loading links: {e}")
     return []
 
-def process_car_links(links: List[str], output_file: str = 'car_data.json'):
-    """Process list of car links and save data to JSON file"""
-    global driver
-    
-    try:
-        # Load existing data
-        existing_data = load_existing_data(output_file)
-        processed_urls = {item['url'] for item in existing_data}
-        
-        # Initialize the driver
-        driver = initialize_driver()
-        consecutive_timeouts = 0
-        processed_since_restart = 0
-        max_consecutive_timeouts = 10  # Reduced from 5 to 3
-        
-        # Process each URL directly with Selenium
-        for i, link in enumerate(links, 1):
-            if link in processed_urls:
-                logger.info(f"Skipping already processed car {i}/{len(links)}: {link}")
-                continue
-            
-            # Check if we've had too many consecutive timeouts
-            if consecutive_timeouts >= max_consecutive_timeouts:
-                logger.warning(f"Too many consecutive timeouts ({consecutive_timeouts}). Recreating WebDriver...")
-                try:
-                    driver.quit()
-                except:
-                    pass
-                time.sleep(3)  # Reduced from 5 to 3 seconds wait before recreating driver
-                driver = initialize_driver()
-                consecutive_timeouts = 0
-                processed_since_restart = 0
-                # Add a shorter pause to avoid rate limiting
-                logger.info("Pausing for 15 seconds to avoid rate limiting...")
-                time.sleep(15)  # Reduced from 30 to 15 seconds
-            
-            # Periodic browser refresh to avoid memory issues
-            elif processed_since_restart >= 100:  # Reduced from 50 to 30
-                logger.info("Performing routine browser refresh after 30 processed items")
-                try:
-                    driver.quit()
-                except:
-                    pass
-                time.sleep(3)  # Reduced from 5 to 3 seconds wait before recreating driver
-                driver = initialize_driver()
-                processed_since_restart = 0
-                time.sleep(3)  # Reduced from 5 to 3 seconds short pause after browser refresh
-            
-            # Process the car directly with Selenium
-            logger.info(f"Processing car {i}/{len(links)}: {link}")
-            try:
-                # Verify WebDriver is still responsive
-                try:
-                    driver.current_url
-                except Exception as e:
-                    logger.error(f"WebDriver not responsive: {str(e)}")
-                    driver = initialize_driver()
-                    time.sleep(3)  # Reduced from 5 to 3 seconds
-                
-                car_info = get_car_info(link, driver)
-                
-                if car_info:
-                    try:
-                        car_info['url'] = link
-                        existing_data.append(car_info)
-                        
-                        # Save after each successful scrape
-                        try:
-                            with open(output_file, 'w', encoding='utf-8') as f:
-                                json.dump(existing_data, f, ensure_ascii=False, indent=2)
-                            logger.info(f"Successfully saved data for car {i}: {link}")
-                        except Exception as save_error:
-                            logger.error(f"Error saving data to file for car {i}: {str(save_error)}")
-                            # Try to save to a backup file
-                            backup_file = f"{output_file}.backup"
-                            try:
-                                with open(backup_file, 'w', encoding='utf-8') as f:
-                                    json.dump(existing_data, f, ensure_ascii=False, indent=2)
-                                logger.info(f"Saved backup data to {backup_file}")
-                            except Exception as backup_error:
-                                logger.error(f"Failed to save backup data: {str(backup_error)}")
-                        
-                        # Reset timeout counter on success
-                        consecutive_timeouts = 0
-                        processed_since_restart += 1
-                    except Exception as data_error:
-                        logger.error(f"Error processing data for car {i}: {str(data_error)}")
-                        consecutive_timeouts += 1
-                else:
-                    # Increment timeout counter if get_car_info returned None
-                    logger.warning(f"No data retrieved for car {i}: {link}")
-                    consecutive_timeouts += 1
-                
-                # Add a small random delay between requests to avoid detection
-                time.sleep(random.uniform(1.0, 2.0))  # Reduced from 2.0-4.0 to 1.0-2.0 seconds
-                
-            except Exception as e:
-                logger.error(f"Error processing {link}: {str(e)}")
-                consecutive_timeouts += 1
-                # If we get a WebDriver error, recreate the driver
-                if "WebDriver" in str(e) or "timeout" in str(e).lower():
-                    try:
-                        driver.quit()
-                    except:
-                        pass
-                    time.sleep(3)  # Reduced from 5 to 3 seconds
-                    driver = initialize_driver()
-                continue
-                
-    except Exception as e:
-        logger.error(f"Fatal error in process_car_links: {str(e)}")
-        raise
-        
-    finally:
-        cleanup()
 
+def load_existing_data(output_file: str) -> List[Dict]:
+    if os.path.exists(output_file):
+        try:
+            with open(output_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading existing data: {e}")
+    return []
+
+
+def process_car_links(links: List[str], output_file: str = "car_data.json", test_limit: int = None):
+    """
+    Process car links and save results.
+
+    Args:
+        links:       list of OLX car URLs
+        output_file: path to output JSON
+        test_limit:  if set, stop after this many new records (for quick testing)
+    """
+    global driver
+
+    existing_data  = load_existing_data(output_file)
+    processed_urls = {item["url"] for item in existing_data}
+
+    driver = initialize_driver()
+    consecutive_fails = 0
+    processed_since_restart = 0
+    new_count = 0
+
+    if test_limit:
+        logger.info(f"🧪 TEST MODE — will stop after {test_limit} new records")
+
+    for i, link in enumerate(links, 1):
+        if link in processed_urls:
+            logger.info(f"Skip (already scraped) {i}/{len(links)}: {link}")
+            continue
+
+        if test_limit and new_count >= test_limit:
+            logger.info(f"✅ Test limit of {test_limit} reached. Stopping.")
+            break
+
+        # Periodic driver restart
+        if consecutive_fails >= 10:
+            logger.warning("Too many failures — restarting driver")
+            try:
+                driver.quit()
+            except Exception:
+                pass
+            time.sleep(3)
+            driver = initialize_driver()
+            consecutive_fails = 0
+            processed_since_restart = 0
+            time.sleep(15)
+        elif processed_since_restart >= 100:
+            logger.info("Routine browser refresh after 100 items")
+            try:
+                driver.quit()
+            except Exception:
+                pass
+            time.sleep(3)
+            driver = initialize_driver()
+            processed_since_restart = 0
+            time.sleep(3)
+
+        logger.info(f"Processing {i}/{len(links)}: {link}")
+
+        try:
+            # Keep driver alive check
+            try:
+                _ = driver.current_url
+            except Exception:
+                driver = initialize_driver()
+
+            car_info = get_car_info(link, driver)
+
+            if car_info:
+                existing_data.append(car_info)
+                new_count += 1
+                consecutive_fails = 0
+                processed_since_restart += 1
+
+                # Save after every record
+                tmp = output_file + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as f:
+                    json.dump(existing_data, f, ensure_ascii=False, indent=2)
+                os.replace(tmp, output_file)
+                logger.info(f"  Saved record #{new_count} → {output_file}")
+            else:
+                consecutive_fails += 1
+                logger.warning(f"  No data — fails streak: {consecutive_fails}")
+
+        except Exception as e:
+            logger.error(f"Error on {link}: {e}")
+            consecutive_fails += 1
+
+        time.sleep(random.uniform(1.0, 2.5))
+
+    logger.info(f"Done — {new_count} new records saved to {output_file}")
+    cleanup()
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    try:
-        # Load car links
-        car_links = load_car_links('car_links.json')
-        logger.info(f"Loaded {len(car_links)} car links from car_links.json")
-        
-        # Process car links
-        # Save output to the main dataset to avoid duplicating already scraped cars
-        process_car_links(car_links, output_file='data/Prepared/car_data.json')
-        
-    except Exception as e:
-        logger.error(f"Fatal error in main: {str(e)}")
-        raise
-    finally:
-        cleanup() 
+    parser = argparse.ArgumentParser(description="OLX.uz car scraper")
+    parser.add_argument(
+        "--test", type=int, default=None, metavar="N",
+        help="Quick-test mode: stop after N new records (e.g. --test 5)",
+    )
+    parser.add_argument(
+        "--links", default="car_links.json",
+        help="Path to JSON file containing car links (default: car_links.json)",
+    )
+    parser.add_argument(
+        "--output", default="data/Prepared/car_data.json",
+        help="Output JSON file path",
+    )
+    args = parser.parse_args()
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    links_path  = os.path.join(base_dir, args.links)
+    output_path = os.path.join(base_dir, args.output)
+
+    car_links = load_car_links(links_path)
+    logger.info(f"Loaded {len(car_links)} links from {links_path}")
+
+    if args.test:
+        # For test mode, use a separate output file so we don't pollute main data
+        if args.output == "data/Prepared/car_data.json":
+            output_path = os.path.join(base_dir, "data/Prepared/car_data_test.json")
+        logger.info(f"Test output → {output_path}")
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    process_car_links(car_links, output_file=output_path, test_limit=args.test)
