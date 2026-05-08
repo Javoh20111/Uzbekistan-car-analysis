@@ -24,7 +24,7 @@ import signal
 import subprocess
 import time
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -234,9 +234,77 @@ _LABEL_CATEGORY = {
 _SELLER_MAP = {
     "private":   "private",
     "business":  "business",
+    "individual": "private",
+    "person":    "private",
+    "user":      "private",
+    "company":   "business",
+    "dealer":    "business",
     "частное лицо": "private",
     "бизнес":    "business",
+    "jismoniy shaxs": "private",
+    "biznes":    "business",
 }
+
+_IMAGE_URL_RE = re.compile(r"https?:\/\/[^\s\"'<>]+olxcdn\.com[^\s\"'<>]*", re.IGNORECASE)
+
+
+def _normalize_seller_type(value: str) -> Optional[str]:
+    if not value:
+        return None
+    normalized = re.sub(r"\s+", " ", value).strip().lower()
+    if normalized in _SELLER_MAP:
+        return _SELLER_MAP[normalized]
+    if "частное лицо" in normalized or "jismoniy shaxs" in normalized:
+        return "private"
+    if "бизнес" in normalized or "biznes" in normalized:
+        return "business"
+    return None
+
+
+def _normalize_image_url(value: Any) -> Optional[str]:
+    if not isinstance(value, str) or not value:
+        return None
+
+    value = value.strip()
+    if value.startswith("//"):
+        value = "https:" + value
+    if not value.startswith(("http://", "https://")):
+        match = _IMAGE_URL_RE.search(value)
+        value = match.group(0) if match else value
+
+    if "olxcdn.com" not in value or value.startswith("data:"):
+        return None
+
+    return (
+        value.replace("{width}", "800")
+        .replace("{height}", "600")
+        .replace("&amp;", "&")
+    )
+
+
+def _find_first_image_url(obj: Any) -> Optional[str]:
+    if isinstance(obj, str):
+        return _normalize_image_url(obj)
+    if isinstance(obj, list):
+        for item in obj:
+            url = _find_first_image_url(item)
+            if url:
+                return url
+    if isinstance(obj, dict):
+        preferred_keys = (
+            "link", "url", "src", "href", "imageUrl", "image_url",
+            "original", "large", "medium", "small", "thumbnail",
+        )
+        for key in preferred_keys:
+            if key in obj:
+                url = _find_first_image_url(obj[key])
+                if url:
+                    return url
+        for value in obj.values():
+            url = _find_first_image_url(value)
+            if url:
+                return url
+    return None
 
 
 def _parse_next_data(data: dict) -> dict:
@@ -270,14 +338,19 @@ def _parse_next_data(data: dict) -> dict:
         if not label:
             continue
         cat = _LABEL_CATEGORY.get(field)
-        result[field] = translate(label, cat) if cat else label
+        if field == "seller_type":
+            result[field] = _normalize_seller_type(label) or translate(label, cat) or label
+        else:
+            result[field] = translate(label, cat) if cat else label
 
     # --- seller type from ad.advertiser (alternative location) ---
     if "seller_type" not in result:
         adv = ad.get("advertiser") or {}
-        adv_type = (adv.get("accountType") or adv.get("account_type") or "").lower()
-        if adv_type:
-            result["seller_type"] = _SELLER_MAP.get(adv_type, adv_type)
+        for key in ("accountType", "account_type", "type", "userType", "user_type"):
+            seller_type = _normalize_seller_type(str(adv.get(key) or ""))
+            if seller_type:
+                result["seller_type"] = seller_type
+                break
 
     # --- location ---
     loc = ad.get("location") or {}
@@ -297,9 +370,11 @@ def _parse_next_data(data: dict) -> dict:
             result["posting_date"] = date_raw[:10]
 
     # --- image ---
-    photos = ad.get("photos") or []
-    if photos:
-        result["image_url"] = (photos[0].get("link") or "").replace("{width}", "800").replace("{height}", "600")
+    for key in ("photos", "images", "image", "media", "gallery"):
+        image_url = _find_first_image_url(ad.get(key))
+        if image_url:
+            result["image_url"] = image_url
+            break
 
     return result
 
@@ -363,6 +438,48 @@ def _fallback_posting_date(soup: BeautifulSoup) -> Optional[str]:
     return None
 
 
+def _fallback_image_url(soup: BeautifulSoup) -> Optional[str]:
+    for attrs in (
+        {"property": "og:image"},
+        {"property": "og:image:url"},
+        {"name": "twitter:image"},
+        {"name": "twitter:image:src"},
+    ):
+        el = soup.find("meta", attrs=attrs)
+        if el:
+            image_url = _normalize_image_url(el.get("content"))
+            if image_url:
+                return image_url
+
+    for el in soup.find_all(["img", "source", "link"]):
+        for attr in ("src", "srcset", "data-src", "href", "imagesrcset"):
+            value = el.get(attr)
+            if not value:
+                continue
+            for candidate in str(value).split(","):
+                image_url = _normalize_image_url(candidate.strip().split(" ")[0])
+                if image_url:
+                    return image_url
+
+    match = _IMAGE_URL_RE.search(str(soup))
+    return _normalize_image_url(match.group(0)) if match else None
+
+
+def _fallback_seller_type(soup: BeautifulSoup) -> Optional[str]:
+    for selector in (
+        '[data-testid*="seller"]',
+        '[data-testid*="user"]',
+        '[data-cy*="seller"]',
+        '[data-cy*="user"]',
+    ):
+        for el in soup.select(selector):
+            seller_type = _normalize_seller_type(el.get_text(" ", strip=True))
+            if seller_type:
+                return seller_type
+
+    return _normalize_seller_type(soup.get_text(" ", strip=True))
+
+
 def _fallback_params(soup: BeautifulSoup) -> dict:
     """Parse the ad-parameters-container using stable data-testid."""
     result = {}
@@ -406,8 +523,10 @@ def _fallback_params(soup: BeautifulSoup) -> dict:
             result["sale_type"] = translate(value, "sale_type")
         elif "доп" in low and "опци" in low:
             result["additional_options"] = translate(value, "additional_options")
-        elif "частное лицо" in low or "бизнес" in low:
-            result["seller_type"] = "private" if "частное" in low else "business"
+        else:
+            seller_type = _normalize_seller_type(text)
+            if seller_type:
+                result["seller_type"] = seller_type
 
     return result
 
@@ -518,6 +637,12 @@ def get_car_info(url: str, drv: webdriver.Chrome, max_retries: int = 3) -> Optio
 
         if not car.get("posting_date"):
             car["posting_date"] = _fallback_posting_date(soup)
+
+        if not car.get("image_url"):
+            car["image_url"] = _fallback_image_url(soup)
+
+        if not car.get("seller_type"):
+            car["seller_type"] = _fallback_seller_type(soup)
 
         # Fill remaining car-specific fields from HTML params
         html_params = _fallback_params(soup)
