@@ -48,6 +48,14 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 driver = None
 
+ACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "results", "active_links.json")
+INACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "results", "inactive_links.json")
+LINK_STATUS_SAVE_INTERVAL = 100
+
+
+class InactiveAdError(Exception):
+    """Raised when OLX says an ad URL is deleted or no longer available."""
+
 
 # ---------------------------------------------------------------------------
 # Signal / cleanup
@@ -169,6 +177,35 @@ def clean_location(text: str) -> Optional[str]:
     return text.replace(",", "").replace(".", "").strip()
 
 
+def _read_json_list(path: str) -> List[str]:
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, list):
+            return [item for item in data if isinstance(item, str)]
+    except Exception as e:
+        logger.error(f"Error loading {path}: {e}")
+    return []
+
+
+def _write_json_list(path: str, links: List[str]):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(links, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+    except Exception as e:
+        logger.error(f"Error saving {path}: {e}")
+
+
+def save_link_status(active_urls: set, inactive_urls: set):
+    _write_json_list(ACTIVE_LINKS_FILE, sorted(active_urls))
+    _write_json_list(INACTIVE_LINKS_FILE, sorted(inactive_urls))
+
+
 def save_deleted_ad(url: str):
     path = os.path.join(os.path.dirname(__file__), "deleted_ads.json")
     try:
@@ -182,6 +219,25 @@ def save_deleted_ad(url: str):
                 json.dump(data, f, ensure_ascii=False, indent=2)
     except Exception as e:
         logger.error(f"Error saving deleted ad: {e}")
+
+
+def is_inactive_page(soup: BeautifulSoup) -> bool:
+    inactive_msg = soup.find(attrs={"data-testid": "ad-inactive-msg"})
+    if inactive_msg:
+        return True
+
+    body_text = soup.get_text(" ", strip=True).lower()
+    inactive_phrases = (
+        "страница не найдена",
+        "объявление не найдено",
+        "объявление больше не доступно",
+        "объявление удалено",
+        "удалено",
+        "e'lon mavjud emas",
+        "elon mavjud emas",
+        "sahifa topilmadi",
+    )
+    return any(phrase in body_text for phrase in inactive_phrases)
 
 
 # ---------------------------------------------------------------------------
@@ -598,12 +654,11 @@ def get_car_info(url: str, drv: webdriver.Chrome, max_retries: int = 3) -> Optio
             soup = BeautifulSoup(drv.page_source, "html.parser")
 
 
-        # --- deleted / 404 check ---
-        body_text = soup.get_text().lower()
-        if any(kw in body_text for kw in ["страница не найдена", "объявление не найдено", "удалено"]):
-            logger.warning(f"Deleted/missing ad: {url}")
+        # --- deleted / inactive check ---
+        if is_inactive_page(soup):
+            logger.warning(f"Inactive/deleted ad: {url}")
             save_deleted_ad(url)
-            return None
+            raise InactiveAdError(url)
 
         # ----------------------------------------------------------------
         # STEP 1: parse __NEXT_DATA__ JSON  ← primary, most reliable
@@ -723,6 +778,9 @@ def process_car_links(links: List[str], output_file: str = "car_data.json", test
 
     existing_data  = load_existing_data(output_file)
     processed_urls = {item["url"] for item in existing_data}
+    active_urls = set(_read_json_list(ACTIVE_LINKS_FILE))
+    inactive_urls = set(_read_json_list(INACTIVE_LINKS_FILE))
+    active_urls.update(processed_urls)
 
     driver = initialize_driver()
     consecutive_fails = 0
@@ -735,6 +793,10 @@ def process_car_links(links: List[str], output_file: str = "car_data.json", test
     for i, link in enumerate(links, 1):
         if link in processed_urls:
             logger.info(f"Skip (already scraped) {i}/{len(links)}: {link}")
+            continue
+
+        if link in inactive_urls:
+            logger.info(f"Skip (known inactive) {i}/{len(links)}: {link}")
             continue
 
         if test_limit and new_count >= test_limit:
@@ -773,10 +835,21 @@ def process_car_links(links: List[str], output_file: str = "car_data.json", test
             except Exception:
                 driver = initialize_driver()
 
-            car_info = get_car_info(link, driver)
+            try:
+                car_info = get_car_info(link, driver)
+            except InactiveAdError:
+                inactive_urls.add(link)
+                active_urls.discard(link)
+                save_link_status(active_urls, inactive_urls)
+                consecutive_fails = 0
+                processed_since_restart += 1
+                logger.info(f"  Marked inactive → {INACTIVE_LINKS_FILE}")
+                continue
 
             if car_info:
                 existing_data.append(car_info)
+                active_urls.add(link)
+                inactive_urls.discard(link)
                 new_count += 1
                 consecutive_fails = 0
                 processed_since_restart += 1
@@ -786,6 +859,8 @@ def process_car_links(links: List[str], output_file: str = "car_data.json", test
                 with open(tmp, "w", encoding="utf-8") as f:
                     json.dump(existing_data, f, ensure_ascii=False, indent=2)
                 os.replace(tmp, output_file)
+                if new_count % LINK_STATUS_SAVE_INTERVAL == 0:
+                    save_link_status(active_urls, inactive_urls)
                 logger.info(f"  Saved record #{new_count} → {output_file}")
             else:
                 consecutive_fails += 1
@@ -797,6 +872,7 @@ def process_car_links(links: List[str], output_file: str = "car_data.json", test
 
         time.sleep(random.uniform(1.0, 2.5))
 
+    save_link_status(active_urls, inactive_urls)
     logger.info(f"Done — {new_count} new records saved to {output_file}")
     cleanup()
 
