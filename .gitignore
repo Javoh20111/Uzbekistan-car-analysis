@@ -1,1 +1,6 @@
 data/raw/car_data.json
+.vscode
+.claude
+results
+image.png
+car_links.txt
