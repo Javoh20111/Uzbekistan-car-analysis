@@ -36,6 +36,15 @@ CREATE TABLE districts (
     district_name VARCHAR(100) UNIQUE
 );
 
+CREATE TABLE additional_options (
+    additional_option_id SERIAL PRIMARY KEY,
+    additional_option_name VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE sale_options (
+    option_id SERIAL PRIMARY KEY,
+    sale_type VARCHAR(100) UNIQUE
+);
 
 
 CREATE TABLE car_listings (
