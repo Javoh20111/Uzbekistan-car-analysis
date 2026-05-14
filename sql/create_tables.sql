@@ -41,11 +41,27 @@ CREATE TABLE additional_options (
     additional_option_name VARCHAR(100) UNIQUE
 );
 
+
+CREATE TABLE listing_additional_options (
+    url TEXT,
+    additional_option_id INT,
+    FOREIGN KEY (additional_option_id)
+        REFERENCES additional_options(additional_option_id)
+);
+
+
 CREATE TABLE sale_options (
     option_id SERIAL PRIMARY KEY,
     sale_type VARCHAR(100) UNIQUE
 );
 
+
+CREATE TABLE listing_sale_options (
+    url TEXT,
+    option_id INT,
+    FOREIGN KEY (option_id)
+        REFERENCES sale_options(option_id)
+);
 
 CREATE TABLE car_listings (
     url TEXT PRIMARY KEY,
@@ -105,3 +121,27 @@ CREATE TABLE cars (
     FOREIGN KEY (brand_id)
         REFERENCES brands(brand_id)
 );
+
+
+CREATE TABLE currencies (
+    currency_id SERIAL PRIMARY KEY,
+    currency_name VARCHAR(100) UNIQUE NOT NULL
+);
+
+
+CREATE TABLE listing_additional_options (
+    url TEXT NOT NULL,
+    additional_option_id INT NOT NULL,
+    PRIMARY KEY (url, additional_option_id),
+    FOREIGN KEY (additional_option_id)
+        REFERENCES additional_options(additional_option_id)
+);
+
+CREATE TABLE listing_sale_options (
+    url TEXT NOT NULL,
+    option_id INT NOT NULL,
+    PRIMARY KEY (url, option_id),
+    FOREIGN KEY (option_id)
+        REFERENCES sale_options(option_id)
+);
+
