@@ -55,6 +55,20 @@ CREATE TABLE listing_sale_options (
         REFERENCES sale_options(option_id)
 );
 
+DROP TABLE listing_sale_options CASCADE;
+
+CREATE TABLE listing_sale_options (
+    url TEXT,
+    option_id INT,
+
+    PRIMARY KEY (url, option_id),
+
+    FOREIGN KEY (url)
+        REFERENCES car_listings(url),
+    FOREIGN KEY (option_id)
+        REFERENCES sale_options(option_id)
+);
+
 CREATE TABLE listing_additional_options (
     url TEXT,
     additional_option_id INT,
@@ -102,6 +116,23 @@ CREATE TABLE car_listings (
 );
 
 ALTER TABLE car_listings
+DROP COLUMN car_id;
+
+ALTER TABLE car_listings
+ALTER COLUMN price_raw TYPE BIGINT;
+
+ALTER TABLE car_listings
+ALTER COLUMN price_usd TYPE NUMERIC(12,2);
+
+ALTER TABLE car_listings
+ALTER COLUMN mileage TYPE NUMERIC(9,2);
+
+ALTER TABLE car_listings
+ALTER COLUMN mileage_log TYPE NUMERIC(14,4);
+
+
+
+ALTER TABLE car_listings
 ADD CONSTRAINT fk_brand
 FOREIGN KEY (car_id)
     REFERENCES cars(car_id);
@@ -120,3 +151,8 @@ CREATE TABLE cars (
     FOREIGN KEY (brand_id)
         REFERENCES brands(brand_id)
 );
+
+
+SELECT column_name, data_type, numeric_precision, numeric_scale
+FROM information_schema.columns
+WHERE table_name = 'car_listings';
