@@ -1,6 +1,18 @@
-data/raw/car_data.json
-.vscode
-.claude
-results
+
+.DS_Store
+**/.DS_Store
+.vscode/
+.claude/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+
+results/
 image.png
 car_links.txt
+
+
+data/raw/
+data/Prepared/
