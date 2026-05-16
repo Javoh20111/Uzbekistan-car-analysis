@@ -14,4 +14,7 @@ car_links.txt
 
 
 data/raw/
-data/Prepared/
+
+
+data/Prepared/*
+!data/Prepared/car_data_clean.csv
