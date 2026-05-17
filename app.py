@@ -88,16 +88,19 @@ def main():
         
         The Uzbek car resale market is dominated by relatively new vehicles (post-2010), with a sharp increase after 2015, indicating growing purchasing power, import activity, and digital marketplace usage.
         '''
+        """---"""
         categorical_analysis(df)
         '''
         What I see
         - Each Daewoo and Chevrolet are holding more than 14000 postings
         - Almost 50% of the cars has sedan type body
         - Manual cars are 66.7 precent, While Automstic ones are less than 33%
-        - Cars that runs on both Gasoline and Gas are less that 25000 followed by cars that only runs on Gasoline closer to 17000
+        - Cars that runs on both Gasoline and Gas are less that 25000 followed by cars that only runs on Gasoline closer to 17000  
+          
         What it might mean (interpretation)
         - The Market is heavily local and budget-orianted 
-        - All charts suggest affortable cars are being sold. 
+        - All charts suggest affortable cars are being sold.  
+          
         What I would next
         - In most common body types chart, there is a mistake, two `other` found 
         - In transmission types chart, There is 0.5 precent but we dont exacly know what it is.
@@ -106,6 +109,8 @@ def main():
         - Long-term:
         -  - Track EV growth over time (trend analysis) before investing
         '''
+        '''---'''
+        
     ## ---------------------------------------------------------------------------------- predictor_tab
     with predictor_tab:
         render_predictor(df)
