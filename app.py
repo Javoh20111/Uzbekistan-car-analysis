@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src.charts import render_correlation_heatmap, render_boxplot, render_hist
+from src.charts import render_correlation_heatmap, render_boxplot, render_hist, categorical_analysis
 from src.data_loader import load_car_data
 from src.views import render_analysis, render_dashboard, render_predictor
 
@@ -29,13 +29,19 @@ def main():
     with analysis_tab:
         render_analysis(df)
         '''
-        hello
+        ### Analysis
+        Rule 1:  Every chart must have an interpretation  
+        After each chart write  
+        * What you see(facts)
+        * What it might mean (interpretation)
+        * What you would do next (action/decision)
         '''
+
         '---'
         render_boxplot(df)
         '''
         What I see  
-        - Most cars priced between as low as 4000k to 10000k
+        - Most cars priced between as low as 4k to 10k
         - The price disturebution heavily right-skewed due to high listed cars
         - Median price is roughly ~10k–12k USD
         - Majority of cars are cheap, small portion are very expensive
@@ -54,6 +60,7 @@ def main():
 
         The car market is heavily right-skewed, with most vehicles priced below $20,000. A small number of high-value listings significantly extend the upper range, indicating the presence of a niche premium segment. Median price provides a more accurate representation than the mean due to extreme outliers.
         '''
+        st.markdown('''---''')
         render_hist(df)
         '''
         What I see  
@@ -80,6 +87,24 @@ def main():
         - Check price vs year
         
         The Uzbek car resale market is dominated by relatively new vehicles (post-2010), with a sharp increase after 2015, indicating growing purchasing power, import activity, and digital marketplace usage.
+        '''
+        categorical_analysis(df)
+        '''
+        What I see
+        - Each Daewoo and Chevrolet are holding more than 14000 postings
+        - Almost 50% of the cars has sedan type body
+        - Manual cars are 66.7 precent, While Automstic ones are less than 33%
+        - Cars that runs on both Gasoline and Gas are less that 25000 followed by cars that only runs on Gasoline closer to 17000
+        What it might mean (interpretation)
+        - The Market is heavily local and budget-orianted 
+        - All charts suggest affortable cars are being sold. 
+        What I would next
+        - In most common body types chart, there is a mistake, two `other` found 
+        - In transmission types chart, There is 0.5 precent but we dont exacly know what it is.
+        - Better short-term idea:
+        -  - Focus on gas-related services or used car analytics tools
+        - Long-term:
+        -  - Track EV growth over time (trend analysis) before investing
         '''
     ## ---------------------------------------------------------------------------------- predictor_tab
     with predictor_tab:

@@ -41,6 +41,50 @@ def render_correlation_heatmap(df):
 
     st.pyplot(fig)
 
+def categorical_analysis(df):
+    brand_counts = df['brand'].value_counts()
+
+    fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(13, 10), layout="constrained")
+    fig.suptitle("Categorical Analysis", fontsize=15, fontweight='bold')
+
+    colors = plt.cm.Blues_r(np.linspace(0.2, 0.75, len(brand_counts)))
+
+
+    ax1 = axs[0, 0]
+    ax1.barh(brand_counts.index[::-1], brand_counts.values[::-1], color=colors[::-1])
+    ax1.set_title('All Brands by Count', fontweight='bold')
+    ax1.set_xlabel('Number of Listings')
+    ax1.spines[['top','right']].set_visible(False)
+
+    body_type_counts = df['body_type'].value_counts()
+    ax2 = axs[0, 1]
+    top5 = body_type_counts.head(5)
+    rest = body_type_counts.iloc[5:].sum()
+    pie_data = list(top5.values) + [rest]
+    pie_labels = list(top5.index) + ['Others']
+    ax2.pie(pie_data, labels=pie_labels, autopct='%1.1f%%', startangle=140,
+            wedgeprops=dict(edgecolor='white', linewidth=1.5))
+    ax2.set_title('Most Common Body Types', fontweight='bold')
+
+    transmission_counts = df['transmission'].value_counts()
+    top = transmission_counts
+    ax3 = axs[1, 0]
+    pcts = top / transmission_counts.sum() * 100
+    bars = ax3.bar(top.index, top.values, color=colors[:5])
+    for bar, pct in zip(bars, pcts.values):
+        ax3.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 100,
+                f'{pct:.1f}%', ha='center', fontweight='bold', color='#1a6faf')
+    ax3.set_title('Transmission Types', fontweight='bold')
+    ax3.spines[['top','right']].set_visible(False)
+
+    ax4 = axs[1, 1]
+    fuel_type_counts = df['fuel_type'].value_counts()
+    ax4.bar(fuel_type_counts.index, fuel_type_counts.values, color=colors)
+    ax4.set_xticklabels(fuel_type_counts.index, rotation=45, ha='right')
+    ax4.set_title('Most Common Fuel Types', fontweight='bold')
+    ax4.spines[['top','right']].set_visible(False)
+    st.pyplot(fig)
+
 
 
 
