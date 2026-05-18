@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import time
 
 from src.config import DATA_PATH
 
@@ -17,3 +18,8 @@ def load_car_data():
 
     df = pd.read_csv(DATA_PATH)
     return df
+
+def stream_data(Content):
+    for word in Content.split(" "):
+        yield word + " "
+        time.sleep(0.01)

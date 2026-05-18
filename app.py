@@ -1,7 +1,10 @@
 import streamlit as st
+import time
+import pandas as pd
+import numpy as np
 
 from src.charts import render_correlation_heatmap, render_boxplot, render_hist, categorical_analysis
-from src.data_loader import load_car_data
+from src.data_loader import load_car_data, stream_data
 from src.views import render_analysis, render_dashboard, render_predictor
 
 
@@ -28,6 +31,8 @@ def main():
     ## -------------------------------------------------------------------------------- analysis_tab
     with analysis_tab:
         render_analysis(df)
+
+        ## -------------------------------------------------------------------------------------
         '''
         ### Analysis
         Rule 1:  Every chart must have an interpretation  
@@ -36,10 +41,10 @@ def main():
         * What it might mean (interpretation)
         * What you would do next (action/decision)
         '''
-
         '---'
+
         render_boxplot(df)
-        '''
+        Content_1 = '''
         What I see  
         - Most cars priced between as low as 4k to 10k
         - The price disturebution heavily right-skewed due to high listed cars
@@ -60,9 +65,15 @@ def main():
 
         The car market is heavily right-skewed, with most vehicles priced below $20,000. A small number of high-value listings significantly extend the upper range, indicating the presence of a niche premium segment. Median price provides a more accurate representation than the mean due to extreme outliers.
         '''
+
+        message_1 = stream_data(Content_1)
+        if st.button("Show insights"):
+            st.write(message_1)
+
+
         st.markdown('''---''')
         render_hist(df)
-        '''
+        Content_2 = '''
         What I see  
         - Most cars are between 2005 and 2025
         - There is a strong peak between 2021 - 2025
@@ -88,9 +99,13 @@ def main():
         
         The Uzbek car resale market is dominated by relatively new vehicles (post-2010), with a sharp increase after 2015, indicating growing purchasing power, import activity, and digital marketplace usage.
         '''
+        message_2 = stream_data(Content_2)
+        if st.button("Show insights for content 2"):
+            st.write(message_2)
         """---"""
+
         categorical_analysis(df)
-        '''
+        Content_3 = '''
         What I see
         - Each Daewoo and Chevrolet are holding more than 14000 postings
         - Almost 50% of the cars has sedan type body
@@ -109,8 +124,10 @@ def main():
         - Long-term:
         -  - Track EV growth over time (trend analysis) before investing
         '''
+        message_3 = stream_data(Content_3)
+        if st.button("Show insights for content 3"):
+            st.write(message_3)
         '''---'''
-        
     ## ---------------------------------------------------------------------------------- predictor_tab
     with predictor_tab:
         render_predictor(df)
