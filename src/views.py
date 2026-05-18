@@ -1,5 +1,146 @@
 import altair as alt
+import pandas as pd
 import streamlit as st
+from datetime import date
+
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+NUMERIC_MODEL_FEATURES = [
+    "mileage",
+    "engine_volume_l",
+    "owners_count",
+    "age",
+    "condition",
+]
+
+CATEGORICAL_MODEL_FEATURES = [
+    "brand",
+    "model_clean",
+    "fuel_type",
+    "transmission",
+    "body_type",
+    "region",
+    "color",
+    "district",
+]
+
+CONDITION_ORDER = {
+    "Needs Repair": 0,
+    "Average": 1,
+    "Good": 2,
+    "Excellent": 3,
+}
+
+
+def group_rare_values(series, min_count=100):
+    counts = series.value_counts()
+    common_values = counts[counts >= min_count].index
+    return series.where(series.isin(common_values), "Other"), set(common_values)
+
+
+def prepare_model_data(df):
+    model_df = df.copy()
+
+    if "district" not in model_df.columns and "district_clean" in model_df.columns:
+        model_df["district"] = model_df["district_clean"]
+
+    if "age" not in model_df.columns:
+        model_df["age"] = date.today().year - model_df["year"]
+
+    model_df["condition"] = model_df["condition"].map(CONDITION_ORDER)
+    model_df = model_df[
+        (model_df["age"].between(0, 45)) &
+        (model_df["price_usd"].between(500, 100000))
+    ].copy()
+
+    required_columns = NUMERIC_MODEL_FEATURES + CATEGORICAL_MODEL_FEATURES + ["price_usd"]
+    model_df = model_df.dropna(subset=["price_usd"])
+    model_df = model_df[required_columns]
+    model_df[NUMERIC_MODEL_FEATURES] = model_df[NUMERIC_MODEL_FEATURES].apply(
+        pd.to_numeric,
+        errors="coerce",
+    )
+    model_df[CATEGORICAL_MODEL_FEATURES] = model_df[CATEGORICAL_MODEL_FEATURES].astype(str)
+
+    rare_value_maps = {}
+    for column in ["model_clean", "district"]:
+        model_df[column], common_values = group_rare_values(model_df[column], min_count=100)
+        rare_value_maps[column] = common_values
+
+    return model_df, rare_value_maps
+
+
+@st.cache_resource(show_spinner="Training price prediction model...")
+def train_price_model(df):
+    model_df, rare_value_maps = prepare_model_data(df)
+
+    X = model_df[NUMERIC_MODEL_FEATURES + CATEGORICAL_MODEL_FEATURES]
+    y = model_df["price_usd"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42,
+    )
+
+    numeric_transformer = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler()),
+    ])
+
+    try:
+        one_hot_encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=True)
+    except TypeError:
+        one_hot_encoder = OneHotEncoder(handle_unknown="ignore", sparse=True)
+
+    categorical_transformer = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("encoder", one_hot_encoder),
+    ])
+
+    preprocessor = ColumnTransformer(transformers=[
+        ("num", numeric_transformer, NUMERIC_MODEL_FEATURES),
+        ("cat", categorical_transformer, CATEGORICAL_MODEL_FEATURES),
+    ])
+
+    model = Pipeline(steps=[
+        ("preprocessor", preprocessor),
+        ("regressor", RandomForestRegressor(
+            n_estimators=120,
+            min_samples_leaf=2,
+            random_state=42,
+            n_jobs=-1,
+        )),
+    ])
+
+    model.fit(X_train, y_train)
+    test_predictions = model.predict(X_test)
+
+    metrics = {
+        "mae": mean_absolute_error(y_test, test_predictions),
+        "rmse": mean_squared_error(y_test, test_predictions) ** 0.5,
+        "r2": r2_score(y_test, test_predictions),
+        "training_rows": len(X_train),
+        "testing_rows": len(X_test),
+    }
+
+    return model, metrics, rare_value_maps
+
+
+def sorted_options(df, column):
+    return sorted(df[column].dropna().astype(str).unique())
+
+
+def normalize_rare_value(value, common_values):
+    return value if value in common_values else "Other"
 
 
 def render_dashboard(df):
@@ -124,20 +265,85 @@ def render_analysis(df):
 
 def render_predictor(df):
     st.subheader("Price Predictor")
-    st.info("Model training is not connected yet. This form is ready for the next step.")
+    model, metrics, rare_value_maps = train_price_model(df)
 
-    col1, col2 = st.columns(2)
+    metric_col1, metric_col2, metric_col3 = st.columns(3)
+    metric_col1.metric("Model", "Random Forest")
+    metric_col2.metric("Test RMSE", f"${metrics['rmse']:,.0f}")
+    metric_col3.metric("Test R2", f"{metrics['r2']:.3f}")
 
-    with col1:
-        st.selectbox("Brand", sorted(df["brand"].dropna().unique()))
-        st.number_input("Year", min_value=1970, max_value=2030, value=2020)
-        st.number_input("Mileage", min_value=0, value=50_000, step=1_000)
-        st.number_input("Engine volume", min_value=0.0, value=1.6, step=0.1)
+    st.caption(
+        f"Trained on {metrics['training_rows']:,} listings and tested on "
+        f"{metrics['testing_rows']:,} listings."
+    )
 
-    with col2:
-        st.selectbox("Fuel type", sorted(df["fuel_type"].dropna().unique()))
-        st.selectbox("Transmission", sorted(df["transmission"].dropna().unique()))
-        st.selectbox("Condition", sorted(df["condition"].dropna().unique()))
-        st.selectbox("Region", sorted(df["region"].dropna().unique()))
+    with st.form("price_prediction_form"):
+        col1, col2, col3 = st.columns(3)
 
-    st.button("Predict Price", disabled=True)
+        with col1:
+            brand = st.selectbox("Brand", sorted_options(df, "brand"))
+            model_clean = st.selectbox("Model", sorted_options(df, "model_clean"))
+            year = st.number_input(
+                "Year",
+                min_value=1970,
+                max_value=date.today().year + 1,
+                value=min(2020, date.today().year),
+            )
+            mileage = st.number_input("Mileage", min_value=0, value=50_000, step=1_000)
+
+        with col2:
+            engine_volume_l = st.number_input(
+                "Engine volume (L)",
+                min_value=0.0,
+                max_value=8.0,
+                value=1.6,
+                step=0.1,
+            )
+            owners_count = st.number_input(
+                "Owners count",
+                min_value=0,
+                max_value=10,
+                value=1,
+                step=1,
+            )
+            fuel_type = st.selectbox("Fuel type", sorted_options(df, "fuel_type"))
+            transmission = st.selectbox("Transmission", sorted_options(df, "transmission"))
+
+        with col3:
+            body_type = st.selectbox("Body type", sorted_options(df, "body_type"))
+            condition = st.selectbox("Condition", list(CONDITION_ORDER.keys()), index=2)
+            region = st.selectbox("Region", sorted_options(df, "region"))
+            district_column = "district" if "district" in df.columns else "district_clean"
+            district = st.selectbox("District", sorted_options(df, district_column))
+            color = st.selectbox("Color", sorted_options(df, "color"))
+
+        submitted = st.form_submit_button("Predict Price")
+
+    if submitted:
+        prediction_input = pd.DataFrame([{
+            "mileage": mileage,
+            "engine_volume_l": engine_volume_l,
+            "owners_count": owners_count,
+            "age": date.today().year - year,
+            "condition": CONDITION_ORDER[condition],
+            "brand": brand,
+            "model_clean": normalize_rare_value(model_clean, rare_value_maps["model_clean"]),
+            "fuel_type": fuel_type,
+            "transmission": transmission,
+            "body_type": body_type,
+            "region": region,
+            "color": color,
+            "district": normalize_rare_value(district, rare_value_maps["district"]),
+        }])
+
+        prediction_input[CATEGORICAL_MODEL_FEATURES] = prediction_input[
+            CATEGORICAL_MODEL_FEATURES
+        ].astype(str)
+        predicted_price = model.predict(prediction_input)[0]
+
+        result_col1, result_col2 = st.columns([1, 2])
+        result_col1.metric("Estimated Price", f"${predicted_price:,.0f}")
+        result_col2.info(
+            f"Typical model error is about ${metrics['mae']:,.0f} MAE, "
+            "so treat this as a market estimate rather than an exact listing price."
+        )
