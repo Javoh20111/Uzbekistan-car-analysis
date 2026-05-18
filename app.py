@@ -1,9 +1,6 @@
 import streamlit as st
-import time
-import pandas as pd
-import numpy as np
 
-from src.charts import render_correlation_heatmap, render_boxplot, render_hist, categorical_analysis
+from src.charts import render_boxplot, render_hist, categorical_analysis
 from src.data_loader import load_car_data, stream_data
 from src.views import render_analysis, render_dashboard, render_predictor
 
@@ -26,8 +23,27 @@ def main():
 
     ##------------------------------------------------------------------------------ dashboard_tab
 
+    def convert_for_download(df):
+        return df.to_csv(index=False).encode("utf-8")
+    
+    csv = convert_for_download(df)
+
     with dashboard_tab:
         render_dashboard(df)
+        
+        st.dataframe(df)
+
+        st.download_button(
+            label='Download cleaned CSV',
+            data=csv,
+            file_name='car_postings_olx.csv',
+            icon=":material/download:"
+        )
+        st.markdown(f'''
+                    > Raw data is also available.  
+                    > Download it if you want to practice using real world data.  
+                    ''')
+        st.link_button('Here is the link', 'https://www.kaggle.com/datasets/shukrullo/all-car-ads-from-olx-as-scraped')
     ## -------------------------------------------------------------------------------- analysis_tab
     with analysis_tab:
         render_analysis(df)
@@ -68,7 +84,7 @@ def main():
 
         message_1 = stream_data(Content_1)
         if st.button("Show insights"):
-            st.write(message_1)
+            st.write_stream(message_1)
 
 
         st.markdown('''---''')
@@ -101,7 +117,7 @@ def main():
         '''
         message_2 = stream_data(Content_2)
         if st.button("Show insights for content 2"):
-            st.write(message_2)
+            st.write_stream(message_2)
         """---"""
 
         categorical_analysis(df)
@@ -126,7 +142,7 @@ def main():
         '''
         message_3 = stream_data(Content_3)
         if st.button("Show insights for content 3"):
-            st.write(message_3)
+            st.write_stream(message_3)
         '''---'''
     ## ---------------------------------------------------------------------------------- predictor_tab
     with predictor_tab:
