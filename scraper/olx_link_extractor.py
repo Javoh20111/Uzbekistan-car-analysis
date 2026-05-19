@@ -293,13 +293,14 @@ def update_progress_in_files(links, range_index, total_ranges, completed_ranges,
 
 
 if __name__ == "__main__":
-    # Example usage
-    ranges_file = "price_ranges.json"
-    output_txt = "car_links.txt"
-    output_json = "car_links.json"
-    
+    _data_dir   = os.path.join(os.path.dirname(__file__), "data")
+    ranges_file = os.path.join(_data_dir, "olx_price_ranges.json")
+    output_txt  = os.path.join(_data_dir, "olx_car_links.txt")
+    output_json = os.path.join(_data_dir, "olx_car_links.json")
+
     if os.path.exists(ranges_file):
         process_price_ranges(ranges_file, output_txt, output_json)
     else:
         print(f"Error: Price ranges file '{ranges_file}' not found.")
-        print("Please run the price range determination script first to generate this file.") 
+        print("Please run olx_range_finder.py first to generate this file.")
+        print("    python scraper/olx_range_finder.py") 

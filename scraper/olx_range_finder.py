@@ -176,7 +176,8 @@ def adaptive_price_ranges():
 
 def save_ranges_to_file(ranges):
     """Save the current set of price ranges to a file"""
-    ranges_json_filename = 'price_ranges.json'
+    ranges_json_filename = os.path.join(os.path.dirname(__file__), 'data', 'olx_price_ranges.json')
+    os.makedirs(os.path.dirname(ranges_json_filename), exist_ok=True)
     ranges_json_data = {
         "timestamp": datetime.datetime.now().isoformat(),
         "total_ranges": len(ranges),
@@ -198,6 +199,6 @@ if __name__ == "__main__":
     for i, (min_price, max_price) in enumerate(price_ranges):
         print(f"{i+1}. {min_price} - {max_price}")
 
-    print(f"\nPrice ranges are saved in price_ranges.json")
+    print(f"\nPrice ranges are saved in scraper/data/olx_price_ranges.json")
     print(f"\nTo extract links using these ranges, run:")
-    print(f"python link_extractor.py") 
+    print(f"python scraper/olx_link_extractor.py") 

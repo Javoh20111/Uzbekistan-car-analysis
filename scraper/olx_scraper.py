@@ -1,6 +1,10 @@
 """
 Car Scraper Module — OLX.uz
 
+NOTE: This file lives in scraper/. Run from the project root:
+    python scraper/olx_scraper.py --test 5
+    python scraper/olx_scraper.py
+
 PRIMARY strategy  : parse the __NEXT_DATA__ JSON that Next.js embeds in every
                     page.  This is far more stable than CSS class names, which
                     OLX rotates on every deploy.
@@ -48,8 +52,8 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 driver = None
 
-ACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "results", "active_links.json")
-INACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "results", "inactive_links.json")
+ACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "data", "olx_active_links.json")
+INACTIVE_LINKS_FILE = os.path.join(os.path.dirname(__file__), "data", "olx_inactive_links.json")
 LINK_STATUS_SAVE_INTERVAL = 100
 
 

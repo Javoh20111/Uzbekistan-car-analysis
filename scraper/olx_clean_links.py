@@ -49,7 +49,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Create directories for results
-os.makedirs('results', exist_ok=True)
+os.makedirs(os.path.join(os.path.dirname(__file__), 'data'), exist_ok=True)
 
 # Global variables for handling interruptions
 active_links = []
@@ -103,7 +103,7 @@ def save_results():
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     
     # Save active links
-    active_file = f"results/active_links.json"
+    active_file = os.path.join(os.path.dirname(__file__), "data", "olx_active_links.json")
     try:
         with open(active_file, 'w', encoding='utf-8') as f:
             json.dump(active_links, f, ensure_ascii=False, indent=2)
@@ -112,7 +112,7 @@ def save_results():
         logger.error(f"Error saving active links: {str(e)}")
     
     # Save inactive links
-    inactive_file = f"results/inactive_links.json"
+    inactive_file = os.path.join(os.path.dirname(__file__), "data", "olx_inactive_links.json")
     try:
         with open(inactive_file, 'w', encoding='utf-8') as f:
             json.dump(inactive_links, f, ensure_ascii=False, indent=2)
@@ -236,15 +236,18 @@ def clean_car_links(input_file='car_links.json', max_workers=5):
 
 if __name__ == "__main__":
     try:
-        active_count, inactive_count = clean_car_links()
+        active_count, inactive_count = clean_car_links(
+            os.path.join(os.path.dirname(__file__), '..', 'car_links.json')
+        )
         print(f"\nSummary:")
         print(f"Found {inactive_count} inactive links")
         print(f"Found {active_count} active links")
-        print(f"Results saved to results/active_links.json and results/inactive_links.json")
+        print(f"Results saved to scraper/data/olx_active_links.json and scraper/data/olx_inactive_links.json")
         print(f"Original car_links.json file was not modified")
         print("Complete!")
     except KeyboardInterrupt:
         print("\nScript interrupted by user. Results so far have been saved.")
         print(f"Processed {links_processed}/{total_links} links")
         print(f"Found {len(inactive_links)} inactive and {len(active_links)} active links")
-        print("Partial results have been saved to the results directory.") 
+        print("Partial results have been saved to the scraper/data directory.")
+ 
