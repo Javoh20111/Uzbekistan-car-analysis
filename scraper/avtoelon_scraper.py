@@ -395,11 +395,26 @@ class AvtoelonScraper:
             if og:
                 row["image_url"] = og.get("content")
 
-        # ── 6. Description from meta tag ──────────────────────────────────────
-        if not row.get("description"):
-            meta_desc = soup.find("meta", attrs={"name": "description"})
-            if meta_desc:
-                row["description"] = meta_desc.get("content", "")
+        # ── 6. Description ────────────────────────────────────────────────────
+        description_text = ""
+        desc_el = soup.find(class_="description-text")
+        if not desc_el:
+            # Fallback to itemprop="description"
+            desc_el = soup.find(attrs={"itemprop": "description"})
+            if desc_el:
+                # If itemprop="description" contains a nested description-text class, use that
+                sub_el = desc_el.find(class_="description-text")
+                if sub_el:
+                    desc_el = sub_el
+
+        if desc_el:
+            description_text = _clean_text(desc_el.get_text())
+
+        # Save description only if it's not the generic SEO boilerplate
+        if description_text and not description_text.startswith("«Avtoelon.uz»"):
+            row["description"] = description_text
+        else:
+            row["description"] = None
 
         return row
 
