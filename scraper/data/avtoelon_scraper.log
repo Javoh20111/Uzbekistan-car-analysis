@@ -262,3 +262,935 @@
 2026-05-20 21:28:24,830 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 181)
 2026-05-20 21:28:24,830 [INFO] Finished page 5/5 — 101 new total
 2026-05-20 21:28:26,454 [INFO] Done. Total new listings scraped: 101
+2026-05-21 16:56:50,562 [INFO] Loaded 181 existing ad IDs from scraper/data/avtoelon_car_data.csv
+2026-05-21 16:56:50,563 [INFO] ============================================================
+2026-05-21 16:56:50,563 [INFO] AvtoElon scraper started
+2026-05-21 16:56:50,563 [INFO] ============================================================
+2026-05-21 16:56:52,274 [INFO] Page 1: found 20 listing URLs
+2026-05-21 16:56:53,006 [INFO] [1] Scraped: https://avtoelon.uz/a/show/7001966
+2026-05-21 16:56:55,568 [INFO] [2] Scraped: https://avtoelon.uz/a/show/6628115
+2026-05-21 16:56:58,434 [INFO] [3] Scraped: https://avtoelon.uz/a/show/7047213
+2026-05-21 16:57:02,288 [INFO] [4] Scraped: https://avtoelon.uz/a/show/7126751
+2026-05-21 16:57:05,911 [INFO] [5] Scraped: https://avtoelon.uz/a/show/6849890
+2026-05-21 16:57:09,263 [INFO] [6] Scraped: https://avtoelon.uz/a/show/6849740
+2026-05-21 16:57:12,669 [INFO] [7] Scraped: https://avtoelon.uz/a/show/5391996
+2026-05-21 16:57:15,171 [INFO] [8] Scraped: https://avtoelon.uz/a/show/5392020
+2026-05-21 16:57:18,904 [INFO] [9] Scraped: https://avtoelon.uz/a/show/5354089
+2026-05-21 16:57:22,708 [INFO] [10] Scraped: https://avtoelon.uz/a/show/6772173
+2026-05-21 16:57:25,304 [INFO] [11] Scraped: https://avtoelon.uz/a/show/6772183
+2026-05-21 16:57:29,058 [INFO] [12] Scraped: https://avtoelon.uz/a/show/6772064
+2026-05-21 16:57:32,927 [INFO] [13] Scraped: https://avtoelon.uz/a/show/6772138
+2026-05-21 16:57:35,842 [INFO] [14] Scraped: https://avtoelon.uz/a/show/6772121
+2026-05-21 16:57:38,694 [INFO] [15] Scraped: https://avtoelon.uz/a/show/5971851
+2026-05-21 16:57:41,200 [INFO] [16] Scraped: https://avtoelon.uz/a/show/7026946
+2026-05-21 16:57:43,514 [INFO] [17] Scraped: https://avtoelon.uz/a/show/7209850
+2026-05-21 16:57:46,685 [INFO] [18] Scraped: https://avtoelon.uz/a/show/7227320
+2026-05-21 16:57:50,540 [INFO] [19] Scraped: https://avtoelon.uz/a/show/7112758
+2026-05-21 16:57:53,892 [INFO] [20] Scraped: https://avtoelon.uz/a/show/7112637
+2026-05-21 16:57:56,072 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 201)
+2026-05-21 16:57:56,072 [INFO] Finished page 1/25 — 20 new total
+2026-05-21 16:58:00,414 [INFO] Page 2: found 30 listing URLs
+2026-05-21 16:58:02,994 [INFO] [21] Scraped: https://avtoelon.uz/a/show/7145573
+2026-05-21 16:58:06,668 [INFO] [22] Scraped: https://avtoelon.uz/a/show/7226473
+2026-05-21 16:58:10,110 [INFO] [23] Scraped: https://avtoelon.uz/a/show/7198393
+2026-05-21 16:58:13,485 [INFO] [24] Scraped: https://avtoelon.uz/a/show/6966082
+2026-05-21 16:58:16,085 [INFO] [25] Scraped: https://avtoelon.uz/a/show/6699973
+2026-05-21 16:58:18,884 [INFO] [26] Scraped: https://avtoelon.uz/a/show/7080978
+2026-05-21 16:58:22,429 [INFO] [27] Scraped: https://avtoelon.uz/a/show/6909761
+2026-05-21 16:58:26,134 [INFO] [28] Scraped: https://avtoelon.uz/a/show/6909784
+2026-05-21 16:58:28,602 [INFO] [29] Scraped: https://avtoelon.uz/a/show/6857596
+2026-05-21 16:58:31,520 [INFO] [30] Scraped: https://avtoelon.uz/a/show/6684470
+2026-05-21 16:58:37,315 [INFO] [31] Scraped: https://avtoelon.uz/a/show/7171589
+2026-05-21 16:58:41,348 [INFO] [32] Scraped: https://avtoelon.uz/a/show/7256622
+2026-05-21 16:58:44,935 [INFO] [33] Scraped: https://avtoelon.uz/a/show/6937748
+2026-05-21 16:58:48,653 [INFO] [34] Scraped: https://avtoelon.uz/a/show/7251247
+2026-05-21 16:58:50,788 [INFO] [35] Scraped: https://avtoelon.uz/a/show/6414520
+2026-05-21 16:58:54,391 [INFO] [36] Scraped: https://avtoelon.uz/a/show/6414338
+2026-05-21 16:58:56,788 [INFO] Saved 16 new rows → scraper/data/avtoelon_car_data.csv (total 217)
+2026-05-21 16:58:56,789 [INFO] Finished page 2/25 — 36 new total
+2026-05-21 16:59:00,610 [INFO] Page 3: found 30 listing URLs
+2026-05-21 16:59:01,436 [INFO] [37] Scraped: https://avtoelon.uz/a/show/6680494
+2026-05-21 16:59:03,702 [INFO] [38] Scraped: https://avtoelon.uz/a/show/6947119
+2026-05-21 16:59:07,290 [INFO] [39] Scraped: https://avtoelon.uz/a/show/5362338
+2026-05-21 16:59:10,017 [INFO] [40] Scraped: https://avtoelon.uz/a/show/5438674
+2026-05-21 16:59:13,197 [INFO] [41] Scraped: https://avtoelon.uz/a/show/6703697
+2026-05-21 16:59:16,656 [INFO] [42] Scraped: https://avtoelon.uz/a/show/6217642
+2026-05-21 16:59:19,136 [INFO] [43] Scraped: https://avtoelon.uz/a/show/6173517
+2026-05-21 16:59:21,615 [INFO] [44] Scraped: https://avtoelon.uz/a/show/7272629
+2026-05-21 16:59:24,691 [INFO] [45] Scraped: https://avtoelon.uz/a/show/7272637
+2026-05-21 16:59:27,217 [INFO] [46] Scraped: https://avtoelon.uz/a/show/6961616
+2026-05-21 16:59:29,989 [INFO] [47] Scraped: https://avtoelon.uz/a/show/7224306
+2026-05-21 16:59:33,323 [INFO] [48] Scraped: https://avtoelon.uz/a/show/6180303
+2026-05-21 16:59:35,935 [INFO] [49] Scraped: https://avtoelon.uz/a/show/6180315
+2026-05-21 16:59:39,627 [INFO] [50] Scraped: https://avtoelon.uz/a/show/6174301
+2026-05-21 16:59:42,456 [INFO] [51] Scraped: https://avtoelon.uz/a/show/6173537
+2026-05-21 16:59:45,422 [INFO] [52] Scraped: https://avtoelon.uz/a/show/5721855
+2026-05-21 16:59:48,755 [INFO] [53] Scraped: https://avtoelon.uz/a/show/5721819
+2026-05-21 16:59:51,391 [INFO] [54] Scraped: https://avtoelon.uz/a/show/7171399
+2026-05-21 16:59:53,617 [INFO] Saved 18 new rows → scraper/data/avtoelon_car_data.csv (total 235)
+2026-05-21 16:59:53,618 [INFO] Finished page 3/25 — 54 new total
+2026-05-21 16:59:57,290 [INFO] Page 4: found 30 listing URLs
+2026-05-21 16:59:57,988 [INFO] [55] Scraped: https://avtoelon.uz/a/show/5718165
+2026-05-21 17:00:00,894 [INFO] [56] Scraped: https://avtoelon.uz/a/show/7256626
+2026-05-21 17:00:04,097 [INFO] [57] Scraped: https://avtoelon.uz/a/show/6937831
+2026-05-21 17:00:06,545 [INFO] [58] Scraped: https://avtoelon.uz/a/show/6414442
+2026-05-21 17:00:09,331 [INFO] [59] Scraped: https://avtoelon.uz/a/show/6700671
+2026-05-21 17:00:11,763 [INFO] [60] Scraped: https://avtoelon.uz/a/show/6941724
+2026-05-21 17:00:13,915 [INFO] [61] Scraped: https://avtoelon.uz/a/show/6941684
+2026-05-21 17:00:17,293 [INFO] [62] Scraped: https://avtoelon.uz/a/show/6849897
+2026-05-21 17:00:20,265 [INFO] [63] Scraped: https://avtoelon.uz/a/show/6851421
+2026-05-21 17:00:22,601 [INFO] [64] Scraped: https://avtoelon.uz/a/show/5392100
+2026-05-21 17:00:29,237 [INFO] [65] Scraped: https://avtoelon.uz/a/show/5392033
+2026-05-21 17:00:31,826 [INFO] [66] Scraped: https://avtoelon.uz/a/show/6772153
+2026-05-21 17:00:35,454 [INFO] [67] Scraped: https://avtoelon.uz/a/show/7081033
+2026-05-21 17:00:37,770 [INFO] [68] Scraped: https://avtoelon.uz/a/show/6909729
+2026-05-21 17:00:41,446 [INFO] [69] Scraped: https://avtoelon.uz/a/show/6909739
+2026-05-21 17:00:44,673 [INFO] [70] Scraped: https://avtoelon.uz/a/show/6857385
+2026-05-21 17:00:48,571 [INFO] [71] Scraped: https://avtoelon.uz/a/show/6857594
+2026-05-21 17:00:51,420 [INFO] [72] Scraped: https://avtoelon.uz/a/show/6961515
+2026-05-21 17:00:55,390 [INFO] [73] Scraped: https://avtoelon.uz/a/show/6684499
+2026-05-21 17:00:58,364 [INFO] [74] Scraped: https://avtoelon.uz/a/show/6947112
+2026-05-21 17:01:01,827 [INFO] [75] Scraped: https://avtoelon.uz/a/show/5362352
+2026-05-21 17:01:04,734 [INFO] [76] Scraped: https://avtoelon.uz/a/show/5340438
+2026-05-21 17:01:07,201 [INFO] Saved 22 new rows → scraper/data/avtoelon_car_data.csv (total 257)
+2026-05-21 17:01:07,202 [INFO] Finished page 4/25 — 76 new total
+2026-05-21 17:01:11,047 [INFO] Page 5: found 30 listing URLs
+2026-05-21 17:01:11,784 [INFO] [77] Scraped: https://avtoelon.uz/a/show/6772090
+2026-05-21 17:01:14,395 [INFO] [78] Scraped: https://avtoelon.uz/a/show/6771724
+2026-05-21 17:01:16,940 [INFO] [79] Scraped: https://avtoelon.uz/a/show/7112648
+2026-05-21 17:01:19,987 [INFO] [80] Scraped: https://avtoelon.uz/a/show/7203085
+2026-05-21 17:01:22,415 [INFO] [81] Scraped: https://avtoelon.uz/a/show/7232123
+2026-05-21 17:01:25,081 [INFO] [82] Scraped: https://avtoelon.uz/a/show/7254563
+2026-05-21 17:01:27,542 [INFO] [83] Scraped: https://avtoelon.uz/a/show/7265032
+2026-05-21 17:01:30,451 [INFO] [84] Scraped: https://avtoelon.uz/a/show/7266048
+2026-05-21 17:01:33,567 [INFO] [85] Scraped: https://avtoelon.uz/a/show/7245068
+2026-05-21 17:01:36,257 [INFO] [86] Scraped: https://avtoelon.uz/a/show/7218664
+2026-05-21 17:01:39,972 [INFO] [87] Scraped: https://avtoelon.uz/a/show/6965681
+2026-05-21 17:01:43,452 [INFO] [88] Scraped: https://avtoelon.uz/a/show/6703494
+2026-05-21 17:01:45,960 [INFO] [89] Scraped: https://avtoelon.uz/a/show/7083370
+2026-05-21 17:01:48,634 [INFO] [90] Scraped: https://avtoelon.uz/a/show/6909748
+2026-05-21 17:01:52,213 [INFO] [91] Scraped: https://avtoelon.uz/a/show/6857580
+2026-05-21 17:01:55,352 [INFO] [92] Scraped: https://avtoelon.uz/a/show/6771741
+2026-05-21 17:01:57,960 [INFO] [93] Scraped: https://avtoelon.uz/a/show/7112753
+2026-05-21 17:02:01,249 [INFO] [94] Scraped: https://avtoelon.uz/a/show/7226462
+2026-05-21 17:02:03,671 [INFO] [95] Scraped: https://avtoelon.uz/a/show/7254593
+2026-05-21 17:02:06,642 [INFO] Saved 19 new rows → scraper/data/avtoelon_car_data.csv (total 276)
+2026-05-21 17:02:06,642 [INFO] Finished page 5/25 — 95 new total
+2026-05-21 17:02:09,913 [INFO] Page 6: found 30 listing URLs
+2026-05-21 17:02:11,281 [INFO] [96] Scraped: https://avtoelon.uz/a/show/6684589
+2026-05-21 17:02:13,897 [INFO] [97] Scraped: https://avtoelon.uz/a/show/6947131
+2026-05-21 17:02:16,640 [INFO] [98] Scraped: https://avtoelon.uz/a/show/5270829
+2026-05-21 17:02:19,581 [INFO] [99] Scraped: https://avtoelon.uz/a/show/5270942
+2026-05-21 17:02:22,566 [INFO] [100] Scraped: https://avtoelon.uz/a/show/6217462
+2026-05-21 17:02:25,132 [INFO] [101] Scraped: https://avtoelon.uz/a/show/6217437
+2026-05-21 17:02:28,562 [INFO] [102] Scraped: https://avtoelon.uz/a/show/6217608
+2026-05-21 17:02:31,148 [INFO] [103] Scraped: https://avtoelon.uz/a/show/6173478
+2026-05-21 17:02:33,798 [INFO] [104] Scraped: https://avtoelon.uz/a/show/5839022
+2026-05-21 17:02:37,069 [INFO] [105] Scraped: https://avtoelon.uz/a/show/7256582
+2026-05-21 17:02:40,556 [INFO] [106] Scraped: https://avtoelon.uz/a/show/6937848
+2026-05-21 17:02:43,600 [INFO] [107] Scraped: https://avtoelon.uz/a/show/7248677
+2026-05-21 17:02:46,654 [INFO] [108] Scraped: https://avtoelon.uz/a/show/6701018
+2026-05-21 17:02:49,163 [INFO] [109] Scraped: https://avtoelon.uz/a/show/7126745
+2026-05-21 17:02:52,026 [INFO] [110] Scraped: https://avtoelon.uz/a/show/6849366
+2026-05-21 17:02:54,624 [INFO] [111] Scraped: https://avtoelon.uz/a/show/5670676
+2026-05-21 17:02:57,553 [INFO] [112] Scraped: https://avtoelon.uz/a/show/5354104
+2026-05-21 17:03:01,195 [INFO] [113] Scraped: https://avtoelon.uz/a/show/6772169
+2026-05-21 17:03:03,586 [INFO] [114] Scraped: https://avtoelon.uz/a/show/6772085
+2026-05-21 17:03:05,499 [INFO] Saved 19 new rows → scraper/data/avtoelon_car_data.csv (total 295)
+2026-05-21 17:03:05,499 [INFO] Finished page 6/25 — 114 new total
+2026-05-21 17:03:08,199 [INFO] Page 7: found 30 listing URLs
+2026-05-21 17:03:08,704 [INFO] [115] Scraped: https://avtoelon.uz/a/show/6456825
+2026-05-21 17:03:12,170 [INFO] [116] Scraped: https://avtoelon.uz/a/show/6456849
+2026-05-21 17:03:15,088 [INFO] [117] Scraped: https://avtoelon.uz/a/show/6774593
+2026-05-21 17:03:17,840 [INFO] [118] Scraped: https://avtoelon.uz/a/show/7130817
+2026-05-21 17:03:21,205 [INFO] [119] Scraped: https://avtoelon.uz/a/show/6851412
+2026-05-21 17:03:23,936 [INFO] [120] Scraped: https://avtoelon.uz/a/show/5354096
+2026-05-21 17:03:26,683 [INFO] [121] Scraped: https://avtoelon.uz/a/show/5392064
+2026-05-21 17:03:29,913 [INFO] [122] Scraped: https://avtoelon.uz/a/show/5670602
+2026-05-21 17:03:32,492 [INFO] [123] Scraped: https://avtoelon.uz/a/show/6772164
+2026-05-21 17:03:35,413 [INFO] [124] Scraped: https://avtoelon.uz/a/show/6772101
+2026-05-21 17:03:38,104 [INFO] [125] Scraped: https://avtoelon.uz/a/show/6772125
+2026-05-21 17:03:40,894 [INFO] [126] Scraped: https://avtoelon.uz/a/show/7112653
+2026-05-21 17:03:43,243 [INFO] [127] Scraped: https://avtoelon.uz/a/show/7245754
+2026-05-21 17:03:45,777 [INFO] [128] Scraped: https://avtoelon.uz/a/show/7232097
+2026-05-21 17:03:48,446 [INFO] [129] Scraped: https://avtoelon.uz/a/show/7259843
+2026-05-21 17:03:51,768 [INFO] [130] Scraped: https://avtoelon.uz/a/show/7221408
+2026-05-21 17:03:54,652 [INFO] [131] Scraped: https://avtoelon.uz/a/show/7259844
+2026-05-21 17:03:57,868 [INFO] [132] Scraped: https://avtoelon.uz/a/show/7259857
+2026-05-21 17:04:00,111 [INFO] [133] Scraped: https://avtoelon.uz/a/show/7048247
+2026-05-21 17:04:03,088 [INFO] [134] Scraped: https://avtoelon.uz/a/show/6937853
+2026-05-21 17:04:05,759 [INFO] [135] Scraped: https://avtoelon.uz/a/show/6415012
+2026-05-21 17:04:08,204 [INFO] Saved 21 new rows → scraper/data/avtoelon_car_data.csv (total 316)
+2026-05-21 17:04:08,204 [INFO] Finished page 7/25 — 135 new total
+2026-05-21 17:04:10,690 [INFO] Page 8: found 30 listing URLs
+2026-05-21 17:04:11,386 [INFO] [136] Scraped: https://avtoelon.uz/a/show/7259787
+2026-05-21 17:04:14,003 [INFO] [137] Scraped: https://avtoelon.uz/a/show/7229184
+2026-05-21 17:04:16,556 [INFO] [138] Scraped: https://avtoelon.uz/a/show/6990138
+2026-05-21 17:04:18,945 [INFO] [139] Scraped: https://avtoelon.uz/a/show/7200858
+2026-05-21 17:04:21,452 [INFO] [140] Scraped: https://avtoelon.uz/a/show/7270432
+2026-05-21 17:04:24,075 [INFO] [141] Scraped: https://avtoelon.uz/a/show/7229670
+2026-05-21 17:04:28,821 [INFO] [142] Scraped: https://avtoelon.uz/a/show/7226407
+2026-05-21 17:04:31,075 [INFO] [143] Scraped: https://avtoelon.uz/a/show/7198370
+2026-05-21 17:04:34,077 [INFO] [144] Scraped: https://avtoelon.uz/a/show/6966091
+2026-05-21 17:04:36,787 [INFO] [145] Scraped: https://avtoelon.uz/a/show/7081015
+2026-05-21 17:04:40,261 [INFO] [146] Scraped: https://avtoelon.uz/a/show/6909845
+2026-05-21 17:04:43,555 [INFO] [147] Scraped: https://avtoelon.uz/a/show/6909712
+2026-05-21 17:04:50,013 [INFO] [148] Scraped: https://avtoelon.uz/a/show/7140995
+2026-05-21 17:04:54,254 [INFO] [149] Scraped: https://avtoelon.uz/a/show/6684487
+2026-05-21 17:04:58,121 [INFO] [150] Scraped: https://avtoelon.uz/a/show/6904654
+2026-05-21 17:05:01,119 [INFO] [151] Scraped: https://avtoelon.uz/a/show/6217616
+2026-05-21 17:05:04,438 [INFO] [152] Scraped: https://avtoelon.uz/a/show/6217330
+2026-05-21 17:05:07,322 [INFO] [153] Scraped: https://avtoelon.uz/a/show/6173501
+2026-05-21 17:05:10,567 [INFO] [154] Scraped: https://avtoelon.uz/a/show/5721760
+2026-05-21 17:05:12,991 [INFO] Saved 19 new rows → scraper/data/avtoelon_car_data.csv (total 335)
+2026-05-21 17:05:12,991 [INFO] Finished page 8/25 — 154 new total
+2026-05-21 17:05:16,110 [INFO] Page 9: found 30 listing URLs
+2026-05-21 17:05:17,272 [INFO] [155] Scraped: https://avtoelon.uz/a/show/6684574
+2026-05-21 17:05:19,969 [INFO] [156] Scraped: https://avtoelon.uz/a/show/6947125
+2026-05-21 17:05:23,606 [INFO] [157] Scraped: https://avtoelon.uz/a/show/5270821
+2026-05-21 17:05:26,799 [INFO] [158] Scraped: https://avtoelon.uz/a/show/6904681
+2026-05-21 17:05:29,418 [INFO] [159] Scraped: https://avtoelon.uz/a/show/7143637
+2026-05-21 17:05:32,362 [INFO] [160] Scraped: https://avtoelon.uz/a/show/6904663
+2026-05-21 17:05:34,921 [INFO] [161] Scraped: https://avtoelon.uz/a/show/6174214
+2026-05-21 17:05:37,533 [INFO] [162] Scraped: https://avtoelon.uz/a/show/6174226
+2026-05-21 17:05:41,012 [INFO] [163] Scraped: https://avtoelon.uz/a/show/6173553
+2026-05-21 17:05:43,580 [INFO] [164] Scraped: https://avtoelon.uz/a/show/5718208
+2026-05-21 17:05:46,267 [INFO] [165] Scraped: https://avtoelon.uz/a/show/6961544
+2026-05-21 17:05:49,035 [INFO] [166] Scraped: https://avtoelon.uz/a/show/7268098
+2026-05-21 17:05:52,659 [INFO] [167] Scraped: https://avtoelon.uz/a/show/7256561
+2026-05-21 17:05:55,762 [INFO] [168] Scraped: https://avtoelon.uz/a/show/6937150
+2026-05-21 17:05:59,044 [INFO] [169] Scraped: https://avtoelon.uz/a/show/6703507
+2026-05-21 17:06:01,837 [INFO] [170] Scraped: https://avtoelon.uz/a/show/7143672
+2026-05-21 17:06:04,951 [INFO] [171] Scraped: https://avtoelon.uz/a/show/6909790
+2026-05-21 17:06:08,635 [INFO] [172] Scraped: https://avtoelon.uz/a/show/6904538
+2026-05-21 17:06:11,603 [INFO] [173] Scraped: https://avtoelon.uz/a/show/6684529
+2026-05-21 17:06:14,165 [INFO] [174] Scraped: https://avtoelon.uz/a/show/6947115
+2026-05-21 17:06:17,169 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 355)
+2026-05-21 17:06:17,170 [INFO] Finished page 9/25 — 174 new total
+2026-05-21 17:06:20,938 [INFO] Page 10: found 30 listing URLs
+2026-05-21 17:06:21,741 [INFO] [175] Scraped: https://avtoelon.uz/a/show/7245131
+2026-05-21 17:06:24,860 [INFO] [176] Scraped: https://avtoelon.uz/a/show/6700928
+2026-05-21 17:06:27,272 [INFO] [177] Scraped: https://avtoelon.uz/a/show/6772162
+2026-05-21 17:06:30,398 [INFO] [178] Scraped: https://avtoelon.uz/a/show/6772077
+2026-05-21 17:06:33,225 [INFO] [179] Scraped: https://avtoelon.uz/a/show/6771778
+2026-05-21 17:06:35,789 [INFO] [180] Scraped: https://avtoelon.uz/a/show/7202758
+2026-05-21 17:06:38,362 [INFO] [181] Scraped: https://avtoelon.uz/a/show/7159452
+2026-05-21 17:06:40,913 [INFO] [182] Scraped: https://avtoelon.uz/a/show/7267463
+2026-05-21 17:06:43,041 [INFO] [183] Scraped: https://avtoelon.uz/a/show/7262613
+2026-05-21 17:06:46,977 [INFO] [184] Scraped: https://avtoelon.uz/a/show/7239893
+2026-05-21 17:06:50,195 [INFO] [185] Scraped: https://avtoelon.uz/a/show/7112744
+2026-05-21 17:06:52,729 [INFO] [186] Scraped: https://avtoelon.uz/a/show/7272301
+2026-05-21 17:06:54,452 [INFO] Saved 12 new rows → scraper/data/avtoelon_car_data.csv (total 367)
+2026-05-21 17:06:54,453 [INFO] Finished page 10/25 — 186 new total
+2026-05-21 17:06:58,899 [INFO] Page 11: found 30 listing URLs
+2026-05-21 17:06:59,392 [INFO] [187] Scraped: https://avtoelon.uz/a/show/6456844
+2026-05-21 17:07:02,287 [INFO] [188] Scraped: https://avtoelon.uz/a/show/6456877
+2026-05-21 17:07:04,466 [INFO] [189] Scraped: https://avtoelon.uz/a/show/7272615
+2026-05-21 17:07:07,622 [INFO] [190] Scraped: https://avtoelon.uz/a/show/7061484
+2026-05-21 17:07:10,943 [INFO] [191] Scraped: https://avtoelon.uz/a/show/7061489
+2026-05-21 17:07:13,595 [INFO] [192] Scraped: https://avtoelon.uz/a/show/7265833
+2026-05-21 17:07:16,690 [INFO] [193] Scraped: https://avtoelon.uz/a/show/7272587
+2026-05-21 17:07:20,519 [INFO] [194] Scraped: https://avtoelon.uz/a/show/5391987
+2026-05-21 17:07:23,108 [INFO] [195] Scraped: https://avtoelon.uz/a/show/6071382
+2026-05-21 17:07:26,007 [INFO] [196] Scraped: https://avtoelon.uz/a/show/6772166
+2026-05-21 17:07:28,221 [INFO] [197] Scraped: https://avtoelon.uz/a/show/7203065
+2026-05-21 17:07:30,999 [INFO] [198] Scraped: https://avtoelon.uz/a/show/7263265
+2026-05-21 17:07:34,245 [INFO] [199] Scraped: https://avtoelon.uz/a/show/6903331
+2026-05-21 17:07:36,495 [INFO] [200] Scraped: https://avtoelon.uz/a/show/6415041
+2026-05-21 17:07:39,568 [INFO] [201] Scraped: https://avtoelon.uz/a/show/6700894
+2026-05-21 17:07:41,826 [INFO] [202] Scraped: https://avtoelon.uz/a/show/7130811
+2026-05-21 17:07:45,557 [INFO] [203] Scraped: https://avtoelon.uz/a/show/6851404
+2026-05-21 17:07:48,352 [INFO] [204] Scraped: https://avtoelon.uz/a/show/6851394
+2026-05-21 17:07:51,168 [INFO] [205] Scraped: https://avtoelon.uz/a/show/5392133
+2026-05-21 17:07:54,861 [INFO] [206] Scraped: https://avtoelon.uz/a/show/5670681
+2026-05-21 17:07:57,998 [INFO] [207] Scraped: https://avtoelon.uz/a/show/5392024
+2026-05-21 17:08:00,019 [INFO] Saved 21 new rows → scraper/data/avtoelon_car_data.csv (total 388)
+2026-05-21 17:08:00,019 [INFO] Finished page 11/25 — 207 new total
+2026-05-21 17:08:03,689 [INFO] Page 12: found 30 listing URLs
+2026-05-21 17:08:04,755 [INFO] [208] Scraped: https://avtoelon.uz/a/show/6772080
+2026-05-21 17:08:08,443 [INFO] [209] Scraped: https://avtoelon.uz/a/show/7263266
+2026-05-21 17:08:11,271 [INFO] [210] Scraped: https://avtoelon.uz/a/show/7112672
+2026-05-21 17:08:14,493 [INFO] [211] Scraped: https://avtoelon.uz/a/show/7226432
+2026-05-21 17:08:17,531 [INFO] [212] Scraped: https://avtoelon.uz/a/show/6965888
+2026-05-21 17:08:20,557 [INFO] [213] Scraped: https://avtoelon.uz/a/show/6703499
+2026-05-21 17:08:23,421 [INFO] [214] Scraped: https://avtoelon.uz/a/show/7081026
+2026-05-21 17:08:27,623 [INFO] [215] Scraped: https://avtoelon.uz/a/show/6909811
+2026-05-21 17:08:30,863 [INFO] [216] Scraped: https://avtoelon.uz/a/show/6909726
+2026-05-21 17:08:33,347 [INFO] [217] Scraped: https://avtoelon.uz/a/show/6857589
+2026-05-21 17:08:36,329 [INFO] [218] Scraped: https://avtoelon.uz/a/show/6857583
+2026-05-21 17:08:39,576 [INFO] [219] Scraped: https://avtoelon.uz/a/show/6961529
+2026-05-21 17:08:42,813 [INFO] [220] Scraped: https://avtoelon.uz/a/show/7268233
+2026-05-21 17:08:45,916 [INFO] [221] Scraped: https://avtoelon.uz/a/show/6947122
+2026-05-21 17:08:49,471 [INFO] [222] Scraped: https://avtoelon.uz/a/show/5721909
+2026-05-21 17:08:52,106 [INFO] [223] Scraped: https://avtoelon.uz/a/show/5702870
+2026-05-21 17:08:54,663 [INFO] [224] Scraped: https://avtoelon.uz/a/show/5721775
+2026-05-21 17:08:58,274 [INFO] [225] Scraped: https://avtoelon.uz/a/show/5839037
+2026-05-21 17:09:01,912 [INFO] [226] Scraped: https://avtoelon.uz/a/show/7044457
+2026-05-21 17:09:05,584 [INFO] [227] Scraped: https://avtoelon.uz/a/show/6937842
+2026-05-21 17:09:07,267 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 408)
+2026-05-21 17:09:07,267 [INFO] Finished page 12/25 — 227 new total
+2026-05-21 17:09:10,611 [INFO] Page 13: found 30 listing URLs
+2026-05-21 17:09:11,316 [INFO] [228] Scraped: https://avtoelon.uz/a/show/5270811
+2026-05-21 17:09:14,183 [INFO] [229] Scraped: https://avtoelon.uz/a/show/5270948
+2026-05-21 17:09:18,133 [INFO] [230] Scraped: https://avtoelon.uz/a/show/5270917
+2026-05-21 17:09:20,428 [INFO] [231] Scraped: https://avtoelon.uz/a/show/6174207
+2026-05-21 17:09:23,680 [INFO] [232] Scraped: https://avtoelon.uz/a/show/6217587
+2026-05-21 17:09:26,164 [INFO] [233] Scraped: https://avtoelon.uz/a/show/6174196
+2026-05-21 17:09:28,930 [INFO] [234] Scraped: https://avtoelon.uz/a/show/6173492
+2026-05-21 17:09:31,783 [INFO] [235] Scraped: https://avtoelon.uz/a/show/5718220
+2026-05-21 17:09:34,783 [INFO] [236] Scraped: https://avtoelon.uz/a/show/5718196
+2026-05-21 17:09:38,316 [INFO] [237] Scraped: https://avtoelon.uz/a/show/7171248
+2026-05-21 17:09:41,756 [INFO] [238] Scraped: https://avtoelon.uz/a/show/7256532
+2026-05-21 17:09:44,272 [INFO] [239] Scraped: https://avtoelon.uz/a/show/7256521
+2026-05-21 17:09:47,910 [INFO] [240] Scraped: https://avtoelon.uz/a/show/6937861
+2026-05-21 17:09:51,042 [INFO] [241] Scraped: https://avtoelon.uz/a/show/5536555
+2026-05-21 17:09:54,455 [INFO] [242] Scraped: https://avtoelon.uz/a/show/6904632
+2026-05-21 17:09:58,176 [INFO] [243] Scraped: https://avtoelon.uz/a/show/6178959
+2026-05-21 17:10:00,842 [INFO] [244] Scraped: https://avtoelon.uz/a/show/6217604
+2026-05-21 17:10:03,329 [INFO] [245] Scraped: https://avtoelon.uz/a/show/6174191
+2026-05-21 17:10:06,708 [INFO] [246] Scraped: https://avtoelon.uz/a/show/6173485
+2026-05-21 17:10:10,229 [INFO] [247] Scraped: https://avtoelon.uz/a/show/6058781
+2026-05-21 17:10:12,469 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 428)
+2026-05-21 17:10:12,469 [INFO] Finished page 13/25 — 247 new total
+2026-05-21 17:10:15,787 [INFO] Page 14: found 30 listing URLs
+2026-05-21 17:10:16,755 [INFO] [248] Scraped: https://avtoelon.uz/a/show/6937857
+2026-05-21 17:10:19,476 [INFO] [249] Scraped: https://avtoelon.uz/a/show/6414501
+2026-05-21 17:10:22,732 [INFO] [250] Scraped: https://avtoelon.uz/a/show/6415069
+2026-05-21 17:10:25,645 [INFO] [251] Scraped: https://avtoelon.uz/a/show/7001150
+2026-05-21 17:10:28,147 [INFO] [252] Scraped: https://avtoelon.uz/a/show/6456874
+2026-05-21 17:10:31,853 [INFO] [253] Scraped: https://avtoelon.uz/a/show/6456870
+2026-05-21 17:10:35,464 [INFO] [254] Scraped: https://avtoelon.uz/a/show/7061499
+2026-05-21 17:10:37,766 [INFO] [255] Scraped: https://avtoelon.uz/a/show/7061508
+2026-05-21 17:10:41,643 [INFO] [256] Scraped: https://avtoelon.uz/a/show/5670643
+2026-05-21 17:10:44,022 [INFO] [257] Scraped: https://avtoelon.uz/a/show/5670622
+2026-05-21 17:10:47,266 [INFO] [258] Scraped: https://avtoelon.uz/a/show/5670671
+2026-05-21 17:10:50,554 [INFO] [259] Scraped: https://avtoelon.uz/a/show/6772073
+2026-05-21 17:10:53,250 [INFO] [260] Scraped: https://avtoelon.uz/a/show/6772057
+2026-05-21 17:10:57,026 [INFO] [261] Scraped: https://avtoelon.uz/a/show/6771762
+2026-05-21 17:10:59,565 [INFO] [262] Scraped: https://avtoelon.uz/a/show/6771773
+2026-05-21 17:11:02,824 [INFO] [263] Scraped: https://avtoelon.uz/a/show/7256533
+2026-05-21 17:11:06,546 [INFO] [264] Scraped: https://avtoelon.uz/a/show/7081027
+2026-05-21 17:11:09,019 [INFO] [265] Scraped: https://avtoelon.uz/a/show/6909694
+2026-05-21 17:11:11,351 [INFO] [266] Scraped: https://avtoelon.uz/a/show/6909721
+2026-05-21 17:11:14,899 [INFO] [267] Scraped: https://avtoelon.uz/a/show/6904573
+2026-05-21 17:11:16,596 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 448)
+2026-05-21 17:11:16,597 [INFO] Finished page 14/25 — 267 new total
+2026-05-21 17:11:19,319 [INFO] Page 15: found 30 listing URLs
+2026-05-21 17:11:19,899 [INFO] [268] Scraped: https://avtoelon.uz/a/show/7133252
+2026-05-21 17:11:22,208 [INFO] [269] Scraped: https://avtoelon.uz/a/show/7112676
+2026-05-21 17:11:25,503 [INFO] [270] Scraped: https://avtoelon.uz/a/show/7042973
+2026-05-21 17:11:29,231 [INFO] [271] Scraped: https://avtoelon.uz/a/show/6536480
+2026-05-21 17:11:33,376 [INFO] [272] Scraped: https://avtoelon.uz/a/show/6571763
+2026-05-21 17:11:36,605 [INFO] [273] Scraped: https://avtoelon.uz/a/show/7112701
+2026-05-21 17:11:40,099 [INFO] [274] Scraped: https://avtoelon.uz/a/show/7245697
+2026-05-21 17:11:42,313 [INFO] [275] Scraped: https://avtoelon.uz/a/show/7224525
+2026-05-21 17:11:46,055 [INFO] [276] Scraped: https://avtoelon.uz/a/show/7257247
+2026-05-21 17:11:49,204 [INFO] [277] Scraped: https://avtoelon.uz/a/show/5392028
+2026-05-21 17:11:51,780 [INFO] [278] Scraped: https://avtoelon.uz/a/show/7214778
+2026-05-21 17:11:53,953 [INFO] [279] Scraped: https://avtoelon.uz/a/show/7262629
+2026-05-21 17:11:56,590 [INFO] [280] Scraped: https://avtoelon.uz/a/show/7265712
+2026-05-21 17:12:00,250 [INFO] [281] Scraped: https://avtoelon.uz/a/show/7272298
+2026-05-21 17:12:03,009 [INFO] [282] Scraped: https://avtoelon.uz/a/show/7267894
+2026-05-21 17:12:05,325 [INFO] [283] Scraped: https://avtoelon.uz/a/show/7259516
+2026-05-21 17:12:07,109 [INFO] Saved 16 new rows → scraper/data/avtoelon_car_data.csv (total 464)
+2026-05-21 17:12:07,109 [INFO] Finished page 15/25 — 283 new total
+2026-05-21 17:12:09,631 [INFO] Page 16: found 30 listing URLs
+2026-05-21 17:12:10,765 [INFO] [284] Scraped: https://avtoelon.uz/a/show/6904599
+2026-05-21 17:12:13,708 [INFO] [285] Scraped: https://avtoelon.uz/a/show/6904698
+2026-05-21 17:12:16,755 [INFO] [286] Scraped: https://avtoelon.uz/a/show/5270745
+2026-05-21 17:12:19,624 [INFO] [287] Scraped: https://avtoelon.uz/a/show/5439654
+2026-05-21 17:12:23,049 [INFO] [288] Scraped: https://avtoelon.uz/a/show/6178943
+2026-05-21 17:12:26,005 [INFO] [289] Scraped: https://avtoelon.uz/a/show/7256468
+2026-05-21 17:12:29,746 [INFO] [290] Scraped: https://avtoelon.uz/a/show/6174221
+2026-05-21 17:12:33,063 [INFO] [291] Scraped: https://avtoelon.uz/a/show/6173511
+2026-05-21 17:12:36,396 [INFO] [292] Scraped: https://avtoelon.uz/a/show/7171345
+2026-05-21 17:12:38,801 [INFO] [293] Scraped: https://avtoelon.uz/a/show/6937884
+2026-05-21 17:12:41,456 [INFO] [294] Scraped: https://avtoelon.uz/a/show/7270732
+2026-05-21 17:12:44,901 [INFO] [295] Scraped: https://avtoelon.uz/a/show/6456856
+2026-05-21 17:12:47,478 [INFO] [296] Scraped: https://avtoelon.uz/a/show/6456951
+2026-05-21 17:12:50,856 [INFO] [297] Scraped: https://avtoelon.uz/a/show/5670593
+2026-05-21 17:12:53,272 [INFO] [298] Scraped: https://avtoelon.uz/a/show/5670632
+2026-05-21 17:12:55,890 [INFO] [299] Scraped: https://avtoelon.uz/a/show/7270187
+2026-05-21 17:12:58,334 [INFO] [300] Scraped: https://avtoelon.uz/a/show/7256496
+2026-05-21 17:13:00,872 [INFO] [301] Scraped: https://avtoelon.uz/a/show/6937838
+2026-05-21 17:13:04,586 [INFO] [302] Scraped: https://avtoelon.uz/a/show/5354120
+2026-05-21 17:13:07,119 [INFO] Saved 19 new rows → scraper/data/avtoelon_car_data.csv (total 483)
+2026-05-21 17:13:07,120 [INFO] Finished page 16/25 — 302 new total
+2026-05-21 17:13:09,514 [INFO] Page 17: found 30 listing URLs
+2026-05-21 17:13:10,243 [INFO] [303] Scraped: https://avtoelon.uz/a/show/7203032
+2026-05-21 17:13:13,281 [INFO] [304] Scraped: https://avtoelon.uz/a/show/7138825
+2026-05-21 17:13:17,698 [INFO] [305] Scraped: https://avtoelon.uz/a/show/7198306
+2026-05-21 17:13:20,099 [INFO] [306] Scraped: https://avtoelon.uz/a/show/6951885
+2026-05-21 17:13:22,098 [INFO] [307] Scraped: https://avtoelon.uz/a/show/7270389
+2026-05-21 17:13:24,702 [INFO] [308] Scraped: https://avtoelon.uz/a/show/7270348
+2026-05-21 17:13:27,909 [INFO] [309] Scraped: https://avtoelon.uz/a/show/7254851
+2026-05-21 17:13:30,585 [INFO] [310] Scraped: https://avtoelon.uz/a/show/7141106
+2026-05-21 17:13:33,864 [INFO] [311] Scraped: https://avtoelon.uz/a/show/7272507
+2026-05-21 17:13:37,052 [INFO] [312] Scraped: https://avtoelon.uz/a/show/7061816
+2026-05-21 17:13:39,759 [INFO] [313] Scraped: https://avtoelon.uz/a/show/5261786
+2026-05-21 17:13:43,429 [INFO] [314] Scraped: https://avtoelon.uz/a/show/5261754
+2026-05-21 17:13:46,614 [INFO] [315] Scraped: https://avtoelon.uz/a/show/6904770
+2026-05-21 17:13:49,561 [INFO] [316] Scraped: https://avtoelon.uz/a/show/5263120
+2026-05-21 17:13:53,147 [INFO] [317] Scraped: https://avtoelon.uz/a/show/5270795
+2026-05-21 17:13:55,682 [INFO] [318] Scraped: https://avtoelon.uz/a/show/5363175
+2026-05-21 17:13:58,031 [INFO] [319] Scraped: https://avtoelon.uz/a/show/5363145
+2026-05-21 17:14:01,746 [INFO] [320] Scraped: https://avtoelon.uz/a/show/5270889
+2026-05-21 17:14:05,155 [INFO] [321] Scraped: https://avtoelon.uz/a/show/7171320
+2026-05-21 17:14:08,726 [INFO] [322] Scraped: https://avtoelon.uz/a/show/7171313
+2026-05-21 17:14:11,516 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 503)
+2026-05-21 17:14:11,517 [INFO] Finished page 17/25 — 322 new total
+2026-05-21 17:14:14,476 [INFO] Page 18: found 30 listing URLs
+2026-05-21 17:14:15,438 [INFO] [323] Scraped: https://avtoelon.uz/a/show/6217563
+2026-05-21 17:14:18,124 [INFO] [324] Scraped: https://avtoelon.uz/a/show/6217553
+2026-05-21 17:14:21,810 [INFO] [325] Scraped: https://avtoelon.uz/a/show/6217629
+2026-05-21 17:14:25,467 [INFO] [326] Scraped: https://avtoelon.uz/a/show/7171368
+2026-05-21 17:14:28,854 [INFO] [327] Scraped: https://avtoelon.uz/a/show/7171389
+2026-05-21 17:14:31,836 [INFO] [328] Scraped: https://avtoelon.uz/a/show/6937157
+2026-05-21 17:14:34,994 [INFO] [329] Scraped: https://avtoelon.uz/a/show/6456879
+2026-05-21 17:14:39,408 [INFO] [330] Scraped: https://avtoelon.uz/a/show/6456865
+2026-05-21 17:14:42,394 [INFO] [331] Scraped: https://avtoelon.uz/a/show/5963177
+2026-05-21 17:14:46,889 [INFO] [332] Scraped: https://avtoelon.uz/a/show/5392089
+2026-05-21 17:14:49,974 [INFO] [333] Scraped: https://avtoelon.uz/a/show/6071477
+2026-05-21 17:14:52,821 [INFO] [334] Scraped: https://avtoelon.uz/a/show/7229639
+2026-05-21 17:14:56,626 [INFO] [335] Scraped: https://avtoelon.uz/a/show/5270905
+2026-05-21 17:15:00,255 [INFO] [336] Scraped: https://avtoelon.uz/a/show/5424771
+2026-05-21 17:15:03,095 [INFO] [337] Scraped: https://avtoelon.uz/a/show/6217593
+2026-05-21 17:15:06,353 [INFO] [338] Scraped: https://avtoelon.uz/a/show/6217614
+2026-05-21 17:15:09,039 [INFO] Saved 16 new rows → scraper/data/avtoelon_car_data.csv (total 519)
+2026-05-21 17:15:09,040 [INFO] Finished page 18/25 — 338 new total
+2026-05-21 17:15:13,160 [INFO] Page 19: found 30 listing URLs
+2026-05-21 17:15:14,464 [INFO] [339] Scraped: https://avtoelon.uz/a/show/7259807
+2026-05-21 17:15:18,048 [INFO] [340] Scraped: https://avtoelon.uz/a/show/7205327
+2026-05-21 17:15:21,078 [INFO] [341] Scraped: https://avtoelon.uz/a/show/7266069
+2026-05-21 17:15:24,079 [INFO] [342] Scraped: https://avtoelon.uz/a/show/7143482
+2026-05-21 17:15:27,135 [INFO] [343] Scraped: https://avtoelon.uz/a/show/5261836
+2026-05-21 17:15:30,215 [INFO] [344] Scraped: https://avtoelon.uz/a/show/5388457
+2026-05-21 17:15:33,222 [INFO] [345] Scraped: https://avtoelon.uz/a/show/6904778
+2026-05-21 17:15:36,626 [INFO] [346] Scraped: https://avtoelon.uz/a/show/5719083
+2026-05-21 17:15:39,124 [INFO] [347] Scraped: https://avtoelon.uz/a/show/5270788
+2026-05-21 17:15:41,705 [INFO] [348] Scraped: https://avtoelon.uz/a/show/6217625
+2026-05-21 17:15:44,708 [INFO] [349] Scraped: https://avtoelon.uz/a/show/6217638
+2026-05-21 17:15:47,138 [INFO] [350] Scraped: https://avtoelon.uz/a/show/6937850
+2026-05-21 17:15:49,805 [INFO] [351] Scraped: https://avtoelon.uz/a/show/5392026
+2026-05-21 17:15:53,453 [INFO] [352] Scraped: https://avtoelon.uz/a/show/5392094
+2026-05-21 17:15:56,807 [INFO] [353] Scraped: https://avtoelon.uz/a/show/7268175
+2026-05-21 17:16:00,567 [INFO] [354] Scraped: https://avtoelon.uz/a/show/7246235
+2026-05-21 17:16:02,918 [INFO] [355] Scraped: https://avtoelon.uz/a/show/7083715
+2026-05-21 17:16:05,392 [INFO] Saved 17 new rows → scraper/data/avtoelon_car_data.csv (total 536)
+2026-05-21 17:16:05,392 [INFO] Finished page 19/25 — 355 new total
+2026-05-21 17:16:08,657 [INFO] Page 20: found 30 listing URLs
+2026-05-21 17:16:09,180 [INFO] [356] Scraped: https://avtoelon.uz/a/show/7168734
+2026-05-21 17:16:12,264 [INFO] [357] Scraped: https://avtoelon.uz/a/show/7209791
+2026-05-21 17:16:15,750 [INFO] [358] Scraped: https://avtoelon.uz/a/show/7229606
+2026-05-21 17:16:19,825 [INFO] [359] Scraped: https://avtoelon.uz/a/show/7229611
+2026-05-21 17:16:23,742 [INFO] [360] Scraped: https://avtoelon.uz/a/show/7268165
+2026-05-21 17:16:26,963 [INFO] [361] Scraped: https://avtoelon.uz/a/show/7151296
+2026-05-21 17:16:29,568 [INFO] [362] Scraped: https://avtoelon.uz/a/show/5261780
+2026-05-21 17:16:31,933 [INFO] [363] Scraped: https://avtoelon.uz/a/show/5566408
+2026-05-21 17:16:34,791 [INFO] [364] Scraped: https://avtoelon.uz/a/show/7194519
+2026-05-21 17:16:38,443 [INFO] [365] Scraped: https://avtoelon.uz/a/show/5413072
+2026-05-21 17:16:41,669 [INFO] [366] Scraped: https://avtoelon.uz/a/show/5388395
+2026-05-21 17:16:44,542 [INFO] [367] Scraped: https://avtoelon.uz/a/show/7143459
+2026-05-21 17:16:47,900 [INFO] [368] Scraped: https://avtoelon.uz/a/show/7262665
+2026-05-21 17:17:04,512 [WARNING] Timeout on https://avtoelon.uz/a/show/7226908 (attempt 1)
+2026-05-21 17:17:06,344 [INFO] [369] Scraped: https://avtoelon.uz/a/show/7226908
+2026-05-21 17:17:09,180 [INFO] [370] Scraped: https://avtoelon.uz/a/show/7214383
+2026-05-21 17:17:12,144 [INFO] [371] Scraped: https://avtoelon.uz/a/show/7262690
+2026-05-21 17:17:14,806 [INFO] Saved 16 new rows → scraper/data/avtoelon_car_data.csv (total 552)
+2026-05-21 17:17:14,807 [INFO] Finished page 20/25 — 371 new total
+2026-05-21 17:17:17,501 [INFO] Page 21: found 30 listing URLs
+2026-05-21 17:17:18,260 [INFO] [372] Scraped: https://avtoelon.uz/a/show/5263480
+2026-05-21 17:17:21,172 [INFO] [373] Scraped: https://avtoelon.uz/a/show/5363160
+2026-05-21 17:17:24,755 [INFO] [374] Scraped: https://avtoelon.uz/a/show/5270848
+2026-05-21 17:17:27,917 [INFO] [375] Scraped: https://avtoelon.uz/a/show/5723310
+2026-05-21 17:17:31,146 [INFO] [376] Scraped: https://avtoelon.uz/a/show/6174313
+2026-05-21 17:17:33,440 [INFO] [377] Scraped: https://avtoelon.uz/a/show/6217452
+2026-05-21 17:17:36,873 [INFO] [378] Scraped: https://avtoelon.uz/a/show/7257195
+2026-05-21 17:17:39,108 [INFO] [379] Scraped: https://avtoelon.uz/a/show/7263150
+2026-05-21 17:17:42,790 [INFO] [380] Scraped: https://avtoelon.uz/a/show/7268163
+2026-05-21 17:17:45,763 [INFO] [381] Scraped: https://avtoelon.uz/a/show/7265970
+2026-05-21 17:17:49,050 [INFO] [382] Scraped: https://avtoelon.uz/a/show/7265947
+2026-05-21 17:17:52,756 [INFO] [383] Scraped: https://avtoelon.uz/a/show/7265986
+2026-05-21 17:17:55,715 [INFO] [384] Scraped: https://avtoelon.uz/a/show/7263121
+2026-05-21 17:17:58,306 [INFO] [385] Scraped: https://avtoelon.uz/a/show/7248556
+2026-05-21 17:18:01,322 [INFO] [386] Scraped: https://avtoelon.uz/a/show/5566401
+2026-05-21 17:18:03,997 [INFO] [387] Scraped: https://avtoelon.uz/a/show/6904749
+2026-05-21 17:18:06,762 [INFO] [388] Scraped: https://avtoelon.uz/a/show/5263149
+2026-05-21 17:18:09,424 [INFO] [389] Scraped: https://avtoelon.uz/a/show/6071488
+2026-05-21 17:18:11,546 [INFO] Saved 18 new rows → scraper/data/avtoelon_car_data.csv (total 570)
+2026-05-21 17:18:11,547 [INFO] Finished page 21/25 — 389 new total
+2026-05-21 17:18:15,140 [INFO] Page 22: found 30 listing URLs
+2026-05-21 17:18:16,078 [INFO] [390] Scraped: https://avtoelon.uz/a/show/5388426
+2026-05-21 17:18:19,360 [INFO] [391] Scraped: https://avtoelon.uz/a/show/6904677
+2026-05-21 17:18:22,840 [INFO] [392] Scraped: https://avtoelon.uz/a/show/7143520
+2026-05-21 17:18:26,009 [INFO] [393] Scraped: https://avtoelon.uz/a/show/7206159
+2026-05-21 17:18:28,677 [INFO] [394] Scraped: https://avtoelon.uz/a/show/7257168
+2026-05-21 17:18:30,986 [INFO] [395] Scraped: https://avtoelon.uz/a/show/7224504
+2026-05-21 17:18:33,182 [INFO] [396] Scraped: https://avtoelon.uz/a/show/7268121
+2026-05-21 17:18:36,462 [INFO] [397] Scraped: https://avtoelon.uz/a/show/6727323
+2026-05-21 17:18:39,257 [INFO] [398] Scraped: https://avtoelon.uz/a/show/7257183
+2026-05-21 17:18:42,666 [INFO] [399] Scraped: https://avtoelon.uz/a/show/7257161
+2026-05-21 17:18:45,982 [INFO] [400] Scraped: https://avtoelon.uz/a/show/7232019
+2026-05-21 17:18:49,028 [INFO] [401] Scraped: https://avtoelon.uz/a/show/7259758
+2026-05-21 17:18:51,206 [INFO] [402] Scraped: https://avtoelon.uz/a/show/7259676
+2026-05-21 17:18:53,585 [INFO] [403] Scraped: https://avtoelon.uz/a/show/7083662
+2026-05-21 17:18:56,923 [INFO] [404] Scraped: https://avtoelon.uz/a/show/7270196
+2026-05-21 17:19:00,167 [INFO] [405] Scraped: https://avtoelon.uz/a/show/7218714
+2026-05-21 17:19:03,668 [INFO] [406] Scraped: https://avtoelon.uz/a/show/7237348
+2026-05-21 17:19:06,871 [INFO] [407] Scraped: https://avtoelon.uz/a/show/7248285
+2026-05-21 17:19:09,384 [INFO] [408] Scraped: https://avtoelon.uz/a/show/5566393
+2026-05-21 17:19:12,406 [INFO] [409] Scraped: https://avtoelon.uz/a/show/5261824
+2026-05-21 17:19:15,959 [INFO] [410] Scraped: https://avtoelon.uz/a/show/6937856
+2026-05-21 17:19:18,828 [INFO] [411] Scraped: https://avtoelon.uz/a/show/6937862
+2026-05-21 17:19:20,652 [INFO] Saved 22 new rows → scraper/data/avtoelon_car_data.csv (total 592)
+2026-05-21 17:19:20,653 [INFO] Finished page 22/25 — 411 new total
+2026-05-21 17:19:23,816 [INFO] Page 23: found 30 listing URLs
+2026-05-21 17:19:24,977 [INFO] [412] Scraped: https://avtoelon.uz/a/show/6904757
+2026-05-21 17:19:28,143 [INFO] [413] Scraped: https://avtoelon.uz/a/show/6904764
+2026-05-21 17:19:30,740 [INFO] [414] Scraped: https://avtoelon.uz/a/show/5263242
+2026-05-21 17:19:33,146 [INFO] [415] Scraped: https://avtoelon.uz/a/show/5263390
+2026-05-21 17:19:36,166 [INFO] [416] Scraped: https://avtoelon.uz/a/show/7266527
+2026-05-21 17:19:39,003 [INFO] [417] Scraped: https://avtoelon.uz/a/show/7272524
+2026-05-21 17:19:41,874 [INFO] [418] Scraped: https://avtoelon.uz/a/show/7270322
+2026-05-21 17:19:45,005 [INFO] [419] Scraped: https://avtoelon.uz/a/show/7268132
+2026-05-21 17:19:47,114 [INFO] [420] Scraped: https://avtoelon.uz/a/show/7270335
+2026-05-21 17:19:50,619 [INFO] [421] Scraped: https://avtoelon.uz/a/show/7265957
+2026-05-21 17:19:53,301 [INFO] [422] Scraped: https://avtoelon.uz/a/show/7202980
+2026-05-21 17:19:55,768 [INFO] [423] Scraped: https://avtoelon.uz/a/show/7265934
+2026-05-21 17:19:58,105 [INFO] [424] Scraped: https://avtoelon.uz/a/show/7272526
+2026-05-21 17:20:01,488 [INFO] [425] Scraped: https://avtoelon.uz/a/show/5566407
+2026-05-21 17:20:04,748 [INFO] [426] Scraped: https://avtoelon.uz/a/show/6904741
+2026-05-21 17:20:08,411 [INFO] [427] Scraped: https://avtoelon.uz/a/show/5263159
+2026-05-21 17:20:12,002 [INFO] [428] Scraped: https://avtoelon.uz/a/show/5263252
+2026-05-21 17:20:15,487 [INFO] [429] Scraped: https://avtoelon.uz/a/show/5413058
+2026-05-21 17:20:17,930 [INFO] [430] Scraped: https://avtoelon.uz/a/show/5263223
+2026-05-21 17:20:21,007 [INFO] [431] Scraped: https://avtoelon.uz/a/show/5566366
+2026-05-21 17:20:23,217 [INFO] Saved 20 new rows → scraper/data/avtoelon_car_data.csv (total 612)
+2026-05-21 17:20:23,218 [INFO] Finished page 23/25 — 431 new total
+2026-05-21 17:20:26,265 [INFO] Page 24: found 30 listing URLs
+2026-05-21 17:20:26,931 [INFO] [432] Scraped: https://avtoelon.uz/a/show/6904709
+2026-05-21 17:20:30,031 [INFO] [433] Scraped: https://avtoelon.uz/a/show/5471875
+2026-05-21 17:20:32,683 [INFO] [434] Scraped: https://avtoelon.uz/a/show/5389165
+2026-05-21 17:20:35,918 [INFO] [435] Scraped: https://avtoelon.uz/a/show/7237227
+2026-05-21 17:20:38,438 [INFO] [436] Scraped: https://avtoelon.uz/a/show/7265880
+2026-05-21 17:20:40,878 [INFO] [437] Scraped: https://avtoelon.uz/a/show/7259291
+2026-05-21 17:20:44,149 [INFO] [438] Scraped: https://avtoelon.uz/a/show/7265738
+2026-05-21 17:20:47,710 [INFO] [439] Scraped: https://avtoelon.uz/a/show/7200278
+2026-05-21 17:20:50,661 [INFO] [440] Scraped: https://avtoelon.uz/a/show/7257145
+2026-05-21 17:20:54,130 [INFO] [441] Scraped: https://avtoelon.uz/a/show/5565893
+2026-05-21 17:20:56,513 [INFO] [442] Scraped: https://avtoelon.uz/a/show/7272483
+2026-05-21 17:20:59,912 [INFO] [443] Scraped: https://avtoelon.uz/a/show/6904720
+2026-05-21 17:21:02,703 [INFO] [444] Scraped: https://avtoelon.uz/a/show/4914970
+2026-05-21 17:21:04,828 [INFO] Saved 13 new rows → scraper/data/avtoelon_car_data.csv (total 625)
+2026-05-21 17:21:04,828 [INFO] Finished page 24/25 — 444 new total
+2026-05-21 17:21:07,774 [INFO] Page 25: found 30 listing URLs
+2026-05-21 17:21:08,671 [INFO] [445] Scraped: https://avtoelon.uz/a/show/4914957
+2026-05-21 17:21:11,795 [INFO] [446] Scraped: https://avtoelon.uz/a/show/7220505
+2026-05-21 17:21:15,072 [INFO] [447] Scraped: https://avtoelon.uz/a/show/7221260
+2026-05-21 17:21:18,459 [INFO] [448] Scraped: https://avtoelon.uz/a/show/7240094
+2026-05-21 17:21:22,100 [INFO] [449] Scraped: https://avtoelon.uz/a/show/7248491
+2026-05-21 17:21:25,519 [INFO] [450] Scraped: https://avtoelon.uz/a/show/7219304
+2026-05-21 17:21:28,389 [INFO] [451] Scraped: https://avtoelon.uz/a/show/7270278
+2026-05-21 17:21:31,714 [INFO] [452] Scraped: https://avtoelon.uz/a/show/6904713
+2026-05-21 17:21:35,195 [INFO] [453] Scraped: https://avtoelon.uz/a/show/5238279
+2026-05-21 17:21:37,956 [INFO] [454] Scraped: https://avtoelon.uz/a/show/5238269
+2026-05-21 17:21:41,386 [INFO] [455] Scraped: https://avtoelon.uz/a/show/6137887
+2026-05-21 17:21:43,982 [INFO] [456] Scraped: https://avtoelon.uz/a/show/5839013
+2026-05-21 17:21:46,989 [INFO] [457] Scraped: https://avtoelon.uz/a/show/6137898
+2026-05-21 17:21:50,270 [INFO] [458] Scraped: https://avtoelon.uz/a/show/7272473
+2026-05-21 17:21:52,361 [INFO] [459] Scraped: https://avtoelon.uz/a/show/7231857
+2026-05-21 17:21:55,831 [INFO] [460] Scraped: https://avtoelon.uz/a/show/7272462
+2026-05-21 17:21:58,299 [INFO] [461] Scraped: https://avtoelon.uz/a/show/5238301
+2026-05-21 17:22:01,769 [INFO] [462] Scraped: https://avtoelon.uz/a/show/5238287
+2026-05-21 17:22:04,652 [INFO] [463] Scraped: https://avtoelon.uz/a/show/5838917
+2026-05-21 17:22:07,268 [INFO] [464] Scraped: https://avtoelon.uz/a/show/5962672
+2026-05-21 17:22:10,371 [INFO] [465] Scraped: https://avtoelon.uz/a/show/7272277
+2026-05-21 17:22:12,777 [INFO] [466] Scraped: https://avtoelon.uz/a/show/7210424
+2026-05-21 17:22:15,517 [INFO] [467] Scraped: https://avtoelon.uz/a/show/7030381
+2026-05-21 17:22:17,516 [INFO] Saved 23 new rows → scraper/data/avtoelon_car_data.csv (total 648)
+2026-05-21 17:22:17,517 [INFO] Finished page 25/25 — 467 new total
+2026-05-21 17:22:19,810 [INFO] Done. Total new listings scraped: 467
+2026-05-21 17:57:03,396 [INFO] Loaded 648 existing ad IDs from scraper/data/avtoelon_car_data.csv
+2026-05-21 17:57:03,398 [INFO] ============================================================
+2026-05-21 17:57:03,398 [INFO] AvtoElon scraper started
+2026-05-21 17:57:03,398 [INFO] ============================================================
+2026-05-21 17:57:04,802 [INFO] Page 1: found 21 listing URLs
+2026-05-21 17:57:05,332 [INFO] [1] Scraped: https://avtoelon.uz/a/show/7272754
+2026-05-21 17:57:07,747 [INFO] [2] Scraped: https://avtoelon.uz/a/show/7263553
+2026-05-21 17:57:10,005 [INFO] [3] Scraped: https://avtoelon.uz/a/show/7248770
+2026-05-21 17:57:12,765 [INFO] [4] Scraped: https://avtoelon.uz/a/show/7257423
+2026-05-21 17:57:15,090 [INFO] [5] Scraped: https://avtoelon.uz/a/show/7248827
+2026-05-21 17:57:18,170 [INFO] [6] Scraped: https://avtoelon.uz/a/show/7263570
+2026-05-21 17:57:21,333 [INFO] [7] Scraped: https://avtoelon.uz/a/show/7206673
+2026-05-21 17:57:24,739 [INFO] [8] Scraped: https://avtoelon.uz/a/show/7219038
+2026-05-21 17:57:26,315 [INFO] Saved 8 new rows → scraper/data/avtoelon_car_data.csv (total 656)
+2026-05-21 17:57:26,316 [INFO] Finished page 1/25 — 8 new total
+2026-05-21 17:57:29,516 [INFO] Page 2: found 30 listing URLs
+2026-05-21 17:57:30,277 [INFO] [9] Scraped: https://avtoelon.uz/a/show/7263575
+2026-05-21 17:57:33,655 [INFO] [10] Scraped: https://avtoelon.uz/a/show/7263455
+2026-05-21 17:57:37,139 [INFO] [11] Scraped: https://avtoelon.uz/a/show/7019099
+2026-05-21 17:57:40,055 [INFO] [12] Scraped: https://avtoelon.uz/a/show/7272748
+2026-05-21 17:57:41,808 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 660)
+2026-05-21 17:57:41,809 [INFO] Finished page 2/25 — 12 new total
+2026-05-21 17:57:44,584 [INFO] Page 3: found 30 listing URLs
+2026-05-21 17:57:45,211 [INFO] [13] Scraped: https://avtoelon.uz/a/show/7220693
+2026-05-21 17:57:48,514 [INFO] [14] Scraped: https://avtoelon.uz/a/show/7266145
+2026-05-21 17:57:51,673 [INFO] [15] Scraped: https://avtoelon.uz/a/show/7187913
+2026-05-21 17:57:54,235 [INFO] [16] Scraped: https://avtoelon.uz/a/show/7229722
+2026-05-21 17:57:57,075 [INFO] [17] Scraped: https://avtoelon.uz/a/show/7251686
+2026-05-21 17:57:59,323 [INFO] [18] Scraped: https://avtoelon.uz/a/show/7112738
+2026-05-21 17:58:01,398 [INFO] Saved 6 new rows → scraper/data/avtoelon_car_data.csv (total 666)
+2026-05-21 17:58:01,399 [INFO] Finished page 3/25 — 18 new total
+2026-05-21 17:58:05,181 [INFO] Page 4: found 30 listing URLs
+2026-05-21 17:58:05,657 [INFO] [19] Scraped: https://avtoelon.uz/a/show/7272721
+2026-05-21 17:58:07,619 [INFO] Saved 1 new rows → scraper/data/avtoelon_car_data.csv (total 667)
+2026-05-21 17:58:07,619 [INFO] Finished page 4/25 — 19 new total
+2026-05-21 17:58:11,184 [INFO] Page 5: found 30 listing URLs
+2026-05-21 17:58:11,744 [INFO] [20] Scraped: https://avtoelon.uz/a/show/7125074
+2026-05-21 17:58:14,622 [INFO] [21] Scraped: https://avtoelon.uz/a/show/7263531
+2026-05-21 17:58:17,079 [INFO] [22] Scraped: https://avtoelon.uz/a/show/7254739
+2026-05-21 17:58:20,425 [INFO] [23] Scraped: https://avtoelon.uz/a/show/7206602
+2026-05-21 17:58:23,613 [INFO] [24] Scraped: https://avtoelon.uz/a/show/7263514
+2026-05-21 17:58:26,490 [INFO] [25] Scraped: https://avtoelon.uz/a/show/7227413
+2026-05-21 17:58:28,900 [INFO] [26] Scraped: https://avtoelon.uz/a/show/7259977
+2026-05-21 17:58:32,223 [INFO] [27] Scraped: https://avtoelon.uz/a/show/7205770
+2026-05-21 17:58:35,088 [INFO] [28] Scraped: https://avtoelon.uz/a/show/7132503
+2026-05-21 17:58:38,296 [INFO] [29] Scraped: https://avtoelon.uz/a/show/7095358
+2026-05-21 17:58:40,887 [INFO] Saved 10 new rows → scraper/data/avtoelon_car_data.csv (total 677)
+2026-05-21 17:58:40,888 [INFO] Finished page 5/25 — 29 new total
+2026-05-21 17:58:44,274 [INFO] Page 6: found 30 listing URLs
+2026-05-21 17:58:44,274 [INFO] Finished page 6/25 — 29 new total
+2026-05-21 17:58:48,067 [INFO] Page 7: found 30 listing URLs
+2026-05-21 17:58:48,699 [INFO] [30] Scraped: https://avtoelon.uz/a/show/7248765
+2026-05-21 17:58:51,243 [INFO] [31] Scraped: https://avtoelon.uz/a/show/7235401
+2026-05-21 17:58:53,978 [INFO] [32] Scraped: https://avtoelon.uz/a/show/7244773
+2026-05-21 17:58:57,804 [INFO] [33] Scraped: https://avtoelon.uz/a/show/6966074
+2026-05-21 17:59:00,209 [INFO] [34] Scraped: https://avtoelon.uz/a/show/7272722
+2026-05-21 17:59:03,432 [INFO] [35] Scraped: https://avtoelon.uz/a/show/7272709
+2026-05-21 17:59:05,055 [INFO] Saved 6 new rows → scraper/data/avtoelon_car_data.csv (total 683)
+2026-05-21 17:59:05,055 [INFO] Finished page 7/25 — 35 new total
+2026-05-21 17:59:08,264 [INFO] Page 8: found 30 listing URLs
+2026-05-21 17:59:08,264 [INFO] Finished page 8/25 — 35 new total
+2026-05-21 17:59:11,496 [INFO] Page 9: found 30 listing URLs
+2026-05-21 17:59:11,952 [INFO] [36] Scraped: https://avtoelon.uz/a/show/7266124
+2026-05-21 17:59:15,050 [INFO] [37] Scraped: https://avtoelon.uz/a/show/7266119
+2026-05-21 17:59:17,378 [INFO] [38] Scraped: https://avtoelon.uz/a/show/7169000
+2026-05-21 17:59:21,104 [INFO] [39] Scraped: https://avtoelon.uz/a/show/7266094
+2026-05-21 17:59:23,683 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 687)
+2026-05-21 17:59:23,684 [INFO] Finished page 9/25 — 39 new total
+2026-05-21 17:59:26,064 [INFO] Page 10: found 30 listing URLs
+2026-05-21 17:59:26,458 [INFO] [40] Scraped: https://avtoelon.uz/a/show/7259927
+2026-05-21 17:59:28,866 [INFO] [41] Scraped: https://avtoelon.uz/a/show/7266114
+2026-05-21 17:59:32,083 [INFO] [42] Scraped: https://avtoelon.uz/a/show/7226450
+2026-05-21 17:59:34,794 [INFO] [43] Scraped: https://avtoelon.uz/a/show/7248718
+2026-05-21 17:59:37,684 [INFO] [44] Scraped: https://avtoelon.uz/a/show/7210494
+2026-05-21 17:59:40,261 [INFO] [45] Scraped: https://avtoelon.uz/a/show/7198376
+2026-05-21 17:59:42,074 [INFO] Saved 6 new rows → scraper/data/avtoelon_car_data.csv (total 693)
+2026-05-21 17:59:42,075 [INFO] Finished page 10/25 — 45 new total
+2026-05-21 17:59:44,404 [INFO] Page 11: found 30 listing URLs
+2026-05-21 17:59:44,823 [INFO] [46] Scraped: https://avtoelon.uz/a/show/7189506
+2026-05-21 17:59:47,252 [INFO] [47] Scraped: https://avtoelon.uz/a/show/7240422
+2026-05-21 17:59:49,437 [INFO] [48] Scraped: https://avtoelon.uz/a/show/7210498
+2026-05-21 17:59:52,172 [INFO] [49] Scraped: https://avtoelon.uz/a/show/7200708
+2026-05-21 17:59:54,353 [INFO] [50] Scraped: https://avtoelon.uz/a/show/7209937
+2026-05-21 17:59:57,631 [INFO] [51] Scraped: https://avtoelon.uz/a/show/7051319
+2026-05-21 17:59:59,743 [INFO] [52] Scraped: https://avtoelon.uz/a/show/7248284
+2026-05-21 18:00:01,628 [INFO] Saved 7 new rows → scraper/data/avtoelon_car_data.csv (total 700)
+2026-05-21 18:00:01,629 [INFO] Finished page 11/25 — 52 new total
+2026-05-21 18:00:04,583 [INFO] Page 12: found 30 listing URLs
+2026-05-21 18:00:05,139 [INFO] [53] Scraped: https://avtoelon.uz/a/show/7224797
+2026-05-21 18:00:07,319 [INFO] [54] Scraped: https://avtoelon.uz/a/show/7118941
+2026-05-21 18:00:09,928 [INFO] [55] Scraped: https://avtoelon.uz/a/show/7272699
+2026-05-21 18:00:13,496 [INFO] [56] Scraped: https://avtoelon.uz/a/show/7272676
+2026-05-21 18:00:15,525 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 704)
+2026-05-21 18:00:15,525 [INFO] Finished page 12/25 — 56 new total
+2026-05-21 18:00:18,073 [INFO] Page 13: found 30 listing URLs
+2026-05-21 18:00:18,626 [INFO] [57] Scraped: https://avtoelon.uz/a/show/7268240
+2026-05-21 18:00:22,018 [INFO] [58] Scraped: https://avtoelon.uz/a/show/7220585
+2026-05-21 18:00:24,119 [INFO] Saved 2 new rows → scraper/data/avtoelon_car_data.csv (total 706)
+2026-05-21 18:00:24,120 [INFO] Finished page 13/25 — 58 new total
+2026-05-21 18:00:27,159 [INFO] Page 14: found 30 listing URLs
+2026-05-21 18:00:27,159 [INFO] Finished page 14/25 — 58 new total
+2026-05-21 18:00:29,976 [INFO] Page 15: found 30 listing URLs
+2026-05-21 18:00:30,670 [INFO] [59] Scraped: https://avtoelon.uz/a/show/7268304
+2026-05-21 18:00:34,346 [INFO] [60] Scraped: https://avtoelon.uz/a/show/7144124
+2026-05-21 18:00:37,188 [INFO] [61] Scraped: https://avtoelon.uz/a/show/7235369
+2026-05-21 18:00:40,441 [INFO] [62] Scraped: https://avtoelon.uz/a/show/7216185
+2026-05-21 18:00:43,093 [INFO] [63] Scraped: https://avtoelon.uz/a/show/7149319
+2026-05-21 18:00:45,288 [INFO] [64] Scraped: https://avtoelon.uz/a/show/7268308
+2026-05-21 18:00:48,481 [INFO] [65] Scraped: https://avtoelon.uz/a/show/7243310
+2026-05-21 18:00:50,965 [INFO] Saved 7 new rows → scraper/data/avtoelon_car_data.csv (total 713)
+2026-05-21 18:00:50,966 [INFO] Finished page 15/25 — 65 new total
+2026-05-21 18:00:54,148 [INFO] Page 16: found 30 listing URLs
+2026-05-21 18:00:54,571 [INFO] [66] Scraped: https://avtoelon.uz/a/show/7232173
+2026-05-21 18:00:57,716 [INFO] [67] Scraped: https://avtoelon.uz/a/show/7270475
+2026-05-21 18:00:59,703 [INFO] [68] Scraped: https://avtoelon.uz/a/show/7264631
+2026-05-21 18:01:01,935 [INFO] [69] Scraped: https://avtoelon.uz/a/show/7224761
+2026-05-21 18:01:04,407 [INFO] [70] Scraped: https://avtoelon.uz/a/show/7270483
+2026-05-21 18:01:07,525 [INFO] [71] Scraped: https://avtoelon.uz/a/show/7270343
+2026-05-21 18:01:11,995 [INFO] [72] Scraped: https://avtoelon.uz/a/show/7272674
+2026-05-21 18:01:14,635 [INFO] Saved 7 new rows → scraper/data/avtoelon_car_data.csv (total 720)
+2026-05-21 18:01:14,636 [INFO] Finished page 16/25 — 72 new total
+2026-05-21 18:01:17,926 [INFO] Page 17: found 29 listing URLs
+2026-05-21 18:01:18,490 [INFO] [73] Scraped: https://avtoelon.uz/a/show/7263410
+2026-05-21 18:01:21,222 [INFO] [74] Scraped: https://avtoelon.uz/a/show/7232179
+2026-05-21 18:01:23,739 [INFO] [75] Scraped: https://avtoelon.uz/a/show/7254653
+2026-05-21 18:01:27,448 [INFO] [76] Scraped: https://avtoelon.uz/a/show/7248696
+2026-05-21 18:01:30,816 [INFO] [77] Scraped: https://avtoelon.uz/a/show/7006768
+2026-05-21 18:01:33,759 [INFO] [78] Scraped: https://avtoelon.uz/a/show/7259917
+2026-05-21 18:01:36,439 [INFO] [79] Scraped: https://avtoelon.uz/a/show/7251568
+2026-05-21 18:01:38,792 [INFO] [80] Scraped: https://avtoelon.uz/a/show/7267937
+2026-05-21 18:01:41,257 [INFO] [81] Scraped: https://avtoelon.uz/a/show/7259515
+2026-05-21 18:01:44,061 [INFO] [82] Scraped: https://avtoelon.uz/a/show/7243055
+2026-05-21 18:01:46,467 [INFO] [83] Scraped: https://avtoelon.uz/a/show/7270193
+2026-05-21 18:01:49,204 [INFO] [84] Scraped: https://avtoelon.uz/a/show/7134519
+2026-05-21 18:01:52,155 [INFO] [85] Scraped: https://avtoelon.uz/a/show/7210489
+2026-05-21 18:01:54,414 [INFO] [86] Scraped: https://avtoelon.uz/a/show/7221937
+2026-05-21 18:01:57,436 [INFO] [87] Scraped: https://avtoelon.uz/a/show/7154343
+2026-05-21 18:01:59,704 [INFO] [88] Scraped: https://avtoelon.uz/a/show/5715108
+2026-05-21 18:02:01,637 [INFO] Saved 16 new rows → scraper/data/avtoelon_car_data.csv (total 736)
+2026-05-21 18:02:01,637 [INFO] Finished page 17/25 — 88 new total
+2026-05-21 18:02:04,970 [INFO] Page 18: found 30 listing URLs
+2026-05-21 18:02:05,623 [INFO] [89] Scraped: https://avtoelon.uz/a/show/6990920
+2026-05-21 18:02:09,048 [INFO] [90] Scraped: https://avtoelon.uz/a/show/7189584
+2026-05-21 18:02:12,279 [INFO] [91] Scraped: https://avtoelon.uz/a/show/7266070
+2026-05-21 18:02:14,842 [INFO] [92] Scraped: https://avtoelon.uz/a/show/7173036
+2026-05-21 18:02:18,683 [INFO] [93] Scraped: https://avtoelon.uz/a/show/7232126
+2026-05-21 18:02:21,746 [INFO] [94] Scraped: https://avtoelon.uz/a/show/7257315
+2026-05-21 18:02:24,784 [INFO] [95] Scraped: https://avtoelon.uz/a/show/7266046
+2026-05-21 18:02:27,663 [INFO] [96] Scraped: https://avtoelon.uz/a/show/7073109
+2026-05-21 18:02:30,781 [INFO] [97] Scraped: https://avtoelon.uz/a/show/7229681
+2026-05-21 18:02:33,931 [INFO] [98] Scraped: https://avtoelon.uz/a/show/7034489
+2026-05-21 18:02:36,324 [INFO] [99] Scraped: https://avtoelon.uz/a/show/6830871
+2026-05-21 18:02:38,910 [INFO] [100] Scraped: https://avtoelon.uz/a/show/7272638
+2026-05-21 18:02:41,307 [INFO] [101] Scraped: https://avtoelon.uz/a/show/7272490
+2026-05-21 18:02:42,856 [INFO] Saved 13 new rows → scraper/data/avtoelon_car_data.csv (total 749)
+2026-05-21 18:02:42,857 [INFO] Finished page 18/25 — 101 new total
+2026-05-21 18:02:46,721 [INFO] Page 19: found 30 listing URLs
+2026-05-21 18:02:46,722 [INFO] Finished page 19/25 — 101 new total
+2026-05-21 18:02:49,905 [INFO] Page 20: found 30 listing URLs
+2026-05-21 18:02:49,905 [INFO] Finished page 20/25 — 101 new total
+2026-05-21 18:02:53,218 [INFO] Page 21: found 30 listing URLs
+2026-05-21 18:02:53,219 [INFO] Finished page 21/25 — 101 new total
+2026-05-21 18:02:56,035 [INFO] Page 22: found 30 listing URLs
+2026-05-21 18:02:56,035 [INFO] Finished page 22/25 — 101 new total
+2026-05-21 18:02:59,192 [INFO] Page 23: found 30 listing URLs
+2026-05-21 18:02:59,193 [INFO] Finished page 23/25 — 101 new total
+2026-05-21 18:03:02,690 [INFO] Page 24: found 30 listing URLs
+2026-05-21 18:03:02,690 [INFO] Finished page 24/25 — 101 new total
+2026-05-21 18:03:05,650 [INFO] Page 25: found 30 listing URLs
+2026-05-21 18:03:05,650 [INFO] Finished page 25/25 — 101 new total
+2026-05-21 18:03:07,288 [INFO] Done. Total new listings scraped: 101
+2026-05-22 14:20:48,908 [INFO] Loaded 749 existing ad IDs from scraper/data/avtoelon_car_data.csv
+2026-05-22 14:20:48,910 [INFO] ============================================================
+2026-05-22 14:20:48,910 [INFO] AvtoElon scraper started
+2026-05-22 14:20:48,910 [INFO] ============================================================
+2026-05-22 14:20:51,027 [INFO] Page 1: found 25 listing URLs
+2026-05-22 14:20:52,296 [INFO] [1] Scraped: https://avtoelon.uz/a/show/7272269
+2026-05-22 14:20:54,622 [INFO] [2] Scraped: https://avtoelon.uz/a/show/7208882
+2026-05-22 14:20:57,735 [INFO] [3] Scraped: https://avtoelon.uz/a/show/7175538
+2026-05-22 14:21:00,840 [INFO] [4] Scraped: https://avtoelon.uz/a/show/7262429
+2026-05-22 14:21:03,362 [INFO] [5] Scraped: https://avtoelon.uz/a/show/7226942
+2026-05-22 14:21:06,784 [INFO] [6] Scraped: https://avtoelon.uz/a/show/7265731
+2026-05-22 14:21:11,706 [INFO] [7] Scraped: https://avtoelon.uz/a/show/7259497
+2026-05-22 14:21:14,698 [INFO] Saved 7 new rows → scraper/data/avtoelon_car_data.csv (total 756)
+2026-05-22 14:21:14,699 [INFO] Finished page 1/25 — 7 new total
+2026-05-22 14:21:17,699 [INFO] Page 2: found 30 listing URLs
+2026-05-22 14:21:18,811 [INFO] [8] Scraped: https://avtoelon.uz/a/show/5413097
+2026-05-22 14:21:21,500 [INFO] [9] Scraped: https://avtoelon.uz/a/show/7269724
+2026-05-22 14:21:23,073 [INFO] Saved 2 new rows → scraper/data/avtoelon_car_data.csv (total 758)
+2026-05-22 14:21:23,073 [INFO] Finished page 2/25 — 9 new total
+2026-05-22 14:21:26,769 [INFO] Page 3: found 30 listing URLs
+2026-05-22 14:21:27,799 [INFO] [10] Scraped: https://avtoelon.uz/a/show/6137905
+2026-05-22 14:21:30,124 [INFO] Saved 1 new rows → scraper/data/avtoelon_car_data.csv (total 759)
+2026-05-22 14:21:30,125 [INFO] Finished page 3/25 — 10 new total
+2026-05-22 14:21:33,115 [INFO] Page 4: found 30 listing URLs
+2026-05-22 14:21:34,071 [INFO] [11] Scraped: https://avtoelon.uz/a/show/7221522
+2026-05-22 14:21:37,417 [INFO] [12] Scraped: https://avtoelon.uz/a/show/7226903
+2026-05-22 14:21:40,667 [INFO] [13] Scraped: https://avtoelon.uz/a/show/7262092
+2026-05-22 14:21:44,451 [INFO] [14] Scraped: https://avtoelon.uz/a/show/7167481
+2026-05-22 14:21:46,541 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 763)
+2026-05-22 14:21:46,542 [INFO] Finished page 4/25 — 14 new total
+2026-05-22 14:21:49,938 [INFO] Page 5: found 30 listing URLs
+2026-05-22 14:21:50,689 [INFO] [15] Scraped: https://avtoelon.uz/a/show/7272306
+2026-05-22 14:21:53,750 [INFO] [16] Scraped: https://avtoelon.uz/a/show/7209268
+2026-05-22 14:21:57,157 [INFO] [17] Scraped: https://avtoelon.uz/a/show/7272239
+2026-05-22 14:22:00,060 [INFO] [18] Scraped: https://avtoelon.uz/a/show/7266240
+2026-05-22 14:22:04,234 [INFO] [19] Scraped: https://avtoelon.uz/a/show/7274278
+2026-05-22 14:22:07,485 [INFO] [20] Scraped: https://avtoelon.uz/a/show/7274273
+2026-05-22 14:22:11,116 [INFO] [21] Scraped: https://avtoelon.uz/a/show/7274262
+2026-05-22 14:22:13,796 [INFO] Saved 7 new rows → scraper/data/avtoelon_car_data.csv (total 770)
+2026-05-22 14:22:13,797 [INFO] Finished page 5/25 — 21 new total
+2026-05-22 14:22:17,895 [INFO] Page 6: found 30 listing URLs
+2026-05-22 14:22:18,912 [INFO] [22] Scraped: https://avtoelon.uz/a/show/5261575
+2026-05-22 14:22:22,318 [INFO] [23] Scraped: https://avtoelon.uz/a/show/7143507
+2026-05-22 14:22:25,003 [INFO] [24] Scraped: https://avtoelon.uz/a/show/6515353
+2026-05-22 14:22:28,702 [INFO] [25] Scraped: https://avtoelon.uz/a/show/6296181
+2026-05-22 14:22:31,286 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 774)
+2026-05-22 14:22:31,286 [INFO] Finished page 6/25 — 25 new total
+2026-05-22 14:22:34,330 [INFO] Page 7: found 30 listing URLs
+2026-05-22 14:22:34,867 [INFO] [26] Scraped: https://avtoelon.uz/a/show/7250819
+2026-05-22 14:22:37,123 [INFO] Saved 1 new rows → scraper/data/avtoelon_car_data.csv (total 775)
+2026-05-22 14:22:37,124 [INFO] Finished page 7/25 — 26 new total
+2026-05-22 14:22:40,115 [INFO] Page 8: found 30 listing URLs
+2026-05-22 14:22:40,115 [INFO] Finished page 8/25 — 26 new total
+2026-05-22 14:22:43,896 [INFO] Page 9: found 30 listing URLs
+2026-05-22 14:22:44,780 [INFO] [27] Scraped: https://avtoelon.uz/a/show/5413089
+2026-05-22 14:22:48,284 [INFO] [28] Scraped: https://avtoelon.uz/a/show/5238283
+2026-05-22 14:22:51,012 [INFO] [29] Scraped: https://avtoelon.uz/a/show/6961972
+2026-05-22 14:22:53,519 [INFO] [30] Scraped: https://avtoelon.uz/a/show/6510535
+2026-05-22 14:22:55,102 [INFO] Saved 4 new rows → scraper/data/avtoelon_car_data.csv (total 779)
+2026-05-22 14:22:55,103 [INFO] Finished page 9/25 — 30 new total
+2026-05-22 14:22:58,159 [INFO] Page 10: found 30 listing URLs
+2026-05-22 14:22:59,075 [INFO] [31] Scraped: https://avtoelon.uz/a/show/7239878
+2026-05-22 14:23:03,271 [INFO] [32] Scraped: https://avtoelon.uz/a/show/7200015
+2026-05-22 14:23:06,021 [INFO] [33] Scraped: https://avtoelon.uz/a/show/3581020
+2026-05-22 14:23:08,828 [INFO] Saved 3 new rows → scraper/data/avtoelon_car_data.csv (total 782)
+2026-05-22 14:23:08,829 [INFO] Finished page 10/25 — 33 new total
+2026-05-22 14:23:11,990 [INFO] Page 11: found 30 listing URLs
+2026-05-22 14:23:12,646 [INFO] [34] Scraped: https://avtoelon.uz/a/show/7265700
+2026-05-22 14:23:16,213 [INFO] [35] Scraped: https://avtoelon.uz/a/show/7143618
+2026-05-22 14:23:19,107 [INFO] [36] Scraped: https://avtoelon.uz/a/show/7048938
+2026-05-22 14:23:21,501 [INFO] Saved 3 new rows → scraper/data/avtoelon_car_data.csv (total 785)
+2026-05-22 14:23:21,501 [INFO] Finished page 11/25 — 36 new total
+2026-05-22 14:23:25,116 [INFO] Page 12: found 30 listing URLs
+2026-05-22 14:23:25,116 [INFO] Finished page 12/25 — 36 new total
+2026-05-22 14:23:29,105 [INFO] Page 13: found 30 listing URLs
+2026-05-22 14:23:29,734 [INFO] [37] Scraped: https://avtoelon.uz/a/show/7265673
+2026-05-22 14:23:32,892 [INFO] [38] Scraped: https://avtoelon.uz/a/show/7245341
+2026-05-22 14:23:35,964 [INFO] [39] Scraped: https://avtoelon.uz/a/show/7267876
+2026-05-22 14:23:38,626 [INFO] [40] Scraped: https://avtoelon.uz/a/show/6983610
+2026-05-22 14:23:42,099 [INFO] [41] Scraped: https://avtoelon.uz/a/show/7231683
+2026-05-22 14:23:44,353 [INFO] [42] Scraped: https://avtoelon.uz/a/show/7171830
+2026-05-22 14:23:47,179 [INFO] [43] Scraped: https://avtoelon.uz/a/show/7194863
+2026-05-22 14:23:50,712 [INFO] [44] Scraped: https://avtoelon.uz/a/show/7238162
+2026-05-22 14:23:54,402 [INFO] [45] Scraped: https://avtoelon.uz/a/show/7259467
+2026-05-22 14:23:57,679 [INFO] [46] Scraped: https://avtoelon.uz/a/show/7103121
+2026-05-22 14:23:59,987 [INFO] [47] Scraped: https://avtoelon.uz/a/show/7243143
+2026-05-22 14:24:01,875 [INFO] Saved 11 new rows → scraper/data/avtoelon_car_data.csv (total 796)
+2026-05-22 14:24:01,875 [INFO] Finished page 13/25 — 47 new total
+2026-05-22 14:24:05,733 [INFO] Page 14: found 30 listing URLs
+2026-05-22 14:24:06,361 [INFO] [48] Scraped: https://avtoelon.uz/a/show/7272283
+2026-05-22 14:24:08,826 [INFO] Saved 1 new rows → scraper/data/avtoelon_car_data.csv (total 797)
+2026-05-22 14:24:08,826 [INFO] Finished page 14/25 — 48 new total
+2026-05-22 14:24:12,978 [INFO] Page 15: found 30 listing URLs
+2026-05-22 14:24:13,653 [INFO] [49] Scraped: https://avtoelon.uz/a/show/7274251
+2026-05-22 14:24:16,693 [INFO] Saved 1 new rows → scraper/data/avtoelon_car_data.csv (total 798)
+2026-05-22 14:24:16,694 [INFO] Finished page 15/25 — 49 new total
+2026-05-22 14:24:20,704 [INFO] Page 16: found 30 listing URLs
+2026-05-22 14:24:20,704 [INFO] Finished page 16/25 — 49 new total
+2026-05-22 14:24:24,668 [INFO] Page 17: found 30 listing URLs
+2026-05-22 14:24:39,680 [WARNING] Timeout on https://avtoelon.uz/a/show/7215668 (attempt 1)
+2026-05-22 14:24:41,400 [INFO] [50] Scraped: https://avtoelon.uz/a/show/7215668
+2026-05-22 14:24:43,676 [INFO] [51] Scraped: https://avtoelon.uz/a/show/7259450
+2026-05-22 14:24:46,825 [INFO] [52] Scraped: https://avtoelon.uz/a/show/7226295
+2026-05-22 14:24:50,511 [INFO] [53] Scraped: https://avtoelon.uz/a/show/7211614
+2026-05-22 14:24:54,129 [INFO] [54] Scraped: https://avtoelon.uz/a/show/7271776
+2026-05-22 14:24:57,072 [INFO] [55] Scraped: https://avtoelon.uz/a/show/7262602
+2026-05-22 14:24:59,195 [INFO] Saved 6 new rows → scraper/data/avtoelon_car_data.csv (total 804)
+2026-05-22 14:24:59,195 [INFO] Finished page 17/25 — 55 new total
+2026-05-22 14:25:01,588 [INFO] Page 18: found 30 listing URLs
+2026-05-22 14:25:02,404 [INFO] [56] Scraped: https://avtoelon.uz/a/show/7269063
+2026-05-22 14:25:05,398 [INFO] [57] Scraped: https://avtoelon.uz/a/show/7246564
+2026-05-22 14:25:07,552 [INFO] Saved 2 new rows → scraper/data/avtoelon_car_data.csv (total 806)
+2026-05-22 14:25:07,553 [INFO] Finished page 18/25 — 57 new total
+2026-05-22 14:25:09,835 [INFO] Page 19: found 30 listing URLs
+2026-05-22 14:25:10,297 [INFO] [58] Scraped: https://avtoelon.uz/a/show/7262575
+2026-05-22 14:25:13,952 [INFO] [59] Scraped: https://avtoelon.uz/a/show/7239853
+2026-05-22 14:25:16,231 [INFO] [60] Scraped: https://avtoelon.uz/a/show/7187818
+2026-05-22 14:25:18,999 [INFO] [61] Scraped: https://avtoelon.uz/a/show/7255567
+2026-05-22 14:25:21,648 [INFO] [62] Scraped: https://avtoelon.uz/a/show/7205790
+2026-05-22 14:25:23,997 [INFO] [63] Scraped: https://avtoelon.uz/a/show/7151562
+2026-05-22 14:25:27,176 [INFO] [64] Scraped: https://avtoelon.uz/a/show/6983163
+2026-05-22 14:25:29,827 [INFO] [65] Scraped: https://avtoelon.uz/a/show/7262585
+2026-05-22 14:25:32,928 [INFO] [66] Scraped: https://avtoelon.uz/a/show/7251027
+2026-05-22 14:25:36,286 [INFO] [67] Scraped: https://avtoelon.uz/a/show/7102952
+2026-05-22 14:25:39,974 [INFO] [68] Scraped: https://avtoelon.uz/a/show/7237169
+2026-05-22 14:25:43,935 [INFO] [69] Scraped: https://avtoelon.uz/a/show/7239850
+2026-05-22 14:25:47,972 [INFO] [70] Scraped: https://avtoelon.uz/a/show/7272271
+2026-05-22 14:25:50,187 [INFO] Saved 13 new rows → scraper/data/avtoelon_car_data.csv (total 819)
+2026-05-22 14:25:50,188 [INFO] Finished page 19/25 — 70 new total
+2026-05-22 14:25:53,817 [INFO] Page 20: found 30 listing URLs
+2026-05-22 14:25:53,817 [INFO] Finished page 20/25 — 70 new total
+2026-05-22 14:25:57,656 [INFO] Page 21: found 30 listing URLs
+2026-05-22 14:25:58,507 [INFO] [71] Scraped: https://avtoelon.uz/a/show/7223289
+2026-05-22 14:26:01,172 [INFO] [72] Scraped: https://avtoelon.uz/a/show/7269513
+2026-05-22 14:26:04,040 [INFO] [73] Scraped: https://avtoelon.uz/a/show/7270045
+2026-05-22 14:26:06,630 [INFO] [74] Scraped: https://avtoelon.uz/a/show/7259137
+2026-05-22 14:26:09,509 [INFO] [75] Scraped: https://avtoelon.uz/a/show/7229252
+2026-05-22 14:26:12,242 [INFO] [76] Scraped: https://avtoelon.uz/a/show/7259465
+2026-05-22 14:26:15,608 [INFO] [77] Scraped: https://avtoelon.uz/a/show/7259459
+2026-05-22 14:26:18,725 [INFO] [78] Scraped: https://avtoelon.uz/a/show/7231957
+2026-05-22 14:26:21,036 [INFO] [79] Scraped: https://avtoelon.uz/a/show/7265677
+2026-05-22 14:26:24,690 [INFO] [80] Scraped: https://avtoelon.uz/a/show/7267786
+2026-05-22 14:26:27,899 [INFO] [81] Scraped: https://avtoelon.uz/a/show/7231508
+2026-05-22 14:26:31,405 [INFO] [82] Scraped: https://avtoelon.uz/a/show/7152701
+2026-05-22 14:26:34,130 [INFO] Saved 12 new rows → scraper/data/avtoelon_car_data.csv (total 831)
+2026-05-22 14:26:34,130 [INFO] Finished page 21/25 — 82 new total
+2026-05-22 14:26:36,798 [INFO] Page 22: found 30 listing URLs
+2026-05-22 14:26:37,475 [INFO] [83] Scraped: https://avtoelon.uz/a/show/7262556
+2026-05-22 14:26:40,795 [INFO] [84] Scraped: https://avtoelon.uz/a/show/7131038
+2026-05-22 14:26:43,172 [INFO] [85] Scraped: https://avtoelon.uz/a/show/7274197
+2026-05-22 14:26:46,739 [INFO] [86] Scraped: https://avtoelon.uz/a/show/7245337
+2026-05-22 14:26:49,301 [INFO] [87] Scraped: https://avtoelon.uz/a/show/7245305
+2026-05-22 14:26:52,686 [INFO] [88] Scraped: https://avtoelon.uz/a/show/7248165
+2026-05-22 14:26:55,785 [INFO] [89] Scraped: https://avtoelon.uz/a/show/7185705
+2026-05-22 14:26:59,491 [INFO] [90] Scraped: https://avtoelon.uz/a/show/7245339
+2026-05-22 14:27:02,096 [INFO] [91] Scraped: https://avtoelon.uz/a/show/7267849
+2026-05-22 14:27:05,482 [INFO] [92] Scraped: https://avtoelon.uz/a/show/7270011
+2026-05-22 14:27:07,930 [INFO] Saved 10 new rows → scraper/data/avtoelon_car_data.csv (total 841)
+2026-05-22 14:27:07,930 [INFO] Finished page 22/25 — 92 new total
+2026-05-22 14:27:11,296 [INFO] Page 23: found 30 listing URLs
+2026-05-22 14:27:11,871 [INFO] [93] Scraped: https://avtoelon.uz/a/show/7260304
+2026-05-22 14:27:15,407 [INFO] [94] Scraped: https://avtoelon.uz/a/show/7265596
+2026-05-22 14:27:17,846 [INFO] [95] Scraped: https://avtoelon.uz/a/show/7265645
+2026-05-22 14:27:20,590 [INFO] [96] Scraped: https://avtoelon.uz/a/show/7218775
+2026-05-22 14:27:23,060 [INFO] [97] Scraped: https://avtoelon.uz/a/show/7250980
+2026-05-22 14:27:26,264 [INFO] [98] Scraped: https://avtoelon.uz/a/show/7221039
+2026-05-22 14:27:29,391 [INFO] [99] Scraped: https://avtoelon.uz/a/show/7226958
+2026-05-22 14:27:32,513 [INFO] [100] Scraped: https://avtoelon.uz/a/show/7214241
+2026-05-22 14:27:35,515 [INFO] [101] Scraped: https://avtoelon.uz/a/show/7210607
+2026-05-22 14:27:38,791 [INFO] [102] Scraped: https://avtoelon.uz/a/show/7269960
+2026-05-22 14:27:40,581 [INFO] Saved 10 new rows → scraper/data/avtoelon_car_data.csv (total 851)
+2026-05-22 14:27:40,582 [INFO] Finished page 23/25 — 102 new total
+2026-05-22 14:27:44,496 [INFO] Page 24: found 30 listing URLs
+2026-05-22 14:27:45,110 [INFO] [103] Scraped: https://avtoelon.uz/a/show/7259354
+2026-05-22 14:27:48,071 [INFO] [104] Scraped: https://avtoelon.uz/a/show/7274062
+2026-05-22 14:27:51,018 [INFO] [105] Scraped: https://avtoelon.uz/a/show/7223927
+2026-05-22 14:27:53,200 [INFO] [106] Scraped: https://avtoelon.uz/a/show/7266186
+2026-05-22 14:27:56,247 [INFO] [107] Scraped: https://avtoelon.uz/a/show/7209422
+2026-05-22 14:27:59,670 [INFO] [108] Scraped: https://avtoelon.uz/a/show/7267293
+2026-05-22 14:28:03,028 [INFO] [109] Scraped: https://avtoelon.uz/a/show/7245306
+2026-05-22 14:28:06,609 [INFO] [110] Scraped: https://avtoelon.uz/a/show/7234823
+2026-05-22 14:28:10,020 [INFO] [111] Scraped: https://avtoelon.uz/a/show/7242702
+2026-05-22 14:28:13,678 [INFO] [112] Scraped: https://avtoelon.uz/a/show/6847908
+2026-05-22 14:28:16,133 [INFO] [113] Scraped: https://avtoelon.uz/a/show/7231381
+2026-05-22 14:28:18,413 [INFO] [114] Scraped: https://avtoelon.uz/a/show/7237109
+2026-05-22 14:28:20,932 [INFO] [115] Scraped: https://avtoelon.uz/a/show/7244559
+2026-05-22 14:28:23,409 [INFO] [116] Scraped: https://avtoelon.uz/a/show/7149531
+2026-05-22 14:28:26,661 [INFO] [117] Scraped: https://avtoelon.uz/a/show/7256816
+2026-05-22 14:28:28,404 [INFO] Saved 15 new rows → scraper/data/avtoelon_car_data.csv (total 866)
+2026-05-22 14:28:28,405 [INFO] Finished page 24/25 — 117 new total
+2026-05-22 14:28:31,116 [INFO] Page 25: found 30 listing URLs
+2026-05-22 14:28:31,802 [INFO] [118] Scraped: https://avtoelon.uz/a/show/7223886
+2026-05-22 14:28:35,279 [INFO] [119] Scraped: https://avtoelon.uz/a/show/7250913
+2026-05-22 14:28:37,934 [INFO] [120] Scraped: https://avtoelon.uz/a/show/7241641
+2026-05-22 14:28:40,617 [INFO] [121] Scraped: https://avtoelon.uz/a/show/7269762
+2026-05-22 14:28:42,969 [INFO] [122] Scraped: https://avtoelon.uz/a/show/7255546
+2026-05-22 14:28:45,905 [INFO] [123] Scraped: https://avtoelon.uz/a/show/7260460
+2026-05-22 14:28:49,135 [INFO] [124] Scraped: https://avtoelon.uz/a/show/7269203
+2026-05-22 14:28:51,430 [INFO] [125] Scraped: https://avtoelon.uz/a/show/7237097
+2026-05-22 14:28:53,878 [INFO] [126] Scraped: https://avtoelon.uz/a/show/7103772
+2026-05-22 14:28:56,510 [INFO] [127] Scraped: https://avtoelon.uz/a/show/7269257
+2026-05-22 14:28:59,565 [INFO] [128] Scraped: https://avtoelon.uz/a/show/7269255
+2026-05-22 14:29:02,246 [INFO] [129] Scraped: https://avtoelon.uz/a/show/7208443
+2026-05-22 14:29:04,599 [INFO] [130] Scraped: https://avtoelon.uz/a/show/7250966
+2026-05-22 14:29:07,338 [INFO] [131] Scraped: https://avtoelon.uz/a/show/7265590
+2026-05-22 14:29:09,922 [INFO] [132] Scraped: https://avtoelon.uz/a/show/7262393
+2026-05-22 14:29:13,284 [INFO] [133] Scraped: https://avtoelon.uz/a/show/7267792
+2026-05-22 14:29:16,665 [INFO] [134] Scraped: https://avtoelon.uz/a/show/7259358
+2026-05-22 14:29:19,846 [INFO] [135] Scraped: https://avtoelon.uz/a/show/7259324
+2026-05-22 14:29:22,454 [INFO] [136] Scraped: https://avtoelon.uz/a/show/7269984
+2026-05-22 14:29:25,227 [INFO] Saved 19 new rows → scraper/data/avtoelon_car_data.csv (total 885)
+2026-05-22 14:29:25,228 [INFO] Finished page 25/25 — 136 new total
+2026-05-22 14:29:27,007 [INFO] Done. Total new listings scraped: 136

@@ -61,4 +61,18 @@ ORDER BY percentile_50 DESC
 
 /* 
 Natija asosida shuni ayta olamizki. Mashina xolati mashina narxiga ancha tasir qiladi.
+
  */
+
+
+SELECT
+    colors.color_name,
+    COUNT(colors.color_name) AS qaydlar_soni,
+    percentile_cont(.50) WITHIN GROUP (ORDER BY price_usd) AS percentile_50
+FROM car_listings
+LEFT JOIN 
+    colors ON colors.color_id = car_listings.color_id
+GROUP BY
+    colors.color_name
+HAVING color_name IS NOT NULL
+ORDER BY percentile_50 DESC, qaydlar_soni DESC 
