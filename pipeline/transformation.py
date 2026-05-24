@@ -6,6 +6,7 @@ def duplicate_remover(df):
     before = len(df)
     print(f"Shape: {df.shape[0]}, {df.shape[1]}. Unique values: {df['url'].nunique()}")
     df = df.drop_duplicates(subset='url', keep='first').copy()
+    df = df.drop(columns=['posting_date'])
     print(f'Removed elements: {before - len(df)}')
 
     return df
@@ -454,4 +455,30 @@ def mileage_cleaner(df):
     return df
 
 def engine_volume_cleaner(df):
-    
+    df['engine_volume_raw'] = df['engine_volume']
+
+    def format_engine_value(x):
+        if pd.isna(x):
+            return np.nan
+        if x >= 1000:
+            return x / 1000
+        if 100 <= x < 1000:
+            return x / 100
+        if 10 <= x < 100:
+            return x / 10
+        if 0 < x < 10:
+            return x
+        return np.nan
+    df['engine_volume_l'] = df['engine_volume_raw'].apply(format_engine_value)
+
+    df.loc[
+        (df['engine_volume_l'] < 0.6) | (df['engine_volume_l'] > 6),
+        'engine_volume_l'
+    ] = np.nan
+
+    df['engine_volume_l'] = df['engine_volume_l'].round(2)
+
+
+    print(df[['engine_volume_l', 'engine_volume_raw','engine_volume']].describe())
+    return df
+
