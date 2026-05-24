@@ -4,9 +4,9 @@ import numpy as np
 
 def duplicate_remover(df):
     before = len(df)
-    print(f'Shape: {df.shape[0]}, {df.shape[1]}. Unique values: {df['url'].nunique()}')
-    df_clean = df.drop_duplicates(subset='url', keep='first').copy()
-    print(f'Removed elements: {before - len(df_clean)}')
+    print(f"Shape: {df.shape[0]}, {df.shape[1]}. Unique values: {df['url'].nunique()}")
+    df = df.drop_duplicates(subset='url', keep='first').copy()
+    print(f'Removed elements: {before - len(df)}')
 
     return df
 
@@ -398,5 +398,36 @@ def model_cleaner(df):
     
     df["brand"] = df["model_clean"].apply(get_brand)
     df["car_name"] = df["car_name"].fillna(df["model_clean"])
+    df = df.rename(columns={"model":"model_raw"})
+
+    print(df[['model_clean', 'car_name']].head())
+
 
     return df
+
+
+def price_validatetor(df):
+    df['currency'] = df['currency'].fillna('USD')
+    exchange_rate = 12000
+
+    df['price'] = pd.to_numeric(df['price'].astype(str).str.replace(r'[^\d]', '', regex=True),
+        errors='coerce'
+    )
+
+    df['price_usd'] = df['price']
+    df.loc[df['currency'] == 'UZS', 'price_usd'] = (
+        df.loc[df['currency'] == 'UZS', 'price_usd'] / exchange_rate
+    ).round(1)
+
+    df = df.rename(columns={"price":"price_raw"})
+
+    # Using statistical measurements
+    Q1 = df['price_usd'].quantile(0.25)
+    Q3 = df['price_usd'].quantile(0.75)
+
+    IQR = Q3 - Q1
+    df["is_outlier"] = (df['price_usd'] < Q1 - 1.5*IQR) | (df['price_usd'] > Q3 + 1.5*IQR)
+
+    print(df.groupby('currency')['currency'].count())
+    return df
+
