@@ -431,3 +431,27 @@ def price_validatetor(df):
     print(df.groupby('currency')['currency'].count())
     return df
 
+def mileage_cleaner(df):
+    df['mileage_raw'] = df['mileage']
+    df.loc[df['mileage'] > 500000, 'mileage'] = np.nan
+
+    df.loc[(df['mileage'] < 5000) & (df['price_usd'] < 10000) & (df['year'] < 2023), 'mileage'] = np.nan
+
+    df.loc[(df['mileage'] == 0) &
+        (df['year'] < 2024),
+        'mileage'
+    ] = np.nan
+
+    df['mileage_log'] = np.log1p(df['mileage'])
+
+    df['mileage_group'] = pd.cut(
+        df['mileage'],
+        bins=[-1, 15000, 50000, 100000, 200000, 500000],
+        labels=['new_or_very_low', 'low', 'medium', 'high', 'very_high']
+    )
+
+    print(df[['mileage_log','mileage_group', 'mileage']])
+    return df
+
+def engine_volume_cleaner(df):
+    
