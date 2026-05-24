@@ -519,3 +519,229 @@ def seller_type_cleaner(df):
     df["sale_type"] = df["sale_type"].apply(translate)
     print(df["sale_type"].value_counts().head(5))
     return df
+
+def year_cleaner(df):
+    def devide_eras(x):
+        if pd.isna(x):
+            return np.nan
+        
+        if x < 1940:
+            return 'pre-1940'
+        elif 1940 <= x <= 1949:
+            return '1940s'
+        elif 1950 <= x <= 1959:
+            return '1950s'
+        elif 1960 <= x <= 1969:
+            return '1960s'
+        elif 1970 <= x <= 1979:
+            return '1970s'
+        elif 1980 <= x <= 1989:
+            return '1980s'
+        elif 1990 <= x <= 1999:
+            return '1990s'
+        elif 2000 <= x <= 2009:
+            return '2000s'
+        elif 2010 <= x <= 2019:
+            return '2010s'
+        else:
+            return '2020s'
+    df['era'] = df['year'].apply(devide_eras)
+    print(df['era'].value_counts())
+
+    model_min_year = {
+
+    # LADA (VAZ)
+    "Lada 2101": 1970,
+    "Lada 2102": 1971,
+    "Lada 2103": 1972,
+    "Lada 2104": 1984,
+    "Lada 2105": 1979,
+    "Lada 2106": 1976,
+    "Lada 2107": 1982,
+    "Lada Samara 2108": 1984,
+    "Lada Samara 2109": 1987,
+    "Lada Samara 21099": 1990,
+    "Lada 21011": 1974,
+    "Lada 21013": 1977,
+    "Lada 21033": 1972,
+    "Lada 21060": 1976,
+    "Lada 21061": 1976,
+    "Lada 21063": 1976,
+    "Lada 21071": 1977,
+    "Lada 21073": 1977,
+    "Lada Samara 21083": 1987,
+    "Lada Samara 21093": 1987,
+    "Lada 21102": 1996,
+    "Lada 21103": 1996,
+    "Lada 21106": 2003,
+    "Lada 21111": 1998,
+    "Lada 21124": 2004,
+    "Lada Niva": 1977,
+    "Lada Niva 21214": 1994,
+    "Lada Niva 4x4": 1977,
+    "Lada Niva Dana": 1998,
+    "Lada Kalina": 2004,
+    "Lada Kalina Wagon": 2006,
+    "Lada Kalina Sedan": 2004,
+    "Lada Kalina Hatchback": 2004,
+    "Lada 2110": 1996,
+    "Lada 2111": 1998,
+    "Lada 2112": 1999,
+    "Lada 2113": 2004,
+    "Lada 2114": 2001,
+    "Lada 2115": 1997,
+
+    # GAZ — Volga
+    "GAZ 21 Volga": 1956,
+    "GAZ 22 Volga": 1962,
+    "GAZ 24 Volga": 1970,
+    "GAZ 2401": 1970,
+    "GAZ 2402": 1972,
+    "GAZ 2410 Volga": 1985,
+    "GAZ 3102 Volga": 1982,
+    "GAZ 31013": 1990,
+    "GAZ 31029": 1992,
+    "GAZ 3110": 1997,
+    "GAZ 3111": 2000,
+    "GAZ 3102i": 1982,
+
+    # GAZ — Pobeda
+    "GAZ Pobeda M-20": 1946,
+    "GAZ Pobeda": 1946,
+
+    # GAZ — Chaika / ZIM / M1
+    "GAZ 13 Chaika": 1959,
+    "GAZ 12 ZIM": 1950,
+    "GAZ M1": 1936,
+
+    # GAZ — off-road / trucks
+    "GAZ 69": 1952,
+    "GAZ 51": 1946,
+    "GAZ 66": 1964,
+    "GAZ 67": 1943,
+
+    # MOSKVICH
+    "Moskvich 400": 1946,
+    "Moskvich 401": 1954,
+    "Moskvich 407": 1958,
+    "Moskvich 410": 1957,
+    "Moskvich 412": 1969,
+    "Moskvich 2125 Kombi": 1976,
+    "Moskvich 2136 Kombi": 1976,
+    "Moskvich 2137": 1978,
+    "Moskvich 2137 Kombi": 1978,
+    "Moskvich 2140": 1976,
+    "Moskvich 2141": 1986,
+    "Moskvich 21412": 1986,
+
+    # UAZ
+    "UAZ 469": 1972,
+    "UAZ 2206": 1985,
+    "UAZ 2715": 1965,
+    "UAZ 3151": 1985,
+    "UAZ 3159": 1998,
+    "UAZ 3303": 1985,
+    "UAZ 31512": 1985,
+    "UAZ 31514": 1993,
+    "UAZ 31519": 2000,
+    "UAZ Hunter": 2003,
+
+    # ZAZ
+    "ZAZ 965": 1960,
+    "ZAZ 968": 1971,
+    "ZAZ 968M": 1979,
+    "ZAZ Tavria": 1988,
+    "ZAZ Oka": 1988,
+    "ZAZ Sens": 2002,
+
+    # DAEWOO
+    "Daewoo Matiz": 1998,
+    "Daewoo Nexia": 1995,
+    "Daewoo Damas": 1991,
+    "Daewoo Tico": 1991,
+    "Daewoo Espero": 1990,
+
+    # CHEVROLET (UzAuto)
+    "Chevrolet Lacetti": 2002,
+    "Chevrolet Gentra": 2013,
+    "Chevrolet Cobalt": 2011,
+    "Chevrolet Spark": 2005,
+    "Chevrolet Malibu": 2011,
+    "Chevrolet Tracker": 2013,
+    "Chevrolet Onix": 2012,
+    "Chevrolet Captiva": 2006,
+
+    # HYUNDAI
+    "Hyundai Sonata": 1985,
+    "Hyundai Accent": 1994,
+    "Hyundai Elantra": 1990,
+
+    # KIA
+    "Kia Rio": 2000,
+    "Kia Sportage": 1993,
+
+    # VOLKSWAGEN
+    "Volkswagen Passat": 1973,
+    "Volkswagen Golf": 1974,
+    "Volkswagen Golf III": 1991,
+    "Volkswagen Golf VI": 2008,
+    "Volkswagen Jetta": 1979,
+    "Volkswagen Transporter": 1950,
+    "Volkswagen Scirocco": 1974,
+
+    # NISSAN
+    "Nissan Maxima": 1981,
+    "Nissan Skyline GT-R": 1969,
+    "Nissan Bluebird": 1957,
+    "Nissan R'nessa": 1997,
+    "Nissan Pathfinder": 1985,
+
+    # TOYOTA
+    "Toyota Corolla": 1966,
+    "Toyota Camry": 1982,
+    "Toyota Hiace": 1967,
+    "Toyota LiteAce": 1970,
+    "Toyota Starlet": 1973,
+
+    # FORD
+    "Ford Escort": 1968,
+    "Ford Fiesta": 1976,
+    "Ford Scorpio": 1985,
+    "Ford Granada": 1972,
+    "Ford Five Hundred": 2004,
+
+    # MERCEDES-BENZ
+    "Mercedes-Benz 190": 1982,
+    "Mercedes-Benz C250": 1993,
+    "Mercedes-Benz E230": 1984,
+    "Mercedes-Benz SL320": 1989,
+    "Mercedes-Benz S550": 2005,
+
+    # BMW
+    "BMW 520": 1972,
+
+    # HONDA
+    "Honda Civic": 1972,
+
+    # OPEL
+    "Opel Vectra": 1988,
+    "Opel Omega": 1986,
+    "Opel Ascona": 1970,
+    "Opel Rekord": 1953,
+    "Opel Admiral": 1964,
+    "Opel Vivaro": 2001,
+
+    # FIAT
+    "Fiat Uno": 1983,
+    "Fiat Croma": 1985,
+    }
+
+    df["year_valid"] = df.apply(
+        lambda row: row["year"] >= model_min_year.get(row["car_name"], 0),
+        axis=1
+    )
+    bad_years = df[~df["year_valid"]][["year", "car_name", "price_usd"]]
+    print(bad_years.head(5))
+    return df
+
+

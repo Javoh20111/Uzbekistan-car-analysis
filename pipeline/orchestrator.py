@@ -5,7 +5,7 @@ def extractor():
     df = pd.read_json('data/raw/car_data.json')
     return df
 
-from transformation import duplicate_remover, model_cleaner, price_validatetor, mileage_cleaner, engine_volume_cleaner, owners_count_cleaner, seller_type_cleaner
+from transformation import duplicate_remover, model_cleaner, price_validatetor, mileage_cleaner, engine_volume_cleaner, owners_count_cleaner, seller_type_cleaner, year_cleaner
 
 def main():
     df = extractor()
@@ -35,6 +35,10 @@ def main():
 
     print("-"*40)
     df = seller_type_cleaner(df)
+    print("-"*40+"\n")
+
+    print("-"*40)
+    year_cleaner(df)
     print("-"*40+"\n")
 
 if "__main__" == __name__:
