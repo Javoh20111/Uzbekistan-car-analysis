@@ -7,6 +7,7 @@ def duplicate_remover(df):
     print(f"Shape: {df.shape[0]}, {df.shape[1]}. Unique values: {df['url'].nunique()}")
     df = df.drop_duplicates(subset='url', keep='first').copy()
     df = df.drop(columns=['posting_date'])
+    df = df.drop(columns=['seller_type'])
     print(f'Removed elements: {before - len(df)}')
 
     return df
@@ -482,3 +483,39 @@ def engine_volume_cleaner(df):
     print(df[['engine_volume_l', 'engine_volume_raw','engine_volume']].describe())
     return df
 
+def owners_count_cleaner(df):
+
+    def format_owners_count(x):
+        if pd.isna(x):
+            return np.nan
+        x = str(x)
+        x = x.strip('+')
+        return float(x)
+
+    df['owners_count'] = df['owners_count'].apply(format_owners_count)
+    df['owners_count'] = df['owners_count'].astype('Int64')
+    print(df['owners_count'].describe())
+    return df
+
+def seller_type_cleaner(df):
+    Translate_list = {
+        "Кредит": "Credit",
+        "Рассрочка": "Installment plan",
+        "Простая продажа": "Direct sale",
+        "Возможен обмен": "Exchange possible",
+        "Аренда": "Rent",
+        "Лизинг": "Leasing"
+    }
+
+    def translate(text):
+        if pd.isna(text):
+            return text
+        
+        items = [item.strip() for item in text.split(",")]
+        translated = [Translate_list.get(item, item) for item in items]
+        
+        return ", ".join(translated)
+
+    df["sale_type"] = df["sale_type"].apply(translate)
+    print(df["sale_type"].value_counts().head(5))
+    return df
