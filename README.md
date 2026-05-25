@@ -104,7 +104,7 @@ Model comparison result:
 | Extra Trees | $1,562 | $4,090 | 0.823 |
 | Ridge Regression | $2,838 | $5,602 | 0.668 |
 
-The Streamlit app also includes an interactive prediction form that trains a Random Forest pipeline and returns a market price estimate with model error context.
+The Streamlit app also includes an interactive prediction form that loads a saved Random Forest pipeline from `models/price_model.joblib` and returns a market price estimate with model error context.
 
 ## Streamlit App
 
@@ -112,6 +112,7 @@ Run the app locally:
 
 ```bash
 pip install -r requirements.txt
+python3 scripts/train_price_model.py
 streamlit run app.py
 ```
 
@@ -140,4 +141,3 @@ The central `cars` and `car_listings` tables store vehicle identity and listing-
 ## Resume Summary
 
 Built an end-to-end used car market analytics project for Uzbekistan using scraped OLX listing data, Python data cleaning, SQL schema design, Streamlit visualization, and machine learning price prediction.
-
