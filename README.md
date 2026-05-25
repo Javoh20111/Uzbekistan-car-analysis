@@ -137,7 +137,4 @@ The SQL schema separates repeated entities into dimension tables, including:
 
 The central `cars` and `car_listings` tables store vehicle identity and listing-level details, with bridge tables for multi-value sale and additional options.
 
-## Resume Summary
-
-Built an end-to-end used car market analytics project for Uzbekistan using scraped OLX listing data, Python data cleaning, SQL schema design, Streamlit visualization, and machine learning price prediction.
 
