@@ -1,5 +1,6 @@
 import altair as alt
 import pandas as pd
+import sklearn
 import streamlit as st
 from datetime import date
 
@@ -154,10 +155,21 @@ def render_predictor(df):
         )
         return
 
-    artifact = load_cached_price_model(
-        str(MODEL_ARTIFACT_PATH),
-        MODEL_ARTIFACT_PATH.stat().st_mtime,
-    )
+    try:
+        artifact = load_cached_price_model(
+            str(MODEL_ARTIFACT_PATH),
+            MODEL_ARTIFACT_PATH.stat().st_mtime,
+        )
+    except Exception as exc:
+        st.error(
+            "Could not load the saved price model. This usually happens when the "
+            "model was trained with a different Python or scikit-learn version "
+            "than the one running the app."
+        )
+        st.caption(f"Current scikit-learn version: {sklearn.__version__}")
+        st.code("python3 scripts/train_price_model.py\npython3 -m streamlit run app.py")
+        st.exception(exc)
+        return
     model = artifact["model"]
     metrics = artifact["metrics"]
     rare_value_maps = artifact["rare_value_maps"]

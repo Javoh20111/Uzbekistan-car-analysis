@@ -111,10 +111,16 @@ The Streamlit app also includes an interactive prediction form that loads a save
 Run the app locally:
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 scripts/train_price_model.py
-streamlit run app.py
+python3 -m streamlit run app.py
 ```
+
+Deployment notes:
+
+- Commit `models/price_model.joblib` with the app so production can load the model instead of training it.
+- Use Python 3.12 for deployment. The saved scikit-learn model is version-sensitive, so Streamlit Community Cloud must be redeployed with Python 3.12 from Advanced settings if it was created with another Python version.
+- Vercel can run Python ASGI/WSGI apps such as FastAPI or Flask, but this Streamlit app would need to be converted to a normal web frontend plus an API before deploying there.
 
 App sections:
 
