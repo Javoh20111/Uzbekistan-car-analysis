@@ -9,6 +9,7 @@ from transformation import (
     price_validatetor,
     seller_type_cleaner,
     year_cleaner,
+    district_cleaner
 )
 
 
@@ -21,6 +22,7 @@ TRANSFORMATIONS = [
     owners_count_cleaner,
     seller_type_cleaner,
     year_cleaner,
+    district_cleaner
 ]
 
 
