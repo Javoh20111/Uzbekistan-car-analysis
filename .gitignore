@@ -3,6 +3,8 @@
 **/.DS_Store
 .vscode/
 .claude/
+.venv/
+.python-version
 
 __pycache__/
 *.py[cod]

@@ -104,23 +104,16 @@ Model comparison result:
 | Extra Trees | $1,562 | $4,090 | 0.823 |
 | Ridge Regression | $2,838 | $5,602 | 0.668 |
 
-The Streamlit app also includes an interactive prediction form that loads a saved Random Forest pipeline from `models/price_model.joblib` and returns a market price estimate with model error context.
+The Streamlit app also includes an interactive prediction form that trains a Random Forest pipeline and returns a market price estimate with model error context.
 
 ## Streamlit App
 
 Run the app locally:
 
 ```bash
-python3 -m pip install -r requirements.txt
-python3 scripts/train_price_model.py
-python3 -m streamlit run app.py
+pip install -r requirements.txt
+streamlit run app.py
 ```
-
-Deployment notes:
-
-- Commit `models/price_model.joblib` with the app so production can load the model instead of training it.
-- Use Python 3.12 for deployment. The saved scikit-learn model is version-sensitive, so Streamlit Community Cloud must be redeployed with Python 3.12 from Advanced settings if it was created with another Python version.
-- Vercel can run Python ASGI/WSGI apps such as FastAPI or Flask, but this Streamlit app would need to be converted to a normal web frontend plus an API before deploying there.
 
 App sections:
 
@@ -147,3 +140,4 @@ The central `cars` and `car_listings` tables store vehicle identity and listing-
 ## Resume Summary
 
 Built an end-to-end used car market analytics project for Uzbekistan using scraped OLX listing data, Python data cleaning, SQL schema design, Streamlit visualization, and machine learning price prediction.
+

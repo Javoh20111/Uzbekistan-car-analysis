@@ -1,7 +1,7 @@
 {
     "claudeCode.useTerminal": true,
-    "python-envs.defaultEnvManager": "ms-python.python:venv",
-    "python-envs.defaultPackageManager": "ms-python.python:pip",
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
     "sqltools.connections": [
         {
             "ssh": "Disabled",

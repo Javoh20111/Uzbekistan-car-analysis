@@ -1,42 +1,76 @@
-import altair as alt
-import pandas as pd
-import sklearn
-import streamlit as st
 from datetime import date
 
-from src.config import MODEL_ARTIFACT_PATH
-from src.price_model import (
-    CATEGORICAL_MODEL_FEATURES,
-    CONDITION_ORDER,
-    load_price_model,
-)
+import altair as alt
+import pandas as pd
+import streamlit as st
 
 
-@st.cache_resource(show_spinner="Loading price prediction model...")
-def load_cached_price_model(path, modified_time):
-    return load_price_model(path)
+PRICE_COLUMN = "price_usd"
 
 
-def sorted_options(df, column):
+def _format_usd(value):
+    if pd.isna(value):
+        return "-"
+    return f"${value:,.0f}"
+
+
+def _options(df, column):
+    if column not in df.columns:
+        return []
     return sorted(df[column].dropna().astype(str).unique())
 
 
-def normalize_rare_value(value, common_values):
-    return value if value in common_values else "Other"
+def _filtered_data(df):
+    with st.sidebar:
+        st.header("Filters")
+        brands = st.multiselect("Brand", _options(df, "brand"))
+        regions = st.multiselect("Region", _options(df, "region"))
+        body_types = st.multiselect("Body type", _options(df, "body_type"))
+
+        year_values = pd.to_numeric(df["year"], errors="coerce").dropna()
+        min_year = int(year_values.min())
+        max_year = int(year_values.max())
+        year_range = st.slider("Year", min_year, max_year, (min_year, max_year))
+
+        price_values = pd.to_numeric(df[PRICE_COLUMN], errors="coerce").dropna()
+        min_price = int(price_values.min())
+        max_price = int(price_values.quantile(0.99))
+        price_range = st.slider(
+            "Price, USD",
+            min_price,
+            max_price,
+            (min_price, max_price),
+            step=500,
+        )
+
+    filtered = df.copy()
+    if brands:
+        filtered = filtered[filtered["brand"].astype(str).isin(brands)]
+    if regions:
+        filtered = filtered[filtered["region"].astype(str).isin(regions)]
+    if body_types:
+        filtered = filtered[filtered["body_type"].astype(str).isin(body_types)]
+
+    filtered = filtered[
+        pd.to_numeric(filtered["year"], errors="coerce").between(*year_range)
+        & pd.to_numeric(filtered[PRICE_COLUMN], errors="coerce").between(*price_range)
+    ]
+    return filtered
 
 
 def render_dashboard(df):
     st.subheader("Market Overview")
 
+    price = pd.to_numeric(df[PRICE_COLUMN], errors="coerce")
     total_listings = len(df)
-    median_price = df["price_usd"].median()
-    average_price = df["price_usd"].mean()
+    median_price = price.median()
+    average_price = price.mean()
     top_brand = df["brand"].mode().iat[0] if not df["brand"].mode().empty else "Unknown"
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Listings", f"{total_listings:,}")
-    col2.metric("Median Price", f"${median_price:,.0f}")
-    col3.metric("Average Price", f"${average_price:,.0f}")
+    col2.metric("Median Price", _format_usd(median_price))
+    col3.metric("Average Price", _format_usd(average_price))
     col4.metric("Top Brand", top_brand)
 
     chart_col1, chart_col2 = st.columns(2)
@@ -47,7 +81,7 @@ def render_dashboard(df):
         brand_counts.columns = ["brand", "listings"]
         chart = (
             alt.Chart(brand_counts)
-            .mark_bar()
+            .mark_bar(cornerRadiusEnd=3)
             .encode(
                 x=alt.X("listings:Q", title="Listings"),
                 y=alt.Y("brand:N", sort="-x", title="Brand"),
@@ -59,51 +93,40 @@ def render_dashboard(df):
     with chart_col2:
         st.markdown("#### Median Price by Region")
         region_prices = (
-            df.groupby("region", as_index=False)["price_usd"]
+            df.groupby("region", as_index=False)[PRICE_COLUMN]
             .median()
-            .sort_values("price_usd", ascending=False)
+            .sort_values(PRICE_COLUMN, ascending=False)
             .head(15)
         )
         chart = (
             alt.Chart(region_prices)
-            .mark_bar()
+            .mark_bar(cornerRadiusEnd=3)
             .encode(
-                x=alt.X("price_usd:Q", title="Median price, USD"),
+                x=alt.X(f"{PRICE_COLUMN}:Q", title="Median price, USD"),
                 y=alt.Y("region:N", sort="-x", title="Region"),
-                tooltip=["region", alt.Tooltip("price_usd:Q", format=",.0f")],
+                tooltip=["region", alt.Tooltip(f"{PRICE_COLUMN}:Q", format=",.0f")],
             )
         )
         st.altair_chart(chart, use_container_width=True)
+
+    st.markdown("#### Price Distribution")
+    hist_df = df[[PRICE_COLUMN]].dropna()
+    chart = (
+        alt.Chart(hist_df)
+        .mark_bar()
+        .encode(
+            x=alt.X(f"{PRICE_COLUMN}:Q", bin=alt.Bin(maxbins=50), title="Price, USD"),
+            y=alt.Y("count():Q", title="Listings"),
+            tooltip=[alt.Tooltip("count():Q", title="Listings")],
+        )
+    )
+    st.altair_chart(chart, use_container_width=True)
 
 
 def render_analysis(df):
     st.subheader("Exploratory Analysis")
 
-    with st.sidebar:
-        st.header("Filters")
-        selected_brands = st.multiselect(
-            "Brand",
-            sorted(df["brand"].dropna().unique()),
-            default=[],
-        )
-        selected_regions = st.multiselect(
-            "Region",
-            sorted(df["region"].dropna().unique()),
-            default=[],
-        )
-        min_year = int(df["year"].dropna().min())
-        max_year = int(df["year"].dropna().max())
-        year_range = st.slider("Year", min_year, max_year, (min_year, max_year))
-
-    filtered = df.copy()
-    if selected_brands:
-        filtered = filtered[filtered["brand"].isin(selected_brands)]
-    if selected_regions:
-        filtered = filtered[filtered["region"].isin(selected_regions)]
-    filtered = filtered[
-        filtered["year"].between(year_range[0], year_range[1], inclusive="both")
-    ]
-
+    filtered = _filtered_data(df)
     st.write(f"Filtered listings: **{len(filtered):,}**")
 
     if filtered.empty:
@@ -114,143 +137,161 @@ def render_analysis(df):
 
     with col1:
         st.markdown("#### Price vs Year")
+        sample = filtered.sample(min(len(filtered), 5000), random_state=42)
         chart = (
-            alt.Chart(filtered.sample(min(len(filtered), 5000), random_state=42))
+            alt.Chart(sample)
             .mark_circle(size=24, opacity=0.35)
             .encode(
                 x=alt.X("year:Q", title="Year"),
-                y=alt.Y("price_usd:Q", title="Price, USD"),
+                y=alt.Y(f"{PRICE_COLUMN}:Q", title="Price, USD"),
                 color=alt.Color("brand:N", legend=None),
-                tooltip=["brand", "car_name", "year", "price_usd"],
+                tooltip=["brand", "car_name", "year", PRICE_COLUMN, "mileage"],
             )
         )
         st.altair_chart(chart, use_container_width=True)
 
     with col2:
-        st.markdown("#### Price by Fuel Type")
+        st.markdown("#### Median Price by Fuel Type")
         fuel_prices = (
-            filtered.groupby("fuel_type", as_index=False)["price_usd"]
+            filtered.groupby("fuel_type", as_index=False)[PRICE_COLUMN]
             .median()
-            .sort_values("price_usd", ascending=False)
+            .sort_values(PRICE_COLUMN, ascending=False)
         )
         chart = (
             alt.Chart(fuel_prices)
-            .mark_bar()
+            .mark_bar(cornerRadiusEnd=3)
             .encode(
-                x=alt.X("price_usd:Q", title="Median price, USD"),
+                x=alt.X(f"{PRICE_COLUMN}:Q", title="Median price, USD"),
                 y=alt.Y("fuel_type:N", sort="-x", title="Fuel type"),
-                tooltip=["fuel_type", alt.Tooltip("price_usd:Q", format=",.0f")],
+                tooltip=["fuel_type", alt.Tooltip(f"{PRICE_COLUMN}:Q", format=",.0f")],
             )
         )
         st.altair_chart(chart, use_container_width=True)
 
-
-def render_predictor(df):
-    st.subheader("Price Predictor")
-
-    if not MODEL_ARTIFACT_PATH.exists():
-        st.warning(
-            "The trained model file is missing. Run "
-            "`python3 scripts/train_price_model.py` once, then restart the app."
+    st.markdown("#### Body Type Share")
+    body_counts = filtered["body_type"].value_counts().head(10).reset_index()
+    body_counts.columns = ["body_type", "listings"]
+    chart = (
+        alt.Chart(body_counts)
+        .mark_arc(innerRadius=55)
+        .encode(
+            theta=alt.Theta("listings:Q"),
+            color=alt.Color("body_type:N", title="Body type"),
+            tooltip=["body_type", "listings"],
         )
-        return
-
-    try:
-        artifact = load_cached_price_model(
-            str(MODEL_ARTIFACT_PATH),
-            MODEL_ARTIFACT_PATH.stat().st_mtime,
-        )
-    except Exception as exc:
-        st.error(
-            "Could not load the saved price model. This usually happens when the "
-            "model was trained with a different Python or scikit-learn version "
-            "than the one running the app."
-        )
-        st.caption(f"Current scikit-learn version: {sklearn.__version__}")
-        st.code("python3 scripts/train_price_model.py\npython3 -m streamlit run app.py")
-        st.exception(exc)
-        return
-    model = artifact["model"]
-    metrics = artifact["metrics"]
-    rare_value_maps = artifact["rare_value_maps"]
-
-    metric_col1, metric_col2, metric_col3 = st.columns(3)
-    metric_col1.metric("Model", "Random Forest")
-    metric_col2.metric("Test RMSE", f"${metrics['rmse']:,.0f}")
-    metric_col3.metric("Test R2", f"{metrics['r2']:.3f}")
-
-    st.caption(
-        f"Loaded saved model trained on {metrics['training_rows']:,} listings and tested on "
-        f"{metrics['testing_rows']:,} listings."
     )
+    st.altair_chart(chart, use_container_width=True)
 
-    with st.form("price_prediction_form"):
+
+def render_price_estimator(df):
+    st.subheader("Price Check")
+
+    clean_df = df.copy()
+    clean_df[PRICE_COLUMN] = pd.to_numeric(clean_df[PRICE_COLUMN], errors="coerce")
+    clean_df["year"] = pd.to_numeric(clean_df["year"], errors="coerce")
+    clean_df["mileage"] = pd.to_numeric(clean_df["mileage"], errors="coerce")
+    clean_df = clean_df.dropna(subset=[PRICE_COLUMN, "year"])
+
+    with st.form("price_check_form"):
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            brand = st.selectbox("Brand", sorted_options(df, "brand"))
-            model_clean = st.selectbox("Model", sorted_options(df, "model_clean"))
+            brand = st.selectbox("Brand", _options(clean_df, "brand"))
+            model = st.selectbox("Model", _options(clean_df[clean_df["brand"] == brand], "model_clean"))
             year = st.number_input(
                 "Year",
                 min_value=1970,
                 max_value=date.today().year + 1,
                 value=min(2020, date.today().year),
             )
-            mileage = st.number_input("Mileage", min_value=0, value=50_000, step=1_000)
 
         with col2:
-            engine_volume_l = st.number_input(
-                "Engine volume (L)",
-                min_value=0.0,
-                max_value=8.0,
-                value=1.6,
-                step=0.1,
-            )
-            owners_count = st.number_input(
-                "Owners count",
-                min_value=0,
-                max_value=10,
-                value=1,
-                step=1,
-            )
-            fuel_type = st.selectbox("Fuel type", sorted_options(df, "fuel_type"))
-            transmission = st.selectbox("Transmission", sorted_options(df, "transmission"))
+            region = st.selectbox("Region", _options(clean_df, "region"))
+            fuel_type = st.selectbox("Fuel type", _options(clean_df, "fuel_type"))
+            transmission = st.selectbox("Transmission", _options(clean_df, "transmission"))
 
         with col3:
-            body_type = st.selectbox("Body type", sorted_options(df, "body_type"))
-            condition = st.selectbox("Condition", list(CONDITION_ORDER.keys()), index=2)
-            region = st.selectbox("Region", sorted_options(df, "region"))
-            district_column = "district" if "district" in df.columns else "district_clean"
-            district = st.selectbox("District", sorted_options(df, district_column))
-            color = st.selectbox("Color", sorted_options(df, "color"))
+            body_type = st.selectbox("Body type", _options(clean_df, "body_type"))
+            mileage = st.number_input("Mileage", min_value=0, value=50_000, step=1_000)
+            year_window = st.slider("Year match window", 1, 8, 3)
 
-        submitted = st.form_submit_button("Predict Price")
+        submitted = st.form_submit_button("Estimate")
 
-    if submitted:
-        prediction_input = pd.DataFrame([{
-            "mileage": mileage,
-            "engine_volume_l": engine_volume_l,
-            "owners_count": owners_count,
-            "age": date.today().year - year,
-            "condition": CONDITION_ORDER[condition],
-            "brand": brand,
-            "model_clean": normalize_rare_value(model_clean, rare_value_maps["model_clean"]),
-            "fuel_type": fuel_type,
-            "transmission": transmission,
-            "body_type": body_type,
-            "region": region,
-            "color": color,
-            "district": normalize_rare_value(district, rare_value_maps["district"]),
-        }])
+    if not submitted:
+        return
 
-        prediction_input[CATEGORICAL_MODEL_FEATURES] = prediction_input[
-            CATEGORICAL_MODEL_FEATURES
-        ].astype(str)
-        predicted_price = model.predict(prediction_input)[0]
+    comparable = clean_df[
+        (clean_df["brand"] == brand)
+        & (clean_df["model_clean"] == model)
+        & (clean_df["year"].between(year - year_window, year + year_window))
+    ]
 
-        result_col1, result_col2 = st.columns([1, 2])
-        result_col1.metric("Estimated Price", f"${predicted_price:,.0f}")
-        result_col2.info(
-            f"Typical model error is about ${metrics['mae']:,.0f} MAE, "
-            "so treat this as a market estimate rather than an exact listing price."
-        )
+    mileage_window = max(25_000, int(mileage * 0.5))
+    mileage_matched = comparable[
+        comparable["mileage"].between(mileage - mileage_window, mileage + mileage_window)
+    ]
+    if len(mileage_matched) >= 10:
+        comparable = mileage_matched
+
+    if len(comparable) < 10:
+        comparable = clean_df[
+            (clean_df["brand"] == brand)
+            & (clean_df["body_type"] == body_type)
+            & (clean_df["fuel_type"] == fuel_type)
+            & (clean_df["transmission"] == transmission)
+            & (clean_df["year"].between(year - year_window, year + year_window))
+        ]
+
+    if len(comparable) < 5:
+        comparable = clean_df[
+            (clean_df["brand"] == brand)
+            & (clean_df["year"].between(year - year_window, year + year_window))
+        ]
+
+    if comparable.empty:
+        st.warning("No comparable listings found. Try a wider year window.")
+        return
+
+    median_price = comparable[PRICE_COLUMN].median()
+    low_price = comparable[PRICE_COLUMN].quantile(0.25)
+    high_price = comparable[PRICE_COLUMN].quantile(0.75)
+
+    metric_col1, metric_col2, metric_col3 = st.columns(3)
+    metric_col1.metric("Estimated Price", _format_usd(median_price))
+    metric_col2.metric("Typical Range", f"{_format_usd(low_price)} - {_format_usd(high_price)}")
+    metric_col3.metric("Comparable Listings", f"{len(comparable):,}")
+
+    st.caption(
+        "This estimate uses median prices from similar listings in the cleaned dataset, "
+        "so it is stable and does not require a saved machine learning model."
+    )
+
+    preview_columns = [
+        "car_name",
+        "brand",
+        "model_clean",
+        "year",
+        "mileage",
+        "region",
+        "fuel_type",
+        "transmission",
+        PRICE_COLUMN,
+    ]
+    available_columns = [column for column in preview_columns if column in comparable.columns]
+    st.dataframe(
+        comparable.sort_values(PRICE_COLUMN)[available_columns].head(100),
+        use_container_width=True,
+    )
+
+
+def render_data_table(df):
+    st.subheader("Cleaned Dataset")
+
+    csv = df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        "Download cleaned CSV",
+        data=csv,
+        file_name="car_postings_olx.csv",
+        mime="text/csv",
+    )
+    st.dataframe(df, use_container_width=True)

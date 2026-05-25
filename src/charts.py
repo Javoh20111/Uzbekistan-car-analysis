@@ -80,12 +80,11 @@ def categorical_analysis(df):
     ax4 = axs[1, 1]
     fuel_type_counts = df['fuel_type'].value_counts()
     ax4.bar(fuel_type_counts.index, fuel_type_counts.values, color=colors)
-    ax4.tick_params(axis='x', labelrotation=45)
-    for label in ax4.get_xticklabels():
-        label.set_ha('right')
+    ax4.set_xticklabels(fuel_type_counts.index, rotation=45, ha='right')
     ax4.set_title('Most Common Fuel Types', fontweight='bold')
     ax4.spines[['top','right']].set_visible(False)
     st.pyplot(fig)
+
 
 
 
