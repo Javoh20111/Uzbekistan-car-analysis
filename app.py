@@ -102,4 +102,72 @@ with tab3:
 with tab4:
     st.subheader("Cleaned Dataset")
 
-    
+    cleaned_df = conn.query("""
+    SELECT
+        cl.url,
+        c.car_name,
+        b.brand_name,
+        c.model_clean,
+        c.year,
+        c.year_valid,
+        c.engine_volume_l,
+
+        cl.description,
+        cl.price_usd,
+        cl.is_outlier,
+
+        cond.condition_name,
+        col.color_name,
+        tr.transmission_name,
+        ft.fuel_type_name,
+
+        r.region_name,
+        d.district_name,
+
+        cl.mileage,
+        cl.mileage_log,
+        cl.mileage_group,
+
+        cl.owners_count,
+        cl.created_at,
+        cl.image_url
+
+    FROM car_listings cl
+
+    LEFT JOIN cars c
+        ON cl.url = c.url
+
+    LEFT JOIN brands b
+        ON c.brand_id = b.brand_id
+
+    LEFT JOIN currencies curr
+        ON cl.currency_id = curr.currency_id
+
+    LEFT JOIN conditions cond
+        ON cl.condition_id = cond.condition_id
+
+    LEFT JOIN colors col
+        ON cl.color_id = col.color_id
+
+    LEFT JOIN transmissions tr
+        ON cl.transmission_id = tr.transmission_id
+
+    LEFT JOIN fuel_types ft
+        ON cl.fuel_type_id = ft.fuel_type_id
+
+    LEFT JOIN regions r
+        ON cl.region_id = r.region_id
+
+    LEFT JOIN districts d
+        ON cl.district_id = d.district_id
+
+    WHERE cl.is_outlier = FALSE;
+        """)
+    csv = cleaned_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        "Download cleaned CSV",
+        data=csv,
+        file_name="car_postings_olx.csv",
+        mime="text/csv",
+    )
+    st.dataframe(cleaned_df, use_container_width=True)
