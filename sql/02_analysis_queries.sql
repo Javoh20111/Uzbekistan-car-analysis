@@ -78,6 +78,9 @@ HAVING color_name IS NOT NULL
 ORDER BY percentile_50 DESC, qaydlar_soni DESC 
 
 
+
+
+
 SELECT
     brands.brand_name,
     COUNT(cars.brand_id) AS count
@@ -90,3 +93,7 @@ GROUP BY
 HAVING COUNT(cars.brand_id) > 0
 ORDER BY
     count DESC
+
+
+SELECT
+    

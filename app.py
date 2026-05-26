@@ -90,7 +90,7 @@ with tab1:
     col3.metric("Average Price", f"{average_price:,.0f}")
     col4.metric("Top Brands", f"{top_brand_name} ({top_brand_count:,.0f})")
 
-    
+
 
 
 with tab2:
@@ -98,3 +98,8 @@ with tab2:
 
 with tab3:
     st.header("An owl")
+
+with tab4:
+    st.subheader("Cleaned Dataset")
+
+    
