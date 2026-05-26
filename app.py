@@ -36,7 +36,9 @@ st.caption("OLX car listings dashboard, exploratory analysis, and price predicti
 #---------------------------------------------------------------------
 #   Sidebar                                                          |
 #---------------------------------------------------------------------
-st.sidebar.write("HI")
+with st.sidebar:
+    if st.button("Refresh data"):
+        st.rerun()
 
 
 

@@ -618,3 +618,48 @@
 2026-05-26 14:28:19,221 [INFO] [olx_scraper.py:303] Saved batch of 10 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv (total 10)
 2026-05-26 14:28:19,221 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
 2026-05-26 14:28:19,623 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 10 new listing records.
+2026-05-26 14:55:42,500 [INFO] [olx_scraper.py:242] Loaded 0 existing ad URLs from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:55:42,501 [INFO] [olx_scraper.py:773] ============================================================
+2026-05-26 14:55:42,501 [INFO] [olx_scraper.py:774] Unified OLX.uz Scraper Started
+2026-05-26 14:55:42,501 [INFO] [olx_scraper.py:776] TEST MODE — will stop after 10 new listings
+2026-05-26 14:55:42,501 [INFO] [olx_scraper.py:777] ============================================================
+2026-05-26 14:55:46,847 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-26 14:55:46,848 [INFO] [olx_scraper.py:804] Processing price range 1/35: 1000 to 2000 USD
+2026-05-26 14:55:46,848 [INFO] [olx_scraper.py:816] Checking search result page 1 for range 1000-2000
+2026-05-26 14:55:48,430 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-sotiladi-holati-zor-ID4kwfS.html
+2026-05-26 14:56:23,227 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/tiko-sotiladi-holati-zor-ID4kwfS.html (attempt 3)
+2026-05-26 14:56:51,282 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/tiko-sotiladi-holati-zor-ID4kwfS.html (attempt 4)
+2026-05-26 14:56:52,973 [INFO] [olx_scraper.py:859] Scraping detail page: toshkent-viloyati-toshkent-tumani-ID4n3lK.html
+2026-05-26 14:57:09,628 [INFO] [olx_scraper.py:859] Scraping detail page: moshina-sotiladi-chiroyli-matiz-ID4nINw.html
+2026-05-26 14:57:26,240 [INFO] [olx_scraper.py:859] Scraping detail page: moshina-sotiladi-ID40iML.html
+2026-05-26 14:57:51,348 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/moshina-sotiladi-ID40iML.html (attempt 1)
+2026-05-26 14:58:03,534 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-sotiladi-2008-yil-ID4nPl7.html
+2026-05-26 14:58:14,988 [INFO] [olx_scraper.py:859] Scraping detail page: 24-10-sotiladi-holati-yaxshi-narxini-kelishamiz-ID3yWf1.html
+2026-05-26 14:58:26,097 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-matiz-otlichnaya-ID4nvWl.html
+2026-05-26 14:58:37,239 [INFO] [olx_scraper.py:859] Scraping detail page: xolati-ideal-uzimdi-moshinam-ID3P054.html
+2026-05-26 14:58:48,408 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-arenda-bowga-400-13-oy-200-ID4nOO5.html
+2026-05-26 14:59:00,172 [INFO] [olx_scraper.py:859] Scraping detail page: volga-sotiladi-yili-1993-ID4mjns.html
+2026-05-26 14:59:11,557 [INFO] [olx_scraper.py:859] Scraping detail page: juguli-11-sotiladi-ID3YnpR.html
+2026-05-26 14:59:22,850 [INFO] [olx_scraper.py:859] Scraping detail page: nexi-1-yili-1999-ID4nODj.html
+2026-05-26 14:59:34,622 [WARNING] [olx_scraper.py:841] Too many continuous parse failures — performing browser hard restart
+2026-05-26 14:59:34,625 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-26 14:59:37,296 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-26 15:00:09,726 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2107-sotiladi-ID3Joey.html
+2026-05-26 15:00:34,782 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/vaz-2107-sotiladi-ID3Joey.html (attempt 1)
+2026-05-26 15:01:02,833 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/vaz-2107-sotiladi-ID3Joey.html (attempt 2)
+2026-05-26 15:01:30,879 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/vaz-2107-sotiladi-ID3Joey.html (attempt 3)
+2026-05-26 15:01:58,941 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/vaz-2107-sotiladi-ID3Joey.html (attempt 4)
+2026-05-26 15:02:00,922 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-gidravlika-2009yil-arenda-ID4mdR1.html
+2026-05-26 15:02:14,814 [INFO] [olx_scraper.py:859] Scraping detail page: 2107-dlya-lyubiteley-ID4lF94.html
+2026-05-26 15:02:26,430 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-nexia-1-sons-ID4l7gq.html
+2026-05-26 15:02:38,564 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-mix-2011-xolat-ortacha-padyubka-sepilgan-ID4nOaM.html
+2026-05-26 15:03:13,876 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-mix-2006-polniy-shumka-ID4nO6i.html
+2026-05-26 15:03:38,961 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/matiz-mix-2006-polniy-shumka-ID4nO6i.html (attempt 1)
+2026-05-26 15:03:45,235 [INFO] [olx_scraper.py:859] Scraping detail page: volga-gaz-2401-pikap-ID40gfc.html
+2026-05-26 15:03:48,620 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-06-yili-1985-ID3bnfD.html
+2026-05-26 15:03:51,638 [INFO] [olx_scraper.py:859] Scraping detail page: lada-samara-sotiladi-ID2YXOz.html
+2026-05-26 15:03:54,244 [INFO] [olx_scraper.py:859] Scraping detail page: damas-sotladi-2010-yil-ID4nElD.html
+2026-05-26 15:04:00,108 [INFO] [olx_scraper.py:898] Target test limit of 10 records reached. Stopping scraper.
+2026-05-26 15:04:00,130 [INFO] [olx_scraper.py:303] Saved batch of 10 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv (total 10)
+2026-05-26 15:04:00,131 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-26 15:04:00,604 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 10 new listing records.
