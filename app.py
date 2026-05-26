@@ -90,16 +90,28 @@ with tab1:
     col3.metric("Average Price", f"{average_price:,.0f}")
     col4.metric("Top Brands", f"{top_brand_name} ({top_brand_count:,.0f})")
 
+    column1, column2 = st.columns(2)
+
+    with column1:
+        st.markdown("#### Listings by Brand")
+        
+
 
 
 
 with tab2:
-    st.header("A dog")
+    st.header("Charts & Insights")
+
+
 
 with tab3:
     st.header("An owl")
 
+
 with tab4:
+    #---------------------------------------------------------------------
+    #  Clean dataset                                                      |
+    #---------------------------------------------------------------------
     st.subheader("Cleaned Dataset")
 
     cleaned_df = conn.query("""
@@ -161,7 +173,14 @@ with tab4:
     LEFT JOIN districts d
         ON cl.district_id = d.district_id
 
-    WHERE cl.is_outlier = FALSE;
+    WHERE 
+        cl.is_outlier IS NOT NULL
+        AND cl.region_id IS NOT NULL
+        AND cl.district_id IS NOT NULL
+        AND cl.owners_count IS NOT NULL
+        AND cond.condition_name IS NOT NULL
+        AND col.color_name IS NOT NULL
+        AND tr.transmission_name IS NOT NULL
         """)
     csv = cleaned_df.to_csv(index=False).encode("utf-8")
     st.download_button(
@@ -171,3 +190,6 @@ with tab4:
         mime="text/csv",
     )
     st.dataframe(cleaned_df, use_container_width=True)
+
+    st.subheader("Want to build project like this!!? I’ve got you.")
+    st.markdown("Visit the [datasets/shukrullo](https://www.kaggle.com/datasets/shukrullo/all-car-ads-from-olx-as-scraped) to take raw data.", unsafe_allow_html=True)

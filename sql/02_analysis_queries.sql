@@ -152,3 +152,5 @@ LEFT JOIN districts d
     ON cl.district_id = d.district_id
 
 WHERE cl.is_outlier = FALSE;
+
+SELECT COUNT(*) from car_listings
