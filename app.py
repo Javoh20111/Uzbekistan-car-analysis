@@ -1,6 +1,7 @@
 import streamlit as st
 import altair as alt
-import pandas as pd
+import duckdb
+from pathlib import Path
 
 st.set_page_config(
     page_title="Uzbekistan Car Market",
@@ -10,12 +11,19 @@ st.set_page_config(
 #---------------------------------------------------------------------
 #   Data load                                                         |
 #---------------------------------------------------------------------
-# 1. Initialize connection
-# The "sql" type uses SQLAlchemy under the hood
-conn = st.connection("postgresql", type="sql")
+DB_PATH = Path(__file__).parent / "cars.duckdb"
 
-# 2. Perform a query and cache the result
-df = conn.query("SELECT * FROM car_listings;", ttl=600)
+
+@st.cache_data(ttl=600)
+def query(sql):
+    conn = duckdb.connect(str(DB_PATH), read_only=True)
+    try:
+        return conn.execute(sql).df()
+    finally:
+        conn.close()
+
+
+df = query("SELECT * FROM car_listings;")
 
 
 #---------------------------------------------------------------------
@@ -38,6 +46,7 @@ st.caption("OLX car listings dashboard, exploratory analysis, and price predicti
 #---------------------------------------------------------------------
 with st.sidebar:
     if st.button("Refresh data"):
+        st.cache_data.clear()
         st.rerun()
 
 
@@ -67,7 +76,7 @@ with tab1:
     total_listings = len(df)
     median_price = df["price_usd"].median()
     average_price = df["price_usd"].mean()
-    top_brand = conn.query("""
+    top_brand = query("""
         SELECT
             brands.brand_name,
             COUNT(cars.brand_id) AS listings
@@ -80,7 +89,7 @@ with tab1:
         HAVING COUNT(cars.brand_id) > 0
         ORDER BY
             listings DESC
-                    """, ttl=600)
+                    """)
     top_brand_name = top_brand["brand_name"].iat[0]
     top_brand_count = top_brand["listings"].iat[0]
     
@@ -110,10 +119,10 @@ with tab1:
     with column2:
         st.markdown("#### Median Price by Region")
 
-        region_prices = conn.query("""
+        region_prices = query("""
             SELECT
                 regions.region_name AS region,
-                percentile_cont(0.50) WITHIN GROUP (ORDER BY price_usd) AS median_price
+                median(price_usd) AS median_price
             FROM
                 car_listings cl
                 LEFT JOIN regions on regions.region_id = cl.region_id
@@ -140,7 +149,7 @@ with tab1:
     with car_age:
         st.markdown("#### Distribution of Car Manufacturing Years")
 
-        car_years = conn.query("""
+        car_years = query("""
             SELECT
                 year
             FROM
@@ -194,7 +203,7 @@ with tab4:
     #---------------------------------------------------------------------
     st.subheader("Cleaned Dataset")
 
-    cleaned_df = conn.query("""
+    cleaned_df = query("""
     SELECT
         cl.url,
         c.car_name,
