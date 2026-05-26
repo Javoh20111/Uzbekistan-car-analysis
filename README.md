@@ -136,5 +136,3 @@ The SQL schema separates repeated entities into dimension tables, including:
 - Sale options
 
 The central `cars` and `car_listings` tables store vehicle identity and listing-level details, with bridge tables for multi-value sale and additional options.
-
-
