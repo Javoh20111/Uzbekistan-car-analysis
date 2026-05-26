@@ -78,4 +78,7 @@ HAVING color_name IS NOT NULL
 ORDER BY percentile_50 DESC, qaydlar_soni DESC 
 
 
-SELECT COUNT(*) FROM car_listings;
+SELECT url, COUNT(*)
+FROM car_listings
+GROUP BY url
+HAVING COUNT(*) > 1;

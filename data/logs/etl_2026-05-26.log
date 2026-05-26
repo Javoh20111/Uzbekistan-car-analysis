@@ -1,0 +1,56 @@
+2026-05-26 07:17:22,683 [INFO] ============================================================
+2026-05-26 07:17:22,683 [INFO] ETL Pipeline started — date: 2026-05-26
+2026-05-26 07:17:22,683 [INFO] TEST MODE — limited to 5 scraped listings
+2026-05-26 07:17:22,683 [INFO] ============================================================
+2026-05-26 07:17:22,970 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 07:23:57,382 [INFO] [EXTRACT] Done — 5 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 07:23:57,382 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 07:23:57,561 [INFO] [TRANSFORM] Raw shape: (5, 25)
+2026-05-26 07:23:57,561 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-26 07:23:57,582 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-26 07:23:57,594 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-26 07:23:57,605 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-26 07:23:57,612 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-26 07:23:57,616 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-26 07:23:57,618 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-26 07:23:57,619 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-26 07:23:57,622 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-26 07:23:57,627 [INFO] [TRANSFORM] Done — cleaned shape: (5, 36)
+2026-05-26 07:23:57,630 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-26/car_data_clean.csv
+2026-05-26 07:23:57,630 [INFO] [LOAD] Starting database insertion …
+2026-05-26 07:23:57,630 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-26 07:23:57,744 [INFO] Syncing lookup tables …
+2026-05-26 07:23:58,198 [INFO] Lookup tables synced.
+2026-05-26 07:23:59,883 [INFO] DB load complete — rows seen: 5, cars inserted: 1, listings inserted: 1, duplicate listings: 4, bridge rows inserted: 1, skipped: 0, table totals: cars=48316, listings=48316
+2026-05-26 07:23:59,884 [INFO] [LOAD] Done — 1 listings processed.
+2026-05-26 07:23:59,884 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-26/olx_car_data_test_2026-05-26.csv
+2026-05-26 07:23:59,884 [INFO] ============================================================
+2026-05-26 07:23:59,884 [INFO] ETL Pipeline completed successfully.
+2026-05-26 07:23:59,884 [INFO] ============================================================
