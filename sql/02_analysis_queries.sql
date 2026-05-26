@@ -154,3 +154,37 @@ LEFT JOIN districts d
 WHERE cl.is_outlier = FALSE;
 
 SELECT COUNT(*) from car_listings
+
+
+
+SELECT
+    regions.region_name,
+    percentile_cont(0.50) WITHIN GROUP (ORDER BY price_usd) AS median_price
+FROM
+    car_listings cl
+    LEFT JOIN regions on regions.region_id = cl.region_id
+WHERE regions.region_name IS NOT NULL
+GROUP BY
+    regions.region_name
+ORDER BY
+    median_price DESC;
+
+SELECT
+    regions.region_name,
+    percentile_cont(0.50) WITHIN GROUP (ORDER BY price_usd) AS median_price
+FROM
+    car_listings cl
+    LEFT JOIN regions on regions.region_id = cl.region_id
+WHERE regions.region_name IS NOT NULL
+GROUP BY
+    regions.region_name
+ORDER BY
+    median_price DESC;
+
+SELECT
+    year
+FROM
+    cars
+WHERE
+    year_valid = TRUE
+    AND year IS NOT NULL

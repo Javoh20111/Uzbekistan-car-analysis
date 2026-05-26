@@ -2,6 +2,11 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 
+st.set_page_config(
+    page_title="Uzbekistan Car Market",
+    layout="wide",
+)
+
 #---------------------------------------------------------------------
 #   Data load                                                         |
 #---------------------------------------------------------------------
@@ -11,13 +16,6 @@ conn = st.connection("postgresql", type="sql")
 
 # 2. Perform a query and cache the result
 df = conn.query("SELECT * FROM car_listings;", ttl=600)
-
-
-
-st.set_page_config(
-    page_title="Uzbekistan Car Market",
-    layout="wide",
-)
 
 
 #---------------------------------------------------------------------
@@ -70,7 +68,7 @@ with tab1:
     top_brand = conn.query("""
         SELECT
             brands.brand_name,
-            COUNT(cars.brand_id) AS count
+            COUNT(cars.brand_id) AS listings
         FROM
             car_listings cl
             LEFT JOIN cars on cars.url = cl.url
@@ -79,10 +77,10 @@ with tab1:
             brands.brand_name
         HAVING COUNT(cars.brand_id) > 0
         ORDER BY
-            count DESC
+            listings DESC
                     """, ttl=600)
     top_brand_name = top_brand["brand_name"].iat[0]
-    top_brand_count = top_brand["count"].iat[0]
+    top_brand_count = top_brand["listings"].iat[0]
     
     col1,col2,col3,col4 = st.columns(4)
     col1.metric("Listings", f"{total_listings:,}")
@@ -95,6 +93,86 @@ with tab1:
     with column1:
         st.markdown("#### Listings by Brand")
         
+        chart = (
+            alt.Chart(top_brand)
+            .mark_bar()
+            .encode(
+                x=alt.X("listings:Q", title="Listings"),
+                y=alt.Y("brand_name:N", sort="-x", title="Brand"),
+                tooltip=["brand_name", "listings"],
+            )
+         )
+        st.altair_chart(chart, use_container_width=True)
+
+    
+    with column2:
+        st.markdown("#### Median Price by Region")
+
+        region_prices = conn.query("""
+            SELECT
+                regions.region_name AS region,
+                percentile_cont(0.50) WITHIN GROUP (ORDER BY price_usd) AS median_price
+            FROM
+                car_listings cl
+                LEFT JOIN regions on regions.region_id = cl.region_id
+            WHERE regions.region_name IS NOT NULL
+            GROUP BY
+                regions.region_name
+            ORDER BY
+                median_price DESC;
+        """)
+
+        chart = (
+            alt.Chart(region_prices)
+            .mark_bar()
+            .encode(
+                x=alt.X("median_price:Q", title="Median price, USD"),
+                y=alt.Y("region:N", sort="-x", title="Region"),
+                tooltip=["region", alt.Tooltip("median_price:Q", format=",.0f")],
+            )
+        )
+        st.altair_chart(chart, use_container_width=True)
+
+    car_age, = st.columns(1)
+
+    with car_age:
+        st.markdown("#### Distribution of Car Manufacturing Years")
+
+        car_years = conn.query("""
+            SELECT
+                year
+            FROM
+                cars
+            WHERE
+                year_valid = TRUE
+                AND year IS NOT NULL
+                AND year > 1950
+        """)
+
+        chart = (
+            alt.Chart(car_years)
+            .mark_bar()
+            .encode(
+                x=alt.X(
+                    "year:O",
+                    title="Manufacturing Year",
+                    sort="ascending"
+                ),
+                y=alt.Y(
+                    "count():Q",
+                    title="Number of Listings"
+                ),
+                tooltip=[
+                    alt.Tooltip("year:O", title="Year"),
+                    alt.Tooltip("count():Q", title="Listings")
+                ]
+            )
+            .properties(height=400)
+        )
+
+        st.altair_chart(chart, use_container_width=True)
+
+
 
 
 

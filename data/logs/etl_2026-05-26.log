@@ -54,3 +54,175 @@
 2026-05-26 07:23:59,884 [INFO] ============================================================
 2026-05-26 07:23:59,884 [INFO] ETL Pipeline completed successfully.
 2026-05-26 07:23:59,884 [INFO] ============================================================
+2026-05-26 14:22:30,006 [INFO] ============================================================
+2026-05-26 14:22:30,007 [INFO] ETL Pipeline started — date: 2026-05-26
+2026-05-26 14:22:30,007 [INFO] TEST MODE — limited to 10 scraped listings
+2026-05-26 14:22:30,007 [INFO] ============================================================
+2026-05-26 14:22:30,298 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:31,307 [INFO] [EXTRACT] Done — 0 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:31,307 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:31,390 [INFO] [TRANSFORM] Raw shape: (0, 25)
+2026-05-26 14:23:31,391 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-26 14:23:31,400 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-26 14:23:31,407 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-26 14:23:31,411 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-26 14:23:31,414 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-26 14:23:31,419 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-26 14:23:31,423 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-26 14:23:31,424 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-26 14:23:31,427 [ERROR] [TRANSFORM] FAILED: "None of [Index(['year', 'car_name', 'price_usd'], dtype='object')] are in the [columns]"
+Traceback (most recent call last):
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 234, in main
+    df = step_transform(raw_csv, logger=logger)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 121, in step_transform
+    df = fn(df)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/transformation.py", line 745, in year_cleaner
+    bad_years = df[~df["year_valid"]][["year", "car_name", "price_usd"]]
+                ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 4108, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6200, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6249, in _raise_if_missing
+    raise KeyError(f"None of [{key}] are in the [{axis_name}]")
+KeyError: "None of [Index(['year', 'car_name', 'price_usd'], dtype='object')] are in the [columns]"
+2026-05-26 14:23:55,220 [INFO] ============================================================
+2026-05-26 14:23:55,221 [INFO] ETL Pipeline started — date: 2026-05-26
+2026-05-26 14:23:55,221 [INFO] TEST MODE — limited to 10 scraped listings
+2026-05-26 14:23:55,221 [INFO] ============================================================
+2026-05-26 14:23:55,394 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:58,178 [INFO] [EXTRACT] Done — 0 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:58,179 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:23:58,216 [INFO] [TRANSFORM] Raw shape: (0, 25)
+2026-05-26 14:23:58,216 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-26 14:23:58,227 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-26 14:23:58,234 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-26 14:23:58,240 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-26 14:23:58,246 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-26 14:23:58,253 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-26 14:23:58,255 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-26 14:23:58,255 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-26 14:23:58,256 [ERROR] [TRANSFORM] FAILED: "None of [Index(['year', 'car_name', 'price_usd'], dtype='object')] are in the [columns]"
+Traceback (most recent call last):
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 234, in main
+    df = step_transform(raw_csv, logger=logger)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 121, in step_transform
+    df = fn(df)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/transformation.py", line 745, in year_cleaner
+    bad_years = df[~df["year_valid"]][["year", "car_name", "price_usd"]]
+                ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 4108, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6200, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6249, in _raise_if_missing
+    raise KeyError(f"None of [{key}] are in the [{axis_name}]")
+KeyError: "None of [Index(['year', 'car_name', 'price_usd'], dtype='object')] are in the [columns]"
+2026-05-26 14:26:23,859 [INFO] ============================================================
+2026-05-26 14:26:23,861 [INFO] ETL Pipeline started — date: 2026-05-26
+2026-05-26 14:26:23,861 [INFO] TEST MODE — limited to 10 scraped listings
+2026-05-26 14:26:23,861 [INFO] ============================================================
+2026-05-26 14:26:24,121 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:28:19,625 [INFO] [EXTRACT] Done — 10 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:28:19,625 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:28:19,691 [INFO] [TRANSFORM] Raw shape: (10, 25)
+2026-05-26 14:28:19,691 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-26 14:28:19,700 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-26 14:28:19,705 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-26 14:28:19,709 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-26 14:28:19,714 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-26 14:28:19,718 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-26 14:28:19,719 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-26 14:28:19,720 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-26 14:28:19,723 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-26 14:28:19,729 [INFO] [TRANSFORM] Done — cleaned shape: (10, 36)
+2026-05-26 14:28:19,732 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-26/car_data_clean.csv
+2026-05-26 14:28:19,732 [INFO] [LOAD] Starting database insertion …
+2026-05-26 14:28:19,732 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-26 14:28:19,781 [INFO] Syncing lookup tables …
+2026-05-26 14:28:20,046 [INFO] Lookup tables synced.
+2026-05-26 14:28:20,346 [INFO] DB load complete — rows seen: 10, cars inserted: 2, listings inserted: 2, duplicate listings: 8, bridge rows inserted: 0, skipped: 0, table totals: cars=48318, listings=48318
+2026-05-26 14:28:20,347 [INFO] [LOAD] Done — 2 listings processed.
+2026-05-26 14:28:20,348 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-26/olx_car_data_test_2026-05-26.csv
+2026-05-26 14:28:20,348 [INFO] ============================================================
+2026-05-26 14:28:20,349 [INFO] ETL Pipeline completed successfully.
+2026-05-26 14:28:20,349 [INFO] ============================================================
