@@ -1,0 +1,606 @@
+2026-05-25 23:05:13,842 [INFO] ============================================================
+2026-05-25 23:05:13,842 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:05:13,842 [INFO] ============================================================
+2026-05-25 23:05:13,842 [INFO] [EXTRACT] Skipped — using existing file: /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:05:13,842 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:05:13,850 [INFO] [TRANSFORM] Raw shape: (50, 21)
+2026-05-25 23:05:13,850 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:05:13,859 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:05:13,864 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:05:13,868 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:05:13,874 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:05:13,878 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:05:13,879 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:05:13,880 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:05:13,883 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:05:13,888 [INFO] [TRANSFORM] Done — cleaned shape: (50, 33)
+2026-05-25 23:05:13,894 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:05:13,894 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:05:13,894 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:05:13,938 [INFO] Syncing lookup tables …
+2026-05-25 23:05:14,779 [ERROR] [LOAD] FAILED: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(1) already exists.
+
+[SQL: INSERT INTO districts (district_name) VALUES (%(val)s) ON CONFLICT (district_name) DO NOTHING RETURNING district_id]
+[parameters: {'val': 'Kungrad'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(1) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 250, in main
+    step_load(df, db_url=db_url, logger=logger)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 140, in step_load
+    count = load_to_db(df, db_url=db_url)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/db_loader.py", line 137, in load_to_db
+    district_map = _get_or_create_lookup(engine, "districts",     "district_id",    "district_name",    unique_vals("district"))
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/db_loader.py", line 61, in _get_or_create_lookup
+    result = conn.execute(
+        text(
+    ...<3 lines>...
+        {"val": val}
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(1) already exists.
+
+[SQL: INSERT INTO districts (district_name) VALUES (%(val)s) ON CONFLICT (district_name) DO NOTHING RETURNING district_id]
+[parameters: {'val': 'Kungrad'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-05-25 23:05:14,792 [WARNING] Skipping archive step since load failed.
+2026-05-25 23:05:58,665 [INFO] ============================================================
+2026-05-25 23:05:58,666 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:05:58,666 [INFO] ============================================================
+2026-05-25 23:05:58,666 [INFO] [EXTRACT] Skipped — using existing file: /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:05:58,666 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:05:58,678 [INFO] [TRANSFORM] Raw shape: (50, 21)
+2026-05-25 23:05:58,678 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:05:58,681 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:05:58,685 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:05:58,687 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:05:58,691 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:05:58,695 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:05:58,695 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:05:58,696 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:05:58,699 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:05:58,703 [INFO] [TRANSFORM] Done — cleaned shape: (50, 33)
+2026-05-25 23:05:58,705 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:05:58,705 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:05:58,705 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:05:58,747 [INFO] Syncing lookup tables …
+2026-05-25 23:05:58,953 [ERROR] [LOAD] FAILED: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(2) already exists.
+
+[SQL: INSERT INTO districts (district_name) VALUES (%(v0)s), (%(v1)s), (%(v2)s), (%(v3)s), (%(v4)s) ON CONFLICT (district_name) DO NOTHING]
+[parameters: {'v0': 'Kungrad', 'v1': 'Kibray', 'v2': 'Jomboy', 'v3': 'Chartak', 'v4': 'Yangiaryk'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(2) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 250, in main
+    step_load(df, db_url=db_url, logger=logger)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/orchestrator.py", line 140, in step_load
+    count = load_to_db(df, db_url=db_url)
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/db_loader.py", line 139, in load_to_db
+    district_map = _get_or_create_lookup(engine, "districts",     "district_id",    "district_name",    unique_vals("district"))
+  File "/Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /pipeline/db_loader.py", line 70, in _get_or_create_lookup
+    conn.execute(
+    ~~~~~~~~~~~~^
+        text(f"INSERT INTO {table} ({name_col}) VALUES {placeholders} ON CONFLICT ({name_col}) DO NOTHING"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        params
+        ^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "districts_pkey"
+DETAIL:  Key (district_id)=(2) already exists.
+
+[SQL: INSERT INTO districts (district_name) VALUES (%(v0)s), (%(v1)s), (%(v2)s), (%(v3)s), (%(v4)s) ON CONFLICT (district_name) DO NOTHING]
+[parameters: {'v0': 'Kungrad', 'v1': 'Kibray', 'v2': 'Jomboy', 'v3': 'Chartak', 'v4': 'Yangiaryk'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-05-25 23:05:58,960 [WARNING] Skipping archive step since load failed.
+2026-05-25 23:07:08,290 [INFO] ============================================================
+2026-05-25 23:07:08,290 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:07:08,290 [INFO] ============================================================
+2026-05-25 23:07:08,290 [INFO] [EXTRACT] Skipped — using existing file: /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:07:08,290 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:07:08,301 [INFO] [TRANSFORM] Raw shape: (50, 21)
+2026-05-25 23:07:08,301 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:07:08,305 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:07:08,308 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:07:08,311 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:07:08,317 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:07:08,320 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:07:08,321 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:07:08,322 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:07:08,325 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:07:08,330 [INFO] [TRANSFORM] Done — cleaned shape: (50, 33)
+2026-05-25 23:07:08,332 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:07:08,332 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:07:08,332 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:07:08,360 [INFO] Syncing lookup tables …
+2026-05-25 23:07:08,455 [INFO] Lookup tables synced.
+2026-05-25 23:07:08,718 [INFO] DB load complete — cars: 50, listings: 50, bridge rows: 57, skipped: 0
+2026-05-25 23:07:08,719 [INFO] [LOAD] Done — 50 listings processed.
+2026-05-25 23:07:08,719 [INFO] [ARCHIVE] Skipped.
+2026-05-25 23:07:08,719 [INFO] ============================================================
+2026-05-25 23:07:08,719 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:07:08,719 [INFO] ============================================================
+2026-05-25 23:08:02,000 [INFO] ============================================================
+2026-05-25 23:08:02,006 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:08:02,006 [INFO] ============================================================
+2026-05-25 23:08:02,006 [INFO] [EXTRACT] Skipped — using existing file: /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:08:02,006 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:08:02,018 [INFO] [TRANSFORM] Raw shape: (50, 21)
+2026-05-25 23:08:02,018 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:08:02,023 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:08:02,028 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:08:02,031 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:08:02,036 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:08:02,040 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:08:02,040 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:08:02,041 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:08:02,045 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:08:02,050 [INFO] [TRANSFORM] Done — cleaned shape: (50, 33)
+2026-05-25 23:08:02,052 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:08:02,052 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:08:02,052 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:08:02,094 [INFO] Syncing lookup tables …
+2026-05-25 23:08:02,265 [INFO] Lookup tables synced.
+2026-05-25 23:08:02,346 [INFO] DB load complete — cars: 50, listings: 50, bridge rows: 57, skipped: 0
+2026-05-25 23:08:02,347 [INFO] [LOAD] Done — 50 listings processed.
+2026-05-25 23:08:02,347 [INFO] [ARCHIVE] Skipped.
+2026-05-25 23:08:02,347 [INFO] ============================================================
+2026-05-25 23:08:02,347 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:08:02,347 [INFO] ============================================================
+2026-05-25 23:08:11,376 [INFO] ============================================================
+2026-05-25 23:08:11,376 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:08:11,376 [INFO] TEST MODE — limited to 2 scraped listings
+2026-05-25 23:08:11,376 [INFO] ============================================================
+2026-05-25 23:08:11,679 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:09:54,838 [INFO] [EXTRACT] Done — 81 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:09:54,839 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:09:54,892 [INFO] [TRANSFORM] Raw shape: (52, 25)
+2026-05-25 23:09:54,893 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:09:54,900 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:09:54,906 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:09:54,909 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:09:54,918 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:09:54,922 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:09:54,923 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:09:54,924 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:09:54,928 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:09:54,933 [INFO] [TRANSFORM] Done — cleaned shape: (52, 36)
+2026-05-25 23:09:54,936 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:09:54,936 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:09:54,936 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:09:54,986 [INFO] Syncing lookup tables …
+2026-05-25 23:09:55,346 [INFO] Lookup tables synced.
+2026-05-25 23:09:55,506 [INFO] DB load complete — cars: 52, listings: 52, bridge rows: 60, skipped: 0
+2026-05-25 23:09:55,516 [INFO] [LOAD] Done — 52 listings processed.
+2026-05-25 23:09:55,517 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-25/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:09:55,517 [INFO] ============================================================
+2026-05-25 23:09:55,519 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:09:55,519 [INFO] ============================================================
+2026-05-25 23:12:03,598 [INFO] ============================================================
+2026-05-25 23:12:03,599 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:12:03,599 [INFO] ============================================================
+2026-05-25 23:12:03,867 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv
+2026-05-25 23:20:47,084 [INFO] [EXTRACT] Done — 101 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv
+2026-05-25 23:20:47,085 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv
+2026-05-25 23:20:47,152 [INFO] [TRANSFORM] Raw shape: (101, 25)
+2026-05-25 23:20:47,152 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:20:47,160 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:20:47,166 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:20:47,172 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:20:47,178 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:20:47,182 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:20:47,184 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:20:47,184 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:20:47,188 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:20:47,194 [INFO] [TRANSFORM] Done — cleaned shape: (101, 36)
+2026-05-25 23:20:47,197 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:20:47,197 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:20:47,197 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:20:47,246 [INFO] Syncing lookup tables …
+2026-05-25 23:20:47,752 [INFO] Lookup tables synced.
+2026-05-25 23:20:48,523 [INFO] DB load complete — cars: 101, listings: 101, bridge rows: 169, skipped: 0
+2026-05-25 23:20:48,523 [INFO] [LOAD] Done — 101 listings processed.
+2026-05-25 23:20:48,525 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-25/olx_car_data_2026-05-25.csv
+2026-05-25 23:20:48,525 [INFO] ============================================================
+2026-05-25 23:20:48,525 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:20:48,525 [INFO] ============================================================
+2026-05-25 23:27:14,393 [INFO] ============================================================
+2026-05-25 23:27:14,395 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:27:14,395 [INFO] TEST MODE — limited to 20 scraped listings
+2026-05-25 23:27:14,395 [INFO] ============================================================
+2026-05-25 23:27:14,541 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:29:01,719 [INFO] [EXTRACT] Done — 20 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:29:01,721 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:29:01,816 [INFO] [TRANSFORM] Raw shape: (20, 25)
+2026-05-25 23:29:01,816 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:29:01,829 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:29:01,839 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:29:01,844 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:29:01,848 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:29:01,852 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:29:01,854 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:29:01,854 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:29:01,858 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:29:01,863 [INFO] [TRANSFORM] Done — cleaned shape: (20, 36)
+2026-05-25 23:29:01,866 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:29:01,866 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:29:01,866 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:29:01,932 [INFO] Syncing lookup tables …
+2026-05-25 23:29:02,684 [INFO] Lookup tables synced.
+2026-05-25 23:29:02,934 [INFO] DB load complete — cars: 20, listings: 20, bridge rows: 30, skipped: 0
+2026-05-25 23:29:02,935 [INFO] [LOAD] Done — 20 listings processed.
+2026-05-25 23:29:02,937 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-25/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:29:02,938 [INFO] ============================================================
+2026-05-25 23:29:02,938 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:29:02,938 [INFO] ============================================================
+2026-05-25 23:31:34,371 [INFO] ============================================================
+2026-05-25 23:31:34,373 [INFO] ETL Pipeline started — date: 2026-05-25
+2026-05-25 23:31:34,373 [INFO] TEST MODE — limited to 5 scraped listings
+2026-05-25 23:31:34,373 [INFO] ============================================================
+2026-05-25 23:31:34,539 [INFO] [EXTRACT] Starting OLX scraper → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:32:54,167 [INFO] [EXTRACT] Done — 5 rows written to /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:32:54,169 [INFO] [TRANSFORM] Loading raw data from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:32:54,236 [INFO] [TRANSFORM] Raw shape: (5, 25)
+2026-05-25 23:32:54,236 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: duplicate_remover
+----------------------------------------
+2026-05-25 23:32:54,244 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: model_cleaner
+----------------------------------------
+2026-05-25 23:32:54,249 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: price_validatetor
+----------------------------------------
+2026-05-25 23:32:54,255 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: mileage_cleaner
+----------------------------------------
+2026-05-25 23:32:54,260 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: engine_volume_cleaner
+----------------------------------------
+2026-05-25 23:32:54,266 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: owners_count_cleaner
+----------------------------------------
+2026-05-25 23:32:54,267 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: seller_type_cleaner
+----------------------------------------
+2026-05-25 23:32:54,268 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: year_cleaner
+----------------------------------------
+2026-05-25 23:32:54,270 [INFO] 
+----------------------------------------
+[TRANSFORM] Running: district_cleaner
+----------------------------------------
+2026-05-25 23:32:54,274 [INFO] [TRANSFORM] Done — cleaned shape: (5, 36)
+2026-05-25 23:32:54,276 [INFO] [TRANSFORM] Cleaned data saved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/Processed/2026-05-25/car_data_clean.csv
+2026-05-25 23:32:54,276 [INFO] [LOAD] Starting database insertion …
+2026-05-25 23:32:54,276 [INFO] Connecting to database: localhost:5432/cars_db
+2026-05-25 23:32:54,329 [INFO] Syncing lookup tables …
+2026-05-25 23:32:54,968 [INFO] Lookup tables synced.
+2026-05-25 23:32:55,001 [INFO] DB load complete — cars: 5, listings: 5, bridge rows: 7, skipped: 0
+2026-05-25 23:32:55,001 [INFO] [LOAD] Done — 5 listings processed.
+2026-05-25 23:32:55,002 [INFO] [ARCHIVE] Raw file moved → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/explored/2026-05-25/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:32:55,002 [INFO] ============================================================
+2026-05-25 23:32:55,002 [INFO] ETL Pipeline completed successfully.
+2026-05-25 23:32:55,002 [INFO] ============================================================

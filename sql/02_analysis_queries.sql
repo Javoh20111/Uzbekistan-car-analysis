@@ -76,3 +76,6 @@ GROUP BY
     colors.color_name
 HAVING color_name IS NOT NULL
 ORDER BY percentile_50 DESC, qaydlar_soni DESC 
+
+
+SELECT COUNT(*) FROM car_listings;

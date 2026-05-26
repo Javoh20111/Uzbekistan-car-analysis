@@ -12,6 +12,16 @@
             "name": "Cars DB",
             "database": "cars_db",
             "username": "postgres"
+        },
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "username": "postgres",
+            "database": "cars_db",
+            "name": "Cars DB 2"
         }
     ]
 }

@@ -60,3 +60,200 @@
 2026-05-21 13:48:44,607 [INFO] [olx_scraper.py:303] Saved batch of 2 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /scraper/data/olx_car_data_test.csv (total 6)
 2026-05-21 13:48:44,608 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
 2026-05-21 13:48:44,858 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 2 new listing records.
+2026-05-25 23:08:11,681 [INFO] [olx_scraper.py:242] Loaded 50 existing ad URLs from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:08:11,683 [INFO] [olx_scraper.py:773] ============================================================
+2026-05-25 23:08:11,683 [INFO] [olx_scraper.py:774] Unified OLX.uz Scraper Started
+2026-05-25 23:08:11,683 [INFO] [olx_scraper.py:776] TEST MODE — will stop after 2 new listings
+2026-05-25 23:08:11,683 [INFO] [olx_scraper.py:777] ============================================================
+2026-05-25 23:08:27,525 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:08:27,529 [INFO] [olx_scraper.py:804] Processing price range 1/35: 1000 to 2000 USD
+2026-05-25 23:08:27,530 [INFO] [olx_scraper.py:816] Checking search result page 1 for range 1000-2000
+2026-05-25 23:08:29,764 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-sotiladi-1998-srochna-ID4n3rp.html
+2026-05-25 23:08:40,423 [INFO] [olx_scraper.py:859] Scraping detail page: elektro-mini-car-150-km-ID4k7Lc.html
+2026-05-25 23:08:51,018 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID4nH1y.html
+2026-05-25 23:08:54,038 [WARNING] [olx_scraper.py:682] WebDriver session lost — reinitializing Chrome
+2026-05-25 23:08:54,039 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:08:57,048 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:09:20,153 [INFO] [olx_scraper.py:859] Scraping detail page: volga-gaz-2401-pikap-ID40gfc.html
+2026-05-25 23:09:45,197 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/volga-gaz-2401-pikap-ID40gfc.html (attempt 1)
+2026-05-25 23:09:54,600 [INFO] [olx_scraper.py:898] Target test limit of 2 records reached. Stopping scraper.
+2026-05-25 23:09:54,612 [INFO] [olx_scraper.py:303] Saved batch of 2 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv (total 52)
+2026-05-25 23:09:54,612 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:09:54,838 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 2 new listing records.
+2026-05-25 23:12:03,868 [INFO] [olx_scraper.py:242] Loaded 0 existing ad URLs from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv
+2026-05-25 23:12:03,870 [INFO] [olx_scraper.py:773] ============================================================
+2026-05-25 23:12:03,870 [INFO] [olx_scraper.py:774] Unified OLX.uz Scraper Started
+2026-05-25 23:12:03,870 [INFO] [olx_scraper.py:777] ============================================================
+2026-05-25 23:12:06,600 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:12:06,600 [INFO] [olx_scraper.py:804] Processing price range 1/35: 1000 to 2000 USD
+2026-05-25 23:12:06,600 [INFO] [olx_scraper.py:816] Checking search result page 1 for range 1000-2000
+2026-05-25 23:12:08,475 [INFO] [olx_scraper.py:859] Scraping detail page: prodam-vaz-2108-vosmerka-ID40W6R.html
+2026-05-25 23:12:41,562 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/prodam-vaz-2108-vosmerka-ID40W6R.html (attempt 2)
+2026-05-25 23:13:03,819 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-sotilad-2009-yil-ID4nyRP.html
+2026-05-25 23:13:09,249 [INFO] [olx_scraper.py:859] Scraping detail page: nexia-1-5-donc-rangi-oq-ID4mlo6.html
+2026-05-25 23:13:19,928 [INFO] [olx_scraper.py:859] Scraping detail page: volga-gaz-2401-pikap-ID40gfc.html
+2026-05-25 23:13:26,707 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-06-yili-1985-ID3bnfD.html
+2026-05-25 23:13:34,055 [INFO] [olx_scraper.py:859] Scraping detail page: lada-samara-sotiladi-ID2YXOz.html
+2026-05-25 23:13:37,872 [INFO] [olx_scraper.py:859] Scraping detail page: damas-sotladi-2010-yil-ID4nElD.html
+2026-05-25 23:13:42,256 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-vaz-2110-ID4nNnn.html
+2026-05-25 23:13:46,641 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-mashina-marki-lada-099-god-vypuska-1996-g-ID48UaJ.html
+2026-05-25 23:13:50,859 [INFO] [olx_scraper.py:859] Scraping detail page: volga-3110-na-gazu-ID45rsN.html
+2026-05-25 23:13:54,832 [INFO] [olx_scraper.py:859] Scraping detail page: mashinaga-kafolat-beraman-ID3sqPc.html
+2026-05-25 23:13:57,774 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-gazda-holat-yaxsh-ID3m4ZM.html
+2026-05-25 23:14:01,731 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-yashil-ID4azcs.html
+2026-05-25 23:14:05,205 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-lada-2107-srochno-sotiladi-ID4kFtO.html
+2026-05-25 23:14:09,135 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-mashinasi-zor-yuradi-gazi-bor-ID4mVDn.html
+2026-05-25 23:14:13,421 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-sotiladi-holati-zor-ID4kwfS.html
+2026-05-25 23:14:17,425 [INFO] [olx_scraper.py:859] Scraping detail page: volga-sotiladi-pirsep-blan-ID43GTA.html
+2026-05-25 23:14:21,930 [INFO] [olx_scraper.py:859] Scraping detail page: maskvich-412-aaaa-ID40ntd.html
+2026-05-25 23:14:26,344 [INFO] [olx_scraper.py:859] Scraping detail page: lada-vaz-2106-sotiladi-urganchda-ID3ViX6.html
+2026-05-25 23:14:29,391 [INFO] [olx_scraper.py:859] Scraping detail page: volga-31029-holati-zor-ID47X5e.html
+2026-05-25 23:14:30,743 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 20)
+2026-05-25 23:14:32,612 [INFO] [olx_scraper.py:859] Scraping detail page: 31029-volga-oq-r-ID3vu7U.html
+2026-05-25 23:14:35,458 [INFO] [olx_scraper.py:859] Scraping detail page: nekisya-1sons-naxadu-ID4nMa5.html
+2026-05-25 23:14:38,841 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-sotiladi-ideal-ID4nLUo.html
+2026-05-25 23:14:42,822 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-avtomashina-horoshiy-sostoyaniya-ID422f5.html
+2026-05-25 23:14:45,582 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-legenda-ID40dH5.html
+2026-05-25 23:14:48,308 [INFO] [olx_scraper.py:859] Scraping detail page: avtomobil-vaz-2107-ID4mg1u.html
+2026-05-25 23:14:52,319 [INFO] [olx_scraper.py:859] Scraping detail page: 2107-dlya-lyubiteley-ID4lF94.html
+2026-05-25 23:14:56,076 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-sotiladi-yili-2011-yoq-zapchastga-ID4nGsY.html
+2026-05-25 23:14:59,727 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-best-2010-yil-ID4nHwb.html
+2026-05-25 23:15:04,114 [INFO] [olx_scraper.py:859] Scraping detail page: daewoo-matiz-2005-yil-ID4m5Z1.html
+2026-05-25 23:15:07,864 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-holati-yaxshi-ID4dQCk.html
+2026-05-25 23:15:11,507 [INFO] [olx_scraper.py:859] Scraping detail page: avtotransport-vaz-ID3fLdI.html
+2026-05-25 23:15:14,955 [INFO] [olx_scraper.py:859] Scraping detail page: gaz-310230-volga-kup-urindiqli-tiz-yordam-moshina-ID3yNi0.html
+2026-05-25 23:15:18,465 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-gidravlika-2009yil-arenda-ID4mdR1.html
+2026-05-25 23:15:21,754 [INFO] [olx_scraper.py:859] Scraping detail page: maskivich-perashkavoz-bortir-bor-damazga-ID3vs9z.html
+2026-05-25 23:15:24,808 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-jiguli-ID3tjv1.html
+2026-05-25 23:15:29,086 [INFO] [olx_scraper.py:859] Scraping detail page: moskvich-412-ID45oPG.html
+2026-05-25 23:15:32,961 [INFO] [olx_scraper.py:859] Scraping detail page: damas-srochna-sotiladi-ID4nKUj.html
+2026-05-25 23:15:35,621 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-zhiguli-011-bezhevo-korichnevaya-ID4nxae.html
+2026-05-25 23:15:38,869 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID4nH1y.html
+2026-05-25 23:15:40,086 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 40)
+2026-05-25 23:15:41,786 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-sotiladi-holati-yaxshi-ID4mlQl.html
+2026-05-25 23:15:46,056 [INFO] [olx_scraper.py:859] Scraping detail page: lada-vaz-2107-ID4cbG6.html
+2026-05-25 23:15:49,880 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-1994-03-motor-ID4nKPs.html
+2026-05-25 23:15:53,686 [INFO] [olx_scraper.py:859] Scraping detail page: neksiya-1-leginda-ID40cF6.html
+2026-05-25 23:15:57,174 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2102-furgon-sotiladi-ID48QWj.html
+2026-05-25 23:16:00,768 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-matiz-2009-goda-probeg-246tysch-ID4kAps.html
+2026-05-25 23:16:04,260 [INFO] [olx_scraper.py:859] Scraping detail page: nexia-1-benzin-yangi-ID4nlWA.html
+2026-05-25 23:16:06,835 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-mexanika-2005-ID4noIh.html
+2026-05-25 23:16:10,339 [INFO] [olx_scraper.py:859] Scraping detail page: moskvich-1989-goda-v-otlichnom-sostoyanii-ID3hSHk.html
+2026-05-25 23:16:14,478 [INFO] [olx_scraper.py:859] Scraping detail page: espero-2-2-l-sotiladi-ID4maJq.html
+2026-05-25 23:16:18,375 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-mix-sotiladi-ID4merT.html
+2026-05-25 23:16:24,565 [INFO] [olx_scraper.py:816] Checking search result page 2 for range 1000-2000
+2026-05-25 23:16:26,871 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-2106-jiguli-ID4nuZx.html
+2026-05-25 23:16:29,944 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-1-poz-2007-god-ID4nHD5.html
+2026-05-25 23:16:33,688 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-matiz-otlichnaya-ID4nvWl.html
+2026-05-25 23:16:37,381 [INFO] [olx_scraper.py:859] Scraping detail page: matis-245-dan-10-oyga-ID4m1a1.html
+2026-05-25 23:16:40,756 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-matiz-srochno-ID4nK2M.html
+2026-05-25 23:16:44,859 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-vaz-2109-god-vypuska-1995-ID4dOxp.html
+2026-05-25 23:16:49,108 [INFO] [olx_scraper.py:859] Scraping detail page: lada-21099-prodayu-ID45naU.html
+2026-05-25 23:16:52,696 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-vikub-naxt-nasiya-kelshamiz-ID4nIWn.html
+2026-05-25 23:16:55,876 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID40b2A.html
+2026-05-25 23:16:57,606 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 60)
+2026-05-25 23:16:59,219 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-3-talik-2008-ID4nIxs.html
+2026-05-25 23:17:03,122 [INFO] [olx_scraper.py:859] Scraping detail page: zhiguli-07-presep-2000yil-ID41Y5y.html
+2026-05-25 23:17:06,939 [INFO] [olx_scraper.py:859] Scraping detail page: yunsobod-zenita-avtamabil-sotiladi-yili-2000-ID4mGRP.html
+2026-05-25 23:17:11,013 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-mih-sotladi-ID4nKPq.html
+2026-05-25 23:17:14,122 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-sotiladi-1998-srochna-ID4n3rp.html
+2026-05-25 23:17:30,027 [INFO] [olx_scraper.py:859] Scraping detail page: vaz2102-sotiladi-ID3BtSq.html
+2026-05-25 23:17:33,967 [INFO] [olx_scraper.py:859] Scraping detail page: prodam-srochno-gaz-2410-v-horoshem-sostoyanii-ID3ORcw.html
+2026-05-25 23:17:37,466 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-ideal-puliga-ID4cAqr.html
+2026-05-25 23:17:40,563 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2107-1981-yil-ID3yIiv.html
+2026-05-25 23:17:44,430 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-vaz-2106-ID3D2d5.html
+2026-05-25 23:18:03,254 [INFO] [olx_scraper.py:859] Scraping detail page: 2106-srochno-sotiladi-yili-1996-ID3Fk5c.html
+2026-05-25 23:18:06,519 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID4h3uw.html
+2026-05-25 23:18:12,960 [INFO] [olx_scraper.py:859] Scraping detail page: juguli-vaz-06-1997-ID4kvlG.html
+2026-05-25 23:18:16,671 [INFO] [olx_scraper.py:859] Scraping detail page: ford-sierra-1-6-ID4c8cr.html
+2026-05-25 23:18:19,604 [INFO] [olx_scraper.py:859] Scraping detail page: avtomobil-vaz-2107-ID3HlbS.html
+2026-05-25 23:18:23,786 [INFO] [olx_scraper.py:859] Scraping detail page: damas-1-daewoo-oq-rang-ID4nEMr.html
+2026-05-25 23:18:26,519 [INFO] [olx_scraper.py:859] Scraping detail page: elektro-mini-car-150-km-ID4k7Lc.html
+2026-05-25 23:18:30,260 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-011-cotki-sastayenada-ID4nEQy.html
+2026-05-25 23:18:33,361 [INFO] [olx_scraper.py:859] Scraping detail page: nexia-1-lyux-zor-xolatda-ID4maEx.html
+2026-05-25 23:18:36,846 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-avto-vaz-2107-ID3AZ04.html
+2026-05-25 23:18:37,920 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 80)
+2026-05-25 23:18:40,104 [INFO] [olx_scraper.py:847] Performing browser routine memory refresh...
+2026-05-25 23:18:40,106 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:18:42,945 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:18:45,953 [INFO] [olx_scraper.py:859] Scraping detail page: maskvich-azlk-super-salon-ID3QD2u.html
+2026-05-25 23:19:17,872 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/maskvich-azlk-super-salon-ID3QD2u.html (attempt 2)
+2026-05-25 23:19:24,618 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-mashina-ID3Zcqb.html
+2026-05-25 23:19:33,184 [INFO] [olx_scraper.py:859] Scraping detail page: pioner-magintafon-ID3yFyy.html
+2026-05-25 23:19:36,126 [INFO] [olx_scraper.py:859] Scraping detail page: opel-omega-do-restalin-ID4nGb2.html
+2026-05-25 23:19:39,975 [INFO] [olx_scraper.py:859] Scraping detail page: prodam-dogan-s-ID3AXKo.html
+2026-05-25 23:19:42,907 [INFO] [olx_scraper.py:859] Scraping detail page: srochno-prodoetsya-ID4nFZC.html
+2026-05-25 23:19:46,190 [INFO] [olx_scraper.py:859] Scraping detail page: srochno-prodoetsya-ID4nFYr.html
+2026-05-25 23:19:49,552 [INFO] [olx_scraper.py:859] Scraping detail page: toshkent-viloyati-toshkent-tumani-ID4n3lK.html
+2026-05-25 23:19:53,714 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-2009-yil-mix-ID4nLcx.html
+2026-05-25 23:19:56,505 [INFO] [olx_scraper.py:859] Scraping detail page: volga-sotiladi-samarkand-yili-2006-ID4iFeC.html
+2026-05-25 23:19:59,589 [INFO] [olx_scraper.py:859] Scraping detail page: tiko-sotiladi-srochniy-ID3D9Vj.html
+2026-05-25 23:20:03,259 [INFO] [olx_scraper.py:859] Scraping detail page: damas-sotiladi-srochna-ID4nFJN.html
+2026-05-25 23:20:06,305 [INFO] [olx_scraper.py:859] Scraping detail page: volvo-740-sotiladi-propan-gazi-bor-ID4lkOZ.html
+2026-05-25 23:20:09,860 [INFO] [olx_scraper.py:859] Scraping detail page: moskvich-2141-seryy-ID3HjfU.html
+2026-05-25 23:20:13,264 [INFO] [olx_scraper.py:859] Scraping detail page: daewoo-nexia-1-sons-trombler-ID4nFpw.html
+2026-05-25 23:20:17,209 [INFO] [olx_scraper.py:859] Scraping detail page: lada-2109-vaz-1989-ID407og.html
+2026-05-25 23:20:20,796 [INFO] [olx_scraper.py:859] Scraping detail page: bmw-e32-barter-bor-ID4h0jC.html
+2026-05-25 23:20:24,024 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-2106-srochniiy-sotiladi-ID3yDzW.html
+2026-05-25 23:20:28,308 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-21011-prodaetsya-ID3yDxa.html
+2026-05-25 23:20:33,635 [INFO] [olx_scraper.py:816] Checking search result page 3 for range 1000-2000
+2026-05-25 23:20:35,656 [INFO] [olx_scraper.py:859] Scraping detail page: bmw-7seria-2014restayling-oldi-orqa-fara-restayling-ID4dLfJ.html
+2026-05-25 23:20:36,976 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 100)
+2026-05-25 23:20:39,216 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2104-sotiladi-ID4n6Vk.html
+2026-05-25 23:20:42,555 [INFO] [olx_scraper.py:859] Scraping detail page: audi-80-b2-1982-god-ID4ntSo.html
+2026-05-25 23:20:42,962 [INFO] [olx_scraper.py:259] Shutdown signal received — finishing current batch then exiting.
+2026-05-25 23:20:42,965 [ERROR] [olx_scraper.py:880] Failed parsing listing detail https://olx.uz/d/obyavlenie/audi-80-b2-1982-god-ID4ntSo.html: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-05-25 23:20:47,076 [INFO] [olx_scraper.py:303] Saved batch of 1 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_2026-05-25.csv (total 101)
+2026-05-25 23:20:47,077 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:20:47,083 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 101 new listing records.
+2026-05-25 23:27:14,541 [INFO] [olx_scraper.py:242] Loaded 0 existing ad URLs from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:27:14,542 [INFO] [olx_scraper.py:773] ============================================================
+2026-05-25 23:27:14,542 [INFO] [olx_scraper.py:774] Unified OLX.uz Scraper Started
+2026-05-25 23:27:14,542 [INFO] [olx_scraper.py:776] TEST MODE — will stop after 20 new listings
+2026-05-25 23:27:14,542 [INFO] [olx_scraper.py:777] ============================================================
+2026-05-25 23:27:17,407 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:27:17,408 [INFO] [olx_scraper.py:804] Processing price range 1/35: 1000 to 2000 USD
+2026-05-25 23:27:17,409 [INFO] [olx_scraper.py:816] Checking search result page 1 for range 1000-2000
+2026-05-25 23:27:19,418 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-nexia-1-sons-ID4l7gq.html
+2026-05-25 23:27:37,639 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID4nH1y.html
+2026-05-25 23:27:50,143 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-1-poz-2007-god-ID4nHD5.html
+2026-05-25 23:27:54,339 [INFO] [olx_scraper.py:859] Scraping detail page: volga-gaz-2401-pikap-ID40gfc.html
+2026-05-25 23:27:57,839 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-06-yili-1985-ID3bnfD.html
+2026-05-25 23:28:01,056 [INFO] [olx_scraper.py:859] Scraping detail page: lada-samara-sotiladi-ID2YXOz.html
+2026-05-25 23:28:04,398 [INFO] [olx_scraper.py:859] Scraping detail page: damas-sotladi-2010-yil-ID4nElD.html
+2026-05-25 23:28:06,994 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-vaz-2110-ID4nNnn.html
+2026-05-25 23:28:09,753 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-mashina-marki-lada-099-god-vypuska-1996-g-ID48UaJ.html
+2026-05-25 23:28:13,688 [INFO] [olx_scraper.py:859] Scraping detail page: volga-3110-na-gazu-ID45rsN.html
+2026-05-25 23:28:16,637 [INFO] [olx_scraper.py:859] Scraping detail page: mashinaga-kafolat-beraman-ID3sqPc.html
+2026-05-25 23:28:20,391 [INFO] [olx_scraper.py:859] Scraping detail page: jiguli-gazda-holat-yaxsh-ID3m4ZM.html
+2026-05-25 23:28:24,808 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-yashil-ID4azcs.html
+2026-05-25 23:28:29,092 [INFO] [olx_scraper.py:859] Scraping detail page: zhiguli-vaz-2106-otlichnom-sostoyanii-ID407Lb.html
+2026-05-25 23:28:32,859 [INFO] [olx_scraper.py:859] Scraping detail page: elektro-mini-car-150-km-ID4k7Lc.html
+2026-05-25 23:28:35,521 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-zhiguli-011-bezhevo-korichnevaya-ID4nxae.html
+2026-05-25 23:28:39,417 [INFO] [olx_scraper.py:859] Scraping detail page: volga-sotiladi-pirsep-blan-ID43GTA.html
+2026-05-25 23:28:44,105 [INFO] [olx_scraper.py:859] Scraping detail page: maskvich-412-aaaa-ID40ntd.html
+2026-05-25 23:28:48,701 [INFO] [olx_scraper.py:859] Scraping detail page: lada-vaz-2106-sotiladi-urganchda-ID3ViX6.html
+2026-05-25 23:28:51,920 [INFO] [olx_scraper.py:859] Scraping detail page: volga-31029-holati-zor-ID47X5e.html
+2026-05-25 23:28:55,721 [INFO] [olx_scraper.py:859] Scraping detail page: 31029-volga-oq-r-ID3vu7U.html
+2026-05-25 23:28:56,821 [INFO] [olx_scraper.py:303] Saved batch of 20 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv (total 20)
+2026-05-25 23:29:01,268 [INFO] [olx_scraper.py:898] Target test limit of 20 records reached. Stopping scraper.
+2026-05-25 23:29:01,269 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:29:01,718 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 20 new listing records.
+2026-05-25 23:31:34,540 [INFO] [olx_scraper.py:242] Loaded 0 existing ad URLs from /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv
+2026-05-25 23:31:34,540 [INFO] [olx_scraper.py:773] ============================================================
+2026-05-25 23:31:34,540 [INFO] [olx_scraper.py:774] Unified OLX.uz Scraper Started
+2026-05-25 23:31:34,540 [INFO] [olx_scraper.py:776] TEST MODE — will stop after 5 new listings
+2026-05-25 23:31:34,540 [INFO] [olx_scraper.py:777] ============================================================
+2026-05-25 23:31:37,200 [INFO] [olx_scraper.py:332] Selenium Chrome driver successfully initialized
+2026-05-25 23:31:37,200 [INFO] [olx_scraper.py:804] Processing price range 1/35: 1000 to 2000 USD
+2026-05-25 23:31:37,201 [INFO] [olx_scraper.py:816] Checking search result page 1 for range 1000-2000
+2026-05-25 23:31:38,912 [INFO] [olx_scraper.py:859] Scraping detail page: prodaetsya-nexia-1-sons-ID4l7gq.html
+2026-05-25 23:32:13,746 [WARNING] [olx_scraper.py:674] Timeout loading detail page: https://olx.uz/d/obyavlenie/prodaetsya-nexia-1-sons-ID4l7gq.html (attempt 3)
+2026-05-25 23:32:26,703 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-2106-sotiladi-ID4nH1y.html
+2026-05-25 23:32:41,660 [INFO] [olx_scraper.py:859] Scraping detail page: matiz-1-poz-2007-god-ID4nHD5.html
+2026-05-25 23:32:45,599 [INFO] [olx_scraper.py:859] Scraping detail page: volga-gaz-2401-pikap-ID40gfc.html
+2026-05-25 23:32:48,453 [INFO] [olx_scraper.py:859] Scraping detail page: vaz-06-yili-1985-ID3bnfD.html
+2026-05-25 23:32:53,926 [INFO] [olx_scraper.py:898] Target test limit of 5 records reached. Stopping scraper.
+2026-05-25 23:32:53,932 [INFO] [olx_scraper.py:303] Saved batch of 5 items → /Users/javohireshonov/Desktop/Study/Projects/Uzbekistan car postings /data/raw/olx_car_data_test_2026-05-25.csv (total 5)
+2026-05-25 23:32:53,932 [INFO] [olx_scraper.py:342] Closing active Chrome driver instance...
+2026-05-25 23:32:54,166 [INFO] [olx_scraper.py:908] OLX Scraper finished successfully. Scraped 5 new listing records.

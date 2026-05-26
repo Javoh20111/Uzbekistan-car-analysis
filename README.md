@@ -1,6 +1,6 @@
 # Uzbekistan Car Market Analysis
 
-End-to-end data project analyzing used car listings from OLX Uzbekistan. The project covers scraping support scripts, data cleaning, exploratory analysis, database preparation, an interactive Streamlit dashboard, and a machine learning price predictor.
+End-to-end data project analyzing used car listings from OLX Uzbekistan. The project covers scraping support scripts, data cleaning, exploratory analysis and database preparation
 
 ## Project Highlights
 
