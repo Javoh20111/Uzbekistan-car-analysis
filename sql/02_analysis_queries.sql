@@ -78,7 +78,15 @@ HAVING color_name IS NOT NULL
 ORDER BY percentile_50 DESC, qaydlar_soni DESC 
 
 
-SELECT url, COUNT(*)
-FROM car_listings
-GROUP BY url
-HAVING COUNT(*) > 1;
+SELECT
+    brands.brand_name,
+    COUNT(cars.brand_id) AS count
+FROM
+    car_listings cl
+    LEFT JOIN cars on cars.url = cl.url
+    LEFT JOIN brands on cars.brand_id = brands.brand_id
+GROUP BY
+    brands.brand_name
+HAVING COUNT(cars.brand_id) > 0
+ORDER BY
+    count DESC
