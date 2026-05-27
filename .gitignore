@@ -22,3 +22,5 @@ data/raw/
 
 data/Prepared/*
 !data/Prepared/car_data_clean.csv
+
+cars.duckdb
