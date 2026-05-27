@@ -1,7 +1,16 @@
 import streamlit as st
 import altair as alt
 import duckdb
+import pandas as pd
+from datetime import date
 from pathlib import Path
+from predictive_model import (
+    CATEGORICAL_MODEL_FEATURES,
+    CONDITION_ORDER,
+    normalize_rare_value,
+    sorted_options,
+    train_price_model,
+)
 
 st.set_page_config(
     page_title="Uzbekistan Car Market",
@@ -24,6 +33,45 @@ def query(sql):
 
 
 df = query("SELECT * FROM car_listings;")
+
+model_df = query("""
+    SELECT
+        b.brand_name AS brand,
+        c.model_clean,
+        c.year,
+        c.engine_volume_l,
+        cl.price_usd,
+        cl.mileage,
+        cl.owners_count,
+        cond.condition_name AS condition,
+        col.color_name AS color,
+        tr.transmission_name AS transmission,
+        ft.fuel_type_name AS fuel_type,
+        r.region_name AS region,
+        d.district_name AS district
+    FROM car_listings cl
+    LEFT JOIN cars c
+        ON cl.url = c.url
+    LEFT JOIN brands b
+        ON c.brand_id = b.brand_id
+    LEFT JOIN conditions cond
+        ON cl.condition_id = cond.condition_id
+    LEFT JOIN colors col
+        ON cl.color_id = col.color_id
+    LEFT JOIN transmissions tr
+        ON cl.transmission_id = tr.transmission_id
+    LEFT JOIN fuel_types ft
+        ON cl.fuel_type_id = ft.fuel_type_id
+    LEFT JOIN regions r
+        ON cl.region_id = r.region_id
+    LEFT JOIN districts d
+        ON cl.district_id = d.district_id
+    WHERE
+        cl.price_usd IS NOT NULL
+        AND c.year IS NOT NULL
+        AND c.year_valid = TRUE
+        AND cl.is_outlier = FALSE
+""")
 
 
 #---------------------------------------------------------------------
@@ -194,7 +242,91 @@ with tab2:
 
 
 with tab3:
-    st.header("An owl")
+    def render_predictor(df):
+        st.subheader("Price Predictor")
+        model, metrics, rare_value_maps = train_price_model(df)
+
+        metric_col1, metric_col2, metric_col3 = st.columns(3)
+        metric_col1.metric("Model", "Random Forest")
+        metric_col2.metric("Test RMSE", f"${metrics['rmse']:,.0f}")
+        metric_col3.metric("Test R2", f"{metrics['r2']:.3f}")
+
+        st.caption(
+            f"Trained on {metrics['training_rows']:,} listings and tested on "
+            f"{metrics['testing_rows']:,} listings."
+        )
+
+        with st.form("price_prediction_form"):
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                brand = st.selectbox("Brand", sorted_options(df, "brand"))
+                model_clean = st.selectbox("Model", sorted_options(df, "model_clean"))
+                year = st.number_input(
+                    "Year",
+                    min_value=1970,
+                    max_value = date.today().year + 1,
+                    value=min(2020, date.today().year),
+                )
+                mileage = st.number_input("Mileage", min_value=0, value=50_000, step=1_000)
+
+            with col2:
+                engine_volume_l = st.number_input(
+                    "Engine volume (L)",
+                    min_value=0.0,
+                    max_value=8.0,
+                    value=1.6,
+                    step=0.1,
+                )
+                owners_count = st.number_input(
+                    "Owners count",
+                    min_value=0,
+                    max_value=10,
+                    value=1,
+                    step=1,
+                )
+                fuel_type = st.selectbox("Fuel type", sorted_options(df, "fuel_type"))
+                transmission = st.selectbox("Transmission", sorted_options(df, "transmission"))
+
+            with col3:
+                condition = st.selectbox("Condition", list(CONDITION_ORDER.keys()), index=2)
+                region = st.selectbox("Region", sorted_options(df, "region"))
+                district = st.selectbox("District", sorted_options(df, "district"))
+                color = st.selectbox("Color", sorted_options(df, "color"))
+
+            submitted = st.form_submit_button("Predict Price")
+
+        if submitted:
+            prediction_input = pd.DataFrame([{
+                "mileage": mileage,
+                "engine_volume_l": engine_volume_l,
+                "owners_count": owners_count,
+                "age": date.today().year - year,
+                "condition": CONDITION_ORDER[condition],
+                "brand": brand,
+                "model_clean": normalize_rare_value(model_clean, rare_value_maps["model_clean"]),
+                "fuel_type": fuel_type,
+                "transmission": transmission,
+                "region": region,
+                "color": color,
+                "district": normalize_rare_value(district, rare_value_maps["district"]),
+            }])
+
+            prediction_input[CATEGORICAL_MODEL_FEATURES] = prediction_input[
+                CATEGORICAL_MODEL_FEATURES
+            ].astype(str)
+            predicted_price = model.predict(prediction_input)[0]
+
+            result_col1, result_col2 = st.columns([1, 2])
+            result_col1.metric("Estimated Price", f"${predicted_price:,.0f}")
+            result_col2.info(
+                f"Typical model error is about ${metrics['mae']:,.0f} MAE, "
+                "so treat this as a market estimate rather than an exact listing price."
+            )
+
+    render_predictor(model_df)
+
+
 
 
 with tab4:

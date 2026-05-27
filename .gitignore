@@ -2,7 +2,6 @@
 .DS_Store
 **/.DS_Store
 .vscode/
-.claude/
 .venv/
 .python-version
 .streamlit/
@@ -23,4 +22,3 @@ data/raw/
 data/Prepared/*
 !data/Prepared/car_data_clean.csv
 
-cars.duckdb
