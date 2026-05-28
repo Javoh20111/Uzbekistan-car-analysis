@@ -1,4 +1,5 @@
 # Uzbekistan Car Market Analysis
+Check out my app: [Streamlit app](https://uzbekistan-car-analysis.streamlit.app/)
 
 End-to-end data project analyzing used car listings from OLX Uzbekistan. The project covers scraping support scripts, data cleaning, exploratory analysis and database preparation
 
@@ -21,22 +22,41 @@ End-to-end data project analyzing used car listings from OLX Uzbekistan. The pro
 
 ```text
 .
-├── app.py                         # Streamlit app entry point
-├── notebooks/
-│   ├── 01_data_cleaning.ipynb     # Data contract, audits, cleaning rules
-│   ├── 02_eda.ipynb               # Exploratory analysis
-│   ├── 03_database_preparation.ipynb
-│   ├── 04_insert_data.ipynb
-│   └── 05_predictive_model.ipynb  # Model training and comparison
-├── sql/
-│   ├── 01_create_tables.sql       # Normalized database schema
-│   └── 02_analysis_queries.sql    # Example analysis queries
-├── data/Prepared/
-│   └── car_data_clean.csv         # Cleaned analysis dataset
-├── car_scraper.py                 # OLX listing detail scraper
-├── link_extractor.py              # Listing URL extraction by price range
-├── range_finder.py                # Price range helper
-└── requirements.txt
+├── app.py                         # Streamlit dashboard and UI application entry point
+├── predictive_model.py            # Streamlit-compatible machine learning training and inference utility
+├── cloud_duckdb_maker.py          # Script to construct and sync local cars.duckdb from remote PostgreSQL
+├── cars.duckdb                    # Local DuckDB database file holding relational tables
+├── price_ranges.json              # Configured price ranges used for scraper partitioning
+├── requirements.txt               # Project dependency package list
+├── notebooks/                     # Jupyter notebooks mapping out key stages of the project:
+│   ├── 01_data_cleaning.ipynb     # Initial data validation, parsing, normalization, and auditing
+│   ├── 02_eda.ipynb               # Exploratory analysis (visualizing market patterns, price distribution)
+│   ├── 03_database_preparation.ipynb # Relational modeling and layout prep
+│   ├── 04_insert_data.ipynb       # Loading transformed CSV data into database tables
+│   └── 05_predictive_model.ipynb  # Model comparisons, feature engineering, and pipeline evaluations
+├── pipeline/                      # Orchestrated ELT data pipelines:
+│   ├── db_loader.py               # Data loading scripts to insert clean data into PostgreSQL tables
+│   ├── orchestrator.py            # Main entry point to sequence extraction, cleaning, and DB import steps
+│   └── transformation.py          # Column conversions, feature engineering, and record validation logic
+├── scraper/                       # Raw OLX & Avtoelon listing extractor suite:
+│   ├── olx_scraper.py             # Parser that fetches listing details (HTML extraction, attributes mapping)
+│   ├── olx_link_extractor.py      # Steps through price range listings to capture all active listing URLs
+│   ├── olx_range_finder.py        # Partitions range splits to circumvent the 1000-listing view limit
+│   ├── olx_clean_links.py         # Link cleaning, deduplication, and parsing script
+│   ├── avtoelon_scraper.py        # Alternative parsing pipeline for Avtoelon car listings
+│   ├── config.py                  # Global crawler parameters, headers, and CSS/XPath selector definitions
+│   └── translations.json          # Dictionary mapper for normalizing Russian/Uzbek terms to English
+├── sql/                           # Database scripts:
+│   ├── 01_create_tables.sql       # Normalized schema creation (dimensions and fact tables)
+│   └── 02_analysis_queries.sql    # Complex analytical queries (depreciation, brand rankings, and market averages)
+├── data/                          # Folder partitioned for raw, processed, and final database tables:
+│   ├── Prepared/                  # Fully cleaned, CSV-partitioned database tables ready for DB schema load
+│   ├── Processed/                 # Intermediary outputs generated during extraction/transformation
+│   ├── raw/                       # Un-sanitized scraper outputs (JSON lists of listings)
+│   └── logs/                      # Executable run log dumps
+└── results/                       # Cached lists of parsed/collected links:
+    ├── active_links.json          # Active advertisement links list
+    └── inactive_links.json        # Tracker for expired or deleted advertisement listings
 ```
 
 ## Dataset
