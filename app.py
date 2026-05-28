@@ -78,7 +78,7 @@ model_df = query("""
 #   Header                                                           |
 #---------------------------------------------------------------------
 st.write("# Uzbekistan car analysis")
-st.caption("OLX car listings dashboard, exploratory analysis, and price prediction workspace.")
+st.caption("OLX car listings dashboard and price prediction workspace.")
 
 
 

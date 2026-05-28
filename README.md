@@ -8,7 +8,7 @@ End-to-end data project analyzing used car listings from OLX Uzbekistan. The pro
 - Built a reusable data cleaning workflow for price normalization, mileage validation, engine volume normalization, model/brand cleanup, outlier flags, and feature engineering.
 - Designed a relational SQL schema for cars, listings, brands, regions, fuel types, transmissions, colors, sale options, and additional vehicle options.
 - Created a Streamlit app with dashboard metrics, EDA charts, filters, cleaned CSV download, and an interactive car price predictor.
-- Compared regression models for price prediction. The best notebook result was a **Random Forest** model with **$1,525 MAE**, **$3,963 RMSE**, and **0.834 R2** on the test set.
+- Compared regression models for price prediction. The best notebook result was a **Random Forest** model with **$1,024 MAE**, **$$1,714 RMSE**, and **0.914 R2** on the test set.
 
 ## Tech Stack
 
@@ -22,11 +22,6 @@ End-to-end data project analyzing used car listings from OLX Uzbekistan. The pro
 ```text
 .
 ├── app.py                         # Streamlit app entry point
-├── src/
-│   ├── data_loader.py             # Cached dataset loading
-│   ├── charts.py                  # Matplotlib/Seaborn chart helpers
-│   ├── views.py                   # Dashboard, EDA, and predictor UI
-│   └── config.py                  # Shared paths and feature lists
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb     # Data contract, audits, cleaning rules
 │   ├── 02_eda.ipynb               # Exploratory analysis
@@ -100,7 +95,7 @@ Model comparison result:
 
 | Model | Test MAE | Test RMSE | Test R2 |
 | --- | ---: | ---: | ---: |
-| Random Forest | $1,525 | $3,963 | 0.834 |
+| Random Forest | $1,024 | $1,714 | 0.914 |
 | Extra Trees | $1,562 | $4,090 | 0.823 |
 | Ridge Regression | $2,838 | $5,602 | 0.668 |
 
@@ -118,8 +113,8 @@ streamlit run app.py
 App sections:
 
 - **Dashboard:** total listings, median price, average price, top brand, listings by brand, median price by region
-- **Analysis:** filtered EDA views by brand, region, and year
 - **Price Predictor:** form-based car price estimation using a trained regression model
+- **Data:** cleaned and raw data
 
 ## Database Design
 
